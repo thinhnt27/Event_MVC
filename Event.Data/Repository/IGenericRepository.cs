@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace F_LocalBrand.Repository
+namespace Event.Data.Repository
 {
     public interface IGenericRepository<T> where T : class
     {
