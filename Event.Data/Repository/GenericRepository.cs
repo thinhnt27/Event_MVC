@@ -1,13 +1,13 @@
-﻿using F_LocalBrand.Models;
+﻿using Event.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace F_LocalBrand.Repository
+namespace Event.Data.Repository
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        protected readonly SWD_FLocalBrandContext _context;
-        public GenericRepository(SWD_FLocalBrandContext context)
+        protected readonly Net1704_221_3_EventContext _context;
+        public GenericRepository(Net1704_221_3_EventContext context)
         {
             _context = context;
         }
