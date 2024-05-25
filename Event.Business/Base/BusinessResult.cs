@@ -31,5 +31,4 @@ namespace Event.Business.Base
             Data = data;
         }
     }
-
 }

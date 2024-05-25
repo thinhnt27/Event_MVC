@@ -67,19 +67,25 @@ namespace Event.Data.Base
             return true;
         }
 
-        public T GetById(object id)
+
+        public T GetById(int id)
         {
             return _dbSet.Find(id);
         }
 
-        public async Task<T> GetByIdAsync(object id)
+        public async Task<T> GetByIdAsync(int id)
         {
             return await _dbSet.FindAsync(id);
         }
 
-        //public async Task<T> GetByIdAsync(string code)
-        //{
-        //    return await _dbSet.FindAsync(code);
-        //}
+        public T GetById(string code)
+        {
+            return _dbSet.Find(code);
+        }
+
+        public async Task<T> GetByIdAsync(string code)
+        {
+            return await _dbSet.FindAsync(code);
+        }
     }
 }
