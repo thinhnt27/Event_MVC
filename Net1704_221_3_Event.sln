@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Event.Data", "Event.Data\Event.Data.csproj", "{678A24FA-D327-4AF9-B358-5EFDEFC5D2D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Event.Data", "Event.Data\Event.Data.csproj", "{678A24FA-D327-4AF9-B358-5EFDEFC5D2D4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Event.Business", "Event.Business\Event.Business.csproj", "{74843A86-1FCD-48CD-A5DF-8080D5946F13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Event.Business", "Event.Business\Event.Business.csproj", "{74843A86-1FCD-48CD-A5DF-8080D5946F13}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Event.RazorWebApp", "Event.RazorWebApp\Event.RazorWebApp.csproj", "{ABA81A97-31C0-405A-B5DF-9B219037441A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventConsoleApp", "EventConsoleApp\EventConsoleApp.csproj", "{5C8378CD-14B2-49D6-B8E8-0F1B50F37B31}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Event.RazorWebApp", "Event.RazorWebApp\Event.RazorWebApp.csproj", "{ABA81A97-31C0-405A-B5DF-9B219037441A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{ABA81A97-31C0-405A-B5DF-9B219037441A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABA81A97-31C0-405A-B5DF-9B219037441A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABA81A97-31C0-405A-B5DF-9B219037441A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C8378CD-14B2-49D6-B8E8-0F1B50F37B31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C8378CD-14B2-49D6-B8E8-0F1B50F37B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C8378CD-14B2-49D6-B8E8-0F1B50F37B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C8378CD-14B2-49D6-B8E8-0F1B50F37B31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
