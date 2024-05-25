@@ -7,8 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Event.Data;
 
-namespace Event.Business
+namespace Event.Business.Category
 {
     public interface ITicketBusiness
     {
@@ -20,26 +21,30 @@ namespace Event.Business
     }
     public class TicketBusiness : ITicketBusiness
     {
-        private readonly TicketDAO _DAO;
-        public TicketBusiness(TicketDAO DAO)
-        {
-            _DAO = DAO;
-        }
+        //private readonly TicketDAO _DAO;
+        private readonly UnitOfWork _unitOfWork;
+        //public TicketBusiness(TicketDAO DAO)
+        //{
+        //    _DAO = DAO;
+        //}
 
         public TicketBusiness()
         {
+            _unitOfWork ??= new UnitOfWork(); // ?? là nếu _unitOfWork = null thì mới khởi tạo
 
         }
 
-        
+
         public async Task<IBusinessResult> DeleteById(int id)
         {
             try
             {
-                var ticket = await _DAO.GetByIdAsync(id);
+                //var ticket = await _DAO.GetByIdAsync(id);
+                var ticket = await _unitOfWork.TicketRepository.GetByIdAsync(id);
                 if (ticket != null)
                 {
-                    var result = await  _DAO.RemoveAsync(ticket);
+                    //var result = await  _DAO.RemoveAsync(ticket);
+                    var result = await _unitOfWork.TicketRepository.RemoveAsync(ticket);
                     if (result)
                     {
                         return new BusinessResult(Const.SUCCESS_DELETE, Const.SUCCESS_DELETE_MSG);
@@ -55,7 +60,7 @@ namespace Event.Business
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new BusinessResult(-4, ex.Message);
             }
@@ -69,7 +74,8 @@ namespace Event.Business
                 #endregion
 
                 //var currencies = _DAO.GetAll();
-                var tickets = await _DAO.GetAllAsync();
+                //var tickets = await _DAO.GetAllAsync();
+                var tickets = await _unitOfWork.TicketRepository.GetAllAsync();
 
                 if (tickets == null)
                 {
@@ -93,7 +99,8 @@ namespace Event.Business
                 #region Business rule
                 #endregion
 
-                var ticket = await _DAO.GetByIdAsync(id);
+                //var ticket = await _DAO.GetByIdAsync(id);
+                var ticket = await _unitOfWork.TicketRepository.GetByIdAsync(id);
 
                 if (ticket == null)
                 {
@@ -114,7 +121,12 @@ namespace Event.Business
         {
             try
             {
-                int result = await _DAO.CreateAsync(ticket);
+                //int result = await _DAO.CreateAsync(ticket);
+                //int result = await _unitOfWork.TicketRepository.CreateAsync(ticket); này chỉ ghi vào 1 bảng thì dùng
+
+                //này dùng cho save nhiều bảng
+                _unitOfWork.TicketRepository.PrepareCreate(ticket);
+                int result = await _unitOfWork.TicketRepository.SaveAsync();
                 if (result > 0)
                 {
                     return new BusinessResult(Const.SUCCESS_CREATE, Const.SUCCESS_CREATE_MSG);
@@ -134,7 +146,8 @@ namespace Event.Business
         {
             try
             {
-                int result = await _DAO.UpdateAsync(ticket);
+                //int result = await _DAO.UpdateAsync(ticket);
+                int result = await _unitOfWork.TicketRepository.UpdateAsync(ticket);
                 if (result > 0)
                 {
                     return new BusinessResult(Const.FAIL_UDATE, Const.SUCCESS_UDATE_MSG);

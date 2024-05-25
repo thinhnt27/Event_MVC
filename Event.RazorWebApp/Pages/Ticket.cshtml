@@ -1,0 +1,55 @@
+﻿@page
+@model Event.RazorWebApp.Pages.TicketModel
+@{
+    ViewData["Title"] = "Ticket";
+}
+
+<h1>Ticket</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                TicketId
+            </th>
+            <th>
+                EventId
+            </th>
+            <th>
+                TicketType
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Available Quantity
+             </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Tickets)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EventId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvailableQuantity)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
