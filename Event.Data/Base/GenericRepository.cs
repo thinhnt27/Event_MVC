@@ -1,6 +1,5 @@
 ﻿using Event.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace Event.Data.Base
 {
@@ -13,7 +12,7 @@ namespace Event.Data.Base
         public GenericRepository()
         {
             _context ??= new Net1704_221_3_EventContext();
-            _dbSet = _context.Set<T>();
+            _dbSet ??= _context.Set<T>();
         }
 
         #region Separating asign entity and save operators
@@ -24,6 +23,10 @@ namespace Event.Data.Base
             _dbSet = _context.Set<T>();
         }
 
+        public EntityState GetEntityState(T entity)
+        {
+            return _context.Entry(entity).State;
+        }
         public void PrepareCreate(T entity)
         {
             _dbSet.Add(entity);

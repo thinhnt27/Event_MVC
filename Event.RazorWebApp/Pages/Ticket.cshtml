@@ -7,8 +7,50 @@
 <h1>Ticket</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTicketModal">Add New</button>
 </p>
+<div class="modal fade" id="createTicketModal" tabindex="-1" role="dialog" aria-labelledby="createTicketModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createTicketModalLabel">Create New Ticket</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-page-handler="CreateTicket">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Ticket.EventId" class="control-label"></label>
+                        <input asp-for="Ticket.EventId" class="form-control" />
+                        <span asp-validation-for="Ticket.EventId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Ticket.TicketType" class="control-label"></label>
+                        <input asp-for="Ticket.TicketType" class="form-control" />
+                        <span asp-validation-for="Ticket.TicketType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Ticket.Price" class="control-label"></label>
+                        <input asp-for="Ticket.Price" class="form-control" />
+                        <span asp-validation-for="Ticket.Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Ticket.AvailableQuantity" class="control-label"></label>
+                        <input asp-for="Ticket.AvailableQuantity" class="form-control" />
+                        <span asp-validation-for="Ticket.AvailableQuantity" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -26,7 +68,7 @@
             </th>
             <th>
                 Available Quantity
-             </th>
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -53,3 +95,9 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+}

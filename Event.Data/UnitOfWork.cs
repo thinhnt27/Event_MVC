@@ -1,10 +1,5 @@
 ﻿using Event.Data.Models;
 using Event.Data.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Event.Data
 {
@@ -15,7 +10,7 @@ namespace Event.Data
 
         public UnitOfWork()
         {
-            
+
         }
         public TicketRepository TicketRepository
         {

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Event.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class ok : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -25,7 +25,7 @@ namespace Event.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Customer__A4AE64D89C42FA7D", x => x.CustomerId);
+                    table.PrimaryKey("PK__Customer__A4AE64D850EC5690", x => x.CustomerId);
                 });
 
             migrationBuilder.CreateTable(
@@ -38,14 +38,15 @@ namespace Event.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__EventTyp__A9216B3FFF1AAC9E", x => x.EventTypeId);
+                    table.PrimaryKey("PK__EventTyp__A9216B3FFEC0D566", x => x.EventTypeId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Events",
                 columns: table => new
                 {
-                    EventId = table.Column<int>(type: "int", nullable: false),
+                    EventId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     EventName = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     EventDate = table.Column<DateTime>(type: "datetime", nullable: true),
                     EventTypeId = table.Column<int>(type: "int", nullable: true),
@@ -57,9 +58,9 @@ namespace Event.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Events__7944C810462064C5", x => x.EventId);
+                    table.PrimaryKey("PK__Events__7944C810032ACB17", x => x.EventId);
                     table.ForeignKey(
-                        name: "FK__Events__EventTyp__440B1D61",
+                        name: "FK__Events__EventTyp__5629CD9C",
                         column: x => x.EventTypeId,
                         principalTable: "EventTypes",
                         principalColumn: "EventTypeId");
@@ -69,7 +70,8 @@ namespace Event.Data.Migrations
                 name: "Registrations",
                 columns: table => new
                 {
-                    RegistrationId = table.Column<int>(type: "int", nullable: false),
+                    RegistrationId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     EventId = table.Column<int>(type: "int", nullable: true),
                     VistorCode = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
                     ParticipantName = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
@@ -84,14 +86,14 @@ namespace Event.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Registra__6EF58810084A83B2", x => x.RegistrationId);
+                    table.PrimaryKey("PK__Registra__6EF5881049808010", x => x.RegistrationId);
                     table.ForeignKey(
-                        name: "FK__Registrat__Custo__46E78A0C",
+                        name: "FK__Registrat__Custo__59063A47",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "CustomerId");
                     table.ForeignKey(
-                        name: "FK__Registrat__Event__47DBAE45",
+                        name: "FK__Registrat__Event__59FA5E80",
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "EventId");
@@ -101,7 +103,8 @@ namespace Event.Data.Migrations
                 name: "Tickets",
                 columns: table => new
                 {
-                    TicketId = table.Column<int>(type: "int", nullable: false),
+                    TicketId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     EventId = table.Column<int>(type: "int", nullable: true),
                     TicketType = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
                     Price = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
@@ -109,9 +112,9 @@ namespace Event.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Tickets__712CC607489EFF87", x => x.TicketId);
+                    table.PrimaryKey("PK__Tickets__712CC607682BB742", x => x.TicketId);
                     table.ForeignKey(
-                        name: "FK__Tickets__EventId__48CFD27E",
+                        name: "FK__Tickets__EventId__5AEE82B9",
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "EventId");
@@ -121,7 +124,8 @@ namespace Event.Data.Migrations
                 name: "Payments",
                 columns: table => new
                 {
-                    PaymentId = table.Column<int>(type: "int", nullable: false),
+                    PaymentId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RegistrationId = table.Column<int>(type: "int", nullable: true),
                     TicketId = table.Column<int>(type: "int", nullable: true),
                     TicketQuantity = table.Column<int>(type: "int", nullable: true),
@@ -132,35 +136,35 @@ namespace Event.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Payments__9B556A3840DEE2BC", x => x.PaymentId);
+                    table.PrimaryKey("PK__Payments__9B556A38227246BE", x => x.PaymentId);
                     table.ForeignKey(
-                        name: "FK__Payments__Regist__44FF419A",
+                        name: "FK__Payments__Regist__571DF1D5",
                         column: x => x.RegistrationId,
                         principalTable: "Registrations",
                         principalColumn: "RegistrationId");
                     table.ForeignKey(
-                        name: "FK__Payments__Ticket__45F365D3",
+                        name: "FK__Payments__Ticket__5812160E",
                         column: x => x.TicketId,
                         principalTable: "Tickets",
                         principalColumn: "TicketId");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "UQ__Customer__5C7E359EE18AC2ED",
+                name: "UQ__Customer__5C7E359E5B77F523",
                 table: "Customers",
                 column: "Phone",
                 unique: true,
                 filter: "[Phone] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "UQ__Customer__7A22C6EAAADBEFE9",
+                name: "UQ__Customer__7A22C6EA0D7F776F",
                 table: "Customers",
                 column: "CustomerName",
                 unique: true,
                 filter: "[CustomerName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "UQ__Customer__A9D10534410016DD",
+                name: "UQ__Customer__A9D105345CFB149F",
                 table: "Customers",
                 column: "Email",
                 unique: true,

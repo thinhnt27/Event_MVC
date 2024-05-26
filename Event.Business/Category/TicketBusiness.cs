@@ -1,13 +1,7 @@
-﻿using Event.Common;
-using Event.Business.Base;
-using Event.Data.DAO;
-using Event.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Event.Business.Base;
+using Event.Common;
 using Event.Data;
+using Event.Data.Models;
 
 namespace Event.Business.Category
 {
@@ -122,11 +116,19 @@ namespace Event.Business.Category
             try
             {
                 //int result = await _DAO.CreateAsync(ticket);
-                //int result = await _unitOfWork.TicketRepository.CreateAsync(ticket); này chỉ ghi vào 1 bảng thì dùng
+                int result = await _unitOfWork.TicketRepository.CreateAsync(ticket); //này chỉ ghi vào 1 bảng thì dùng
 
-                //này dùng cho save nhiều bảng
-                _unitOfWork.TicketRepository.PrepareCreate(ticket);
-                int result = await _unitOfWork.TicketRepository.SaveAsync();
+
+                //// Log the state of the entity before saving
+                //Console.WriteLine("Ticket state before save: " + _unitOfWork.TicketRepository.GetEntityState(ticket));
+                ////này dùng cho save nhiều bảng
+                //_unitOfWork.TicketRepository.PrepareCreate(ticket);
+
+                //// Log the state of the entity after preparation
+                //Console.WriteLine("Ticket state after PrepareCreate: " + _unitOfWork.TicketRepository.GetEntityState(ticket));
+
+
+                //int result = await _unitOfWork.TicketRepository.SaveAsync();
                 if (result > 0)
                 {
                     return new BusinessResult(Const.SUCCESS_CREATE, Const.SUCCESS_CREATE_MSG);

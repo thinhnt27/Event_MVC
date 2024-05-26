@@ -33,7 +33,7 @@ public partial class Registration
 
     public virtual Customer Customer { get; set; }
 
-    public virtual Event Event { get; set; }
+    public virtual Events Event { get; set; }
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 }

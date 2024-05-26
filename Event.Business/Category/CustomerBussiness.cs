@@ -1,18 +1,13 @@
 ﻿using Event.Business.Base;
 using Event.Data.DAO;
 using Event.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Event.Business.Category
 {
     public interface ICustomerBussiness
     {
         Task<IBusinessResult> GetAll();
-        Task<IBusinessResult> GetById(int code );
+        Task<IBusinessResult> GetById(int code);
         Task<IBusinessResult> Save(Customer customer);
         Task<IBusinessResult> Update(Customer customer);
         Task<IBusinessResult> DeleteById(int code);

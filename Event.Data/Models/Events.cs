@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Event.Data.Models;
 
-public partial class Event
+public partial class Events
 {
     public int EventId { get; set; }
 
