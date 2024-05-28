@@ -7,7 +7,11 @@ using Microsoft.EntityFrameworkCore;
 namespace Event.Data.Models;
 
 public partial class Net1704_221_3_EventContext : DbContext
-{
+{   
+    public Net1704_221_3_EventContext()
+    {
+
+    }
     public Net1704_221_3_EventContext(DbContextOptions<Net1704_221_3_EventContext> options)
         : base(options)
     {
