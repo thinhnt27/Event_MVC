@@ -7,6 +7,7 @@ namespace Event.Data
     {
         private readonly Net1704_221_3_EventContext _context;
         private readonly TicketRepository _ticket;
+        private readonly EventRepository _event;
 
         public UnitOfWork()
         {
@@ -17,6 +18,13 @@ namespace Event.Data
             get
             {
                 return _ticket ?? new TicketRepository();
+            }
+        }
+        public EventRepository EventRepository
+        {
+            get
+            {
+                return _event ?? new EventRepository();
             }
         }
     }

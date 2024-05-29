@@ -30,7 +30,7 @@ public partial class Net1704_221_3_EventContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("data source=localhost;initial catalog=Net1704_221_3_Event;user id=sa;password=12345;TrustServerCertificate=True");
+        optionsBuilder.UseSqlServer("data source=localhost\\SQLEXPRESS;initial catalog=Net1704_221_3_Event;user id=sa;password=12345;TrustServerCertificate=True");
         base.OnConfiguring(optionsBuilder);
     }
 
