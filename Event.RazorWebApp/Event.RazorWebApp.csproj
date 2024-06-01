@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Event.Business\Event.Business.csproj" />
+    <ProjectReference Include="..\Event.Data\Event.Data.csproj" />
+  </ItemGroup>
+
 </Project>

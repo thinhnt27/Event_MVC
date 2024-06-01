@@ -1,3 +1,5 @@
+using Event.Business.Category;
+
 namespace Event.RazorWebApp
 {
     public class Program
@@ -8,6 +10,7 @@ namespace Event.RazorWebApp
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+            builder.Services.AddScoped<ICustomerBussiness, CustomerBussiness>();
 
             var app = builder.Build();
 
