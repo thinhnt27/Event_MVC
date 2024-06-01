@@ -14,5 +14,7 @@ namespace Event.Data.Repository
         {
 
         }
+
+        public CustomerRepository(Net1704_221_3_EventContext context) => _context = context;
     }
 }
