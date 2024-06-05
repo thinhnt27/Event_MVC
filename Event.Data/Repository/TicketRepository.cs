@@ -8,5 +8,7 @@ namespace Event.Data.Repository
         public TicketRepository()
         {
         }
+
+        public TicketRepository(Net1704_221_3_EventContext context) => _context = context;
     }
 }
