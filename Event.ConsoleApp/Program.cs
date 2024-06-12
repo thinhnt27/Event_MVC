@@ -5,22 +5,6 @@ using System.Net.Sockets;
 
 
 var paymentBusiness = new PaymentBusiness();
-
-var paymentTest = new Payment()
-{
-    PaymentId = 1,
-    //EventId = 1,
-    PaymentType = "ShipCod",
-    AmountPaid=100,
-    PaymentDate=DateOnly.MaxValue,
-    RegistrationId=1,
-    Status=true,
-    TicketId=1,
-    TicketQuantity=1,
-
-       
-};
-await paymentBusiness.Save(paymentTest);
 Console.WriteLine("Business.GetAll()");
 var paymentResult = paymentBusiness.GetAll();
 

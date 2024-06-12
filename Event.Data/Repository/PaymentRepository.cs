@@ -8,5 +8,9 @@ namespace Event.Data.Repository
         public PaymentRepository()
         {
         }
+        public PaymentRepository(Net1704_221_3_EventContext context)
+        {
+            this._context=context;
+        }
     }
 }

@@ -1,0 +1,61 @@
+﻿@page
+@model Event.RazorWebApp.Pages.Category.PaymentPage.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Payment</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Payment.TicketQuantity)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Payment.TicketQuantity)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Payment.PaymentDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Payment.PaymentDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Payment.AmountPaid)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Payment.AmountPaid)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Payment.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Payment.Status)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Payment.PaymentType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Payment.PaymentType)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Payment.Registration)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Payment.Registration.RegistrationId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Payment.Ticket)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Payment.Ticket.TicketId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Payment.PaymentId">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

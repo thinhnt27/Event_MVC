@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Event.Common\Event.Common.csproj" />
     <ProjectReference Include="..\Event.Data\Event.Data.csproj" />
   </ItemGroup>
 

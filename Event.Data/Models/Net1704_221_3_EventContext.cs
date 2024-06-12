@@ -102,7 +102,7 @@ public partial class Net1704_221_3_EventContext : DbContext
         {
             entity.HasKey(e => e.PaymentId).HasName("PK__Payments__9B556A3840DEE2BC");
 
-            entity.Property(e => e.PaymentId).ValueGeneratedNever();
+            entity.Property(e => e.PaymentId).UseIdentityColumn(1,1);
             entity.Property(e => e.AmountPaid).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.PaymentType)
                 .HasMaxLength(255)
