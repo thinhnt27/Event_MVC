@@ -35,7 +35,7 @@
                     <Label Grid.Column="6" Grid.Row="0" Content="Price" HorizontalAlignment="Left" VerticalContentAlignment="Center" />
                     <TextBox Grid.Column="7" Grid.Row="0" x:Name="txtPrice" Height="25" Text="{Binding Path=Ticket.Price, Mode=TwoWay}"  Margin="5"  Width="130" HorizontalAlignment="Left"/>
                     <Label Grid.Column="8" Grid.Row="0" Content="Available Quantity" HorizontalAlignment="Left" VerticalContentAlignment="Center" />
-                    <TextBox Grid.Column="9" Grid.Row="0" x:Name="txtAvailableQuantity" Height="25" Text="{Binding Path=Ticket.AvailableQuantity, Mode=TwoWay}"  Margin="5"  Width="180" HorizontalAlignment="Left"/>
+                    <TextBox Grid.Column="9" Grid.Row="0" x:Name="txtAvailableQuantity" Height="25" Text="{Binding Path=Ticket.AvailableQuantity, Mode=TwoWay}"  Margin="5"  Width="170" HorizontalAlignment="Left"/>
                 </Grid>
             </GroupBox>
             <StackPanel Height="40" Orientation="Horizontal" HorizontalAlignment="Right">

@@ -1,0 +1,54 @@
+﻿@page
+@model Event.RazorWebApp.Pages.TicketPage.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ticket[0].TicketType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ticket[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ticket[0].AvailableQuantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ticket[0].Event)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Ticket) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TicketType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvailableQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventId)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.TicketId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.TicketId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.TicketId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
