@@ -26,40 +26,98 @@
             </div>
             <div class="form-group">
                 <label asp-for="Payment.TicketQuantity" class="control-label"></label>
-                <input asp-for="Payment.TicketQuantity" class="form-control" />
+                <input type ="number" asp-for="Payment.TicketQuantity" class="form-control" />
                 <span asp-validation-for="Payment.TicketQuantity" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Payment.PaymentDate" class="control-label"></label>
-                <input asp-for="Payment.PaymentDate" class="form-control" />
+                <input type="date" asp-for="Payment.PaymentDate" class="form-control" />
                 <span asp-validation-for="Payment.PaymentDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Payment.AmountPaid" class="control-label"></label>
-                <input asp-for="Payment.AmountPaid" class="form-control" />
+                <input type="number" asp-for="Payment.AmountPaid" class="form-control" />
                 <span asp-validation-for="Payment.AmountPaid" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Payment.Status" class="control-label"></label>
-                <input asp-for="Payment.Status" class="form-control" />
+                <select asp-for="Payment.Status" class="control-label">
+                    <option value="True">True</option>
+                    <option value="False">False</option>
+                    
+                </select>
                 <span asp-validation-for="Payment.Status" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Payment.PaymentType" class="control-label"></label>
-                <input asp-for="Payment.PaymentType" class="form-control" />
+                <input type="text" asp-for="Payment.PaymentType" class="form-control" />
                 <span asp-validation-for="Payment.PaymentType" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="form-group" >
+                <input type="submit" value="Save" class="update-button task-button"  />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-page="./Index">Back to List</a>
+<div class="back-to-list-button ">
+    <a asp-page="./Index" class="get-button task-button custom-link">Back to List</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<style>
+    .div-margin-field {
+        width: 100%;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .input {
+        width: 100%;
+        height: 2%;
+    }
+
+    .div-margin-field {
+        margin-left: 2%;
+    }
+
+    .div-parents-all {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .task-button {
+        margin: 3px 3px 3px 3px;
+        color: #fff;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .get-button {
+        background-color: #0000FF;
+    }
+
+        .get-button:hover {
+            background-color: #3333CC;
+        }
+
+    .update-button {
+        background-color: #FFCC00
+    }
+
+        .update-button:hover {
+            background-color: #FF9900
+        }
+
+    .back-to-list-button {
+        margin-top: 2%;
+    }
+</style>

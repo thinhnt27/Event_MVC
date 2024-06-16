@@ -6,16 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Event.Data.Models;
+using Event.Business.Category;
 
 namespace Event.RazorWebApp.Pages.Category.PaymentPage
 {
     public class DeleteModel : PageModel
     {
-        private readonly Event.Data.Models.Net1704_221_3_EventContext _context;
+        private readonly IPaymentBusiness _paymentBusiness;
 
-        public DeleteModel(Event.Data.Models.Net1704_221_3_EventContext context)
+        public DeleteModel()
         {
-            _context = context;
+            _paymentBusiness ??=new PaymentBusiness();
         }
 
         [BindProperty]
@@ -28,7 +29,7 @@ namespace Event.RazorWebApp.Pages.Category.PaymentPage
                 return NotFound();
             }
 
-            var payment = await _context.Payments.FirstOrDefaultAsync(m => m.PaymentId == id);
+            var payment = await _paymentBusiness.GetById(id.Value);
 
             if (payment == null)
             {
@@ -36,7 +37,7 @@ namespace Event.RazorWebApp.Pages.Category.PaymentPage
             }
             else
             {
-                Payment = payment;
+                Payment = payment.Data as Payment;
             }
             return Page();
         }
@@ -48,12 +49,10 @@ namespace Event.RazorWebApp.Pages.Category.PaymentPage
                 return NotFound();
             }
 
-            var payment = await _context.Payments.FindAsync(id);
-            if (payment != null)
+            var payment = await _paymentBusiness.GetById(id.Value);
+            if (payment!=null && payment.Data != null)
             {
-                Payment = payment;
-                _context.Payments.Remove(Payment);
-                await _context.SaveChangesAsync();
+                await _paymentBusiness.DeleteById(id.Value);
             }
 
             return RedirectToPage("./Index");

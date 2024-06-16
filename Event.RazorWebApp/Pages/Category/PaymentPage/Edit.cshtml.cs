@@ -41,8 +41,8 @@ namespace Event.RazorWebApp.Pages.Category.PaymentPage
             Payment = payment.Data as Payment;
             var registrations = await _registrationBusiness.GetAll();
             var tickets = await _ticketBusiness.GetAll();
-            ViewData["RegistrationId"] = new SelectList(registrations.Data as IEnumerable<Registration>, "RegistrationId", "RegistrationId");
-            ViewData["TicketId"] = new SelectList(tickets.Data as IEnumerable<Ticket>, "TicketId", "TicketId");
+            ViewData["RegistrationId"] = new SelectList(registrations.Data != null ? registrations.Data as List<Registration> : new List<Registration>(), "RegistrationId", "RegistrationId");
+            ViewData["TicketId"] = new SelectList(tickets.Data != null ? tickets.Data as List<Ticket> : new List<Ticket>(), "TicketId", "TicketId");
             return Page();
         }
 

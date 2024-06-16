@@ -13,6 +13,7 @@ namespace Event.Business.Category
         Task<IBusinessResult> Update(Payment payment);
         Task<IBusinessResult> DeleteById(int id);
         Task<IBusinessResult> Save(Payment payment);
+        Task<IBusinessResult> GetList(int? pageIndex = null, int? pageSize = null, string? order = null, string? sorted = null, bool? status = null, int? ticketId = null, int? registrationId = null, string? type = null, decimal? amountPaid = null, int? quantity = null, DateOnly? maxiumDate = null, DateOnly? miniumDate = null);
     }
     public class PaymentBusiness : IPaymentBusiness
     {
@@ -109,6 +110,32 @@ namespace Event.Business.Category
             catch (Exception ex)
             {
                 return new BusinessResult(-4, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> GetList(int? pageIndex = null, int? pageSize = null, string? order = null, string? sorted = null, bool? status = null, int? ticketId = null, int? registrationId = null, string? type = null, decimal? amountPaid = null, int? quantity = null, DateOnly? maxiumDate = null, DateOnly? miniumDate = null)
+        {
+            try
+            {
+                #region Business rule
+                #endregion
+
+                //var currencies = _DAO.GetAll();
+                //var payments = await _DAO.GetAllAsync();
+                var payments = await _unitOfWork.PaymentRepository.GetPayments(pageIndex,pageSize,order,sorted,status,ticketId,registrationId,type,amountPaid,quantity,maxiumDate,miniumDate);
+
+                if (payments == null)
+                {
+                    return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
+                }
+                else
+                {
+                    return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, payments);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(Const.ERROR_EXEPTION, ex.Message);
             }
         }
 

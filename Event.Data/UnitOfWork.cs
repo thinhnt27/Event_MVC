@@ -29,11 +29,18 @@ namespace Event.Data
                 return _registration ?? new RegistrationRepository(_context);
             }
         }
-       
+        public TicketRepository TicketRepository
+        {
+            get
+            {
+                return _ticket ?? new TicketRepository(_context);
+            }
+        }
+
         ////TO-DO CODE HERE/////////////////
 
         #region Set transaction isolation levels
-        
+
         /*
         Read Uncommitted: The lowest level of isolation, allows transactions to read uncommitted data from other transactions. This can lead to dirty reads and other issues.
 

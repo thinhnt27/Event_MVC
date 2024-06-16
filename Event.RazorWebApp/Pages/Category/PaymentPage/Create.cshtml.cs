@@ -27,8 +27,9 @@ namespace Event.RazorWebApp.Pages.Category.PaymentPage
         {
             var registrations = await _registrationBusiness.GetAll();
             var tickets = await _ticketBusiness.GetAll();
-            ViewData["RegistrationId"] = new SelectList(registrations.Data as IEnumerable<Registration>, "RegistrationId", "RegistrationId");
-            ViewData["TicketId"] = new SelectList(tickets.Data as IEnumerable<Ticket>, "TicketId", "TicketId");
+    
+            ViewData["RegistrationId"] = new SelectList(registrations.Data!= null ? registrations.Data as List<Registration> : new List<Registration>(), "RegistrationId", "RegistrationId");
+            ViewData["TicketId"] = new SelectList(tickets.Data != null ?  tickets.Data as List<Ticket> : new List<Ticket>(), "TicketId", "TicketId");
             return Page();
         }
 
@@ -43,9 +44,13 @@ namespace Event.RazorWebApp.Pages.Category.PaymentPage
                 return Page();
             }
 
-           /* _context.Payments.Add(Payment);
-            await _context.SaveChangesAsync();*/
-
+            await _paymentBusiness.Save(Payment);
+            Payment.Status = null;
+            Payment.TicketQuantity = null;
+            Payment.Ticket = null;
+            Payment.PaymentType = null;
+            Payment.PaymentDate = null;
+            
             return RedirectToPage("./Index");
         }
     }
