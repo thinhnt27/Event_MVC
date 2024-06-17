@@ -3,11 +3,16 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Event.Data.Models;
 
 public partial class Net1704_221_3_EventContext : DbContext
 {
+    public Net1704_221_3_EventContext()
+    {
+
+    }
     public Net1704_221_3_EventContext(DbContextOptions<Net1704_221_3_EventContext> options)
         : base(options)
     {
@@ -26,11 +31,20 @@ public partial class Net1704_221_3_EventContext : DbContext
     public virtual DbSet<Ticket> Tickets { get; set; }
 
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public static string GetConnectionString(string connectionStringName)
     {
-        optionsBuilder.UseSqlServer("data source=localhost;initial catalog=Net1704_221_3_Event;user id=sa;password=12345;Integrated Security=True;TrustServerCertificate=True");
-        base.OnConfiguring(optionsBuilder);
+        var config = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+        string connectionString = config.GetConnectionString(connectionStringName);
+        return connectionString;
     }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
+
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Customer>(entity =>
@@ -98,7 +112,7 @@ public partial class Net1704_221_3_EventContext : DbContext
         {
             entity.HasKey(e => e.PaymentId).HasName("PK__Payments__9B556A3840DEE2BC");
 
-            entity.Property(e => e.PaymentId).ValueGeneratedNever();
+            entity.Property(e => e.PaymentId).UseIdentityColumn(1, 1);
             entity.Property(e => e.AmountPaid).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.PaymentType)
                 .HasMaxLength(255)

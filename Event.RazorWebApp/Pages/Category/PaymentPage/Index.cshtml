@@ -1,0 +1,284 @@
+﻿@page
+@model Event.RazorWebApp.Pages.Category.PaymentPage.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<form method="post">
+    <div>
+        <button type="button" class="filter-button custom-link" onclick="toggleFilters()">Show/Hide Filters</button>
+        <div id="filterDiv" style="max-height: 0 px; overflow: hidden; transition: max-height 0.5s ease-out;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Filtered Field</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Status</td>
+                        <td>
+                            <select asp-for="SelectedStatus" onchange="this.form.submit()">
+                                <option value="">-- All Status --</option>
+                                <option value="True">True</option>
+                                <option value="False">False</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Ticket</td>
+                        <td>
+                            <select asp-for="SelectedTicketId" asp-items="Model.TicketList" onchange="this.form.submit()">
+                                <option value="">-- All Ticket Id --</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Registration</td>
+                        <td>
+                            <select asp-for="SelectedRegistrationId" asp-items="Model.RegistrationList" onchange="this.form.submit()">
+                                <option value="">-- All Registration Id --</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Ticket Quantity</td>
+                        <td>
+                            <input type="number" asp-for="SelectedTicketQuantity" onchange="this.form.submit()">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Amount Paid</td>
+                        <td>
+                            <input type="number" asp-for="AmountPaid" onchange="this.form.submit()">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Minimum Date</td>
+                        <td>
+                            <input type="date" asp-for="SelectedMiniumDate" onchange="this.form.submit()">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Maximum Date</td>
+                        <td>
+                            <input type="date" asp-for="SelectedMaxiumDate" onchange="this.form.submit()">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="div-page-size-create-button">
+    <a asp-page="./Create" type="button" class="create-button task-button custom-link">Create</a>
+    <div>
+        <label>Page Size</label>
+        <select asp-for="PageSize" onchange="this.form.submit()">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">100</option>
+        </select>
+    </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Payments[0].PaymentId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Payments[0].TicketQuantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Payments[0].PaymentDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Payments[0].AmountPaid)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Payments[0].Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Payments[0].PaymentType)
+                </th>
+                <th>
+                    Registration Id
+                </th>
+                <th>
+                    Ticket Id
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Payments != null)
+            {
+                foreach (var item in Model.Payments)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaymentId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TicketQuantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TicketQuantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaymentDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AmountPaid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaymentType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Registration.RegistrationId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ticket.TicketId)
+                        </td>
+                        <td>
+                            <a asp-page="./Edit" type="button" asp-route-id="@item.PaymentId" class="update-button task-button custom-link">Edit</a> |
+                            <a asp-page="./Details" type="button" asp-route-id="@item.PaymentId" class="get-button task-button custom-link">Details</a> |
+                            <a asp-page="./Delete" type="button"  asp-route-id="@item.PaymentId" class="delete-button task-button custom-link">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8">No data found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+     <div class="div-pagging">
+        @for (var number = 1; number <= Model.TotalPage; number++)
+        {
+            <button asp-page-handler="PageIndex" asp-route-PageIndex="@number" type="submit"
+                    class="page-button @(number == Model.PageIndex ? "clicked-page-button" : "unclicked-page-button")">
+                @number
+            </button>
+            
+        }
+    </div>
+    
+</form>
+
+@* JavaScript to toggle filter visibility *@
+<script>
+    function toggleFilters() {
+        var filterDiv = document.getElementById("filterDiv");
+        if (filterDiv.style.maxHeight === "0px" || filterDiv.style.maxHeight === "") {
+            filterDiv.style.maxHeight = "1000px";
+            
+        } else {
+    
+            filterDiv.style.maxHeight = "0px";
+        }
+    }
+</script>
+<style>
+    .filter-button {
+        background-color: #007bff; 
+        color: #fff; 
+        border: none; 
+        padding: 10px 20px; 
+        cursor: pointer; 
+        border-radius: 5px; 
+        transition: background-color 0.3s ease; 
+    }
+
+        .filter-button:hover {
+            background-color: #0000FF; 
+        }
+
+    .task-button { 
+        margin: 3px 3px 3px 3px;
+        color: #fff;
+        padding: 5px 10px; 
+        cursor: pointer;
+        border-radius: 5px; 
+        transition: background-color 0.3s ease; 
+    }
+    .create-button{
+        background-color: #00CC00;
+    } 
+     .create-button:hover{
+            background-color: #005500
+     }
+    .update-button{
+        background-color: #FFCC00
+    }
+     .update-button:hover{
+            background-color: #FF9900
+        }
+    .delete-button{
+        background-color: #FF0000;
+    } 
+     .delete-button:hover{
+            background-color: #990000
+     }   
+   .get-button{
+        background-color: #0000FF;
+    }
+    .get-button:hover{
+            background-color: #3333CC;
+        }
+
+    .custom-link {
+        font-size: 1.2em; 
+        font-weight: bold; 
+        text-decoration: none; 
+        color: ##EEEEEE; 
+    }
+
+    .page-button {
+        margin:1%;
+        width: 50px; 
+        height: 50px; 
+        color: #fff; 
+        border: none; 
+        cursor: pointer; 
+        border-radius: 50%; 
+        transition: background-color 0.3s ease; 
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+    }
+    .clicked-page-button{
+        background-color: #000080;
+    }
+    .unclicked-page-button{
+        bacground-color: #0000FF;
+    }
+
+    .div-pagging {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .div-page-size-create-button{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+</style>
+
+
