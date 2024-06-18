@@ -29,9 +29,9 @@
                         <ColumnDefinition Width="0*"/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Row="0" Content="Id" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="20" />
-                    <TextBox Grid.Column="1" Grid.Row="0" x:Name="CustomerId" Text="{Binding Path=Customer.CustomerId, Mode=TwoWay}"  Margin="0,13,0,12"  Width="30" HorizontalAlignment="Center"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" x:Name="CustomerId" Text="{Binding Path=Customer.CustomerId, Mode=TwoWay}"  Margin="0,13,0,12"  Width="30" IsReadOnly="True" HorizontalAlignment="Center"/>
                     <Label Grid.Column="2" Grid.Row="0" Content="Name" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="42" />
-                    <TextBox Grid.Row="0" Grid.Column="3" x:Name="CustomerName" Text="{Binding Path=Customer.CurrencyName, Mode=TwoWay}"  Margin="5,13,0,12"  Width="100" HorizontalAlignment="Left"/>
+                    <TextBox Grid.Row="0" Grid.Column="3" x:Name="CustomerName" Text="{Binding Path=Customer.CustomerName, Mode=TwoWay}"  Margin="5,13,0,12"  Width="100" HorizontalAlignment="Left"/>
                     <Label Grid.Column="4" Grid.Row="0" Content="Password" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="60" />
                     <TextBox Grid.Column="5" Grid.Row="0" x:Name="Password" Text="{Binding Path=Customer.Password, Mode=TwoWay}"  Margin="0,13,0,12"  Width="100" HorizontalAlignment="Center"/>
                     <Label Grid.Column="6" Grid.Row="0" Content="Email" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="38" />

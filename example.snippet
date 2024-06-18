@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>MyClassSnippet</Title>
+      <Shortcut>cc</Shortcut>
+      <Description>A basic C# class snippet</Description>
+      <Author>YourName</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+        <SnippetType>SurroundsWith</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>TuanRepo</ID>
+          <ToolTip>The name of the class</ToolTip>
+          <Default>MyClass</Default>
+        </Literal>
+        <Literal>
+          <ID>TuanRepo</ID>
+          <ToolTip>The name of the namespace</ToolTip>
+          <Default>MyNamespace</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[
+public partial class Customer
+{
+    public int CustomerId { get; set; }
+
+    public string CustomerName { get; set; }
+
+    public string Password { get; set; }
+
+    public string Email { get; set; }
+
+    public string Phone { get; set; }
+
+    public string Address { get; set; }
+
+    public virtual ICollection<Registration>? Registrations { get; set; }
+} 
+]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

@@ -11,12 +11,10 @@ namespace Event.Data.Base
     public class GenericRepository<T> where T : class
     {
         protected Net1704_221_3_EventContext _context;
-        protected readonly DbSet<T> _dbSet;
 
         public GenericRepository()
         {
             _context ??= new Net1704_221_3_EventContext();
-            _dbSet = _context.Set<T>();
         }
         public async Task<T> GetByIdAsync(Guid code)
         {

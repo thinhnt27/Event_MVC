@@ -9,13 +9,6 @@
     <h1 class="display-6">Customer Management</h1>
 </div>
 
-<div class="row">
-    <div class="col-md-12 text-end">
-        <button type="button" class="btn btn-primary" onclick="add();">
-            Add
-        </button>
-    </div>
-</div>
 
 <div class="row">
     <div class="col-md-12">
@@ -34,29 +27,25 @@
             </thead>
             <tbody class="tblcustomerList">
                 @{
-                    foreach(var item in customers)
+                    foreach (var item in customers)
                     {
-                        
+
                         <tr>
-                            <form method="post" asp-page-handler="Update">
                             <td>
-                                <input type="hidden" value="@item.CustomerId" id="CustomerId" name="CustomerId" class="form-control" asp-for="customers.CustomerId" />
-                            
+                                @item.CustomerId
+
                             </td>
 
 
-                            <td><input type="text" value="@item.CustomerName" id="CustomerName" name="CustomerName" class="form-control" asp-for="customers.CustomerName" /></td>
-                            <td><input type="text" value="@item.Email" id="Email" name="Email" class="form-control" asp-for="customers.Email" /></td>
-                            <td><input type="text" value="@item.Password" id="Password" name="Password" class="form-control" asp-for="customers.Password" /></td>
-                            <td><input type="text" value="@item.Phone" id="Phone" name="Phone" class="form-control" asp-for="customers.Phone" /></td>
-                            <td><input type="text" value="@item.Address" id="Address" name="Address" class="form-control" asp-for="customers.Address" /></td>
+                            <td>@item.CustomerName</td>
+                            <td>@item.Email</td>
+                            <td>@item.Password"</td>
+                            <td>@item.Phone</td>
+                            <td>@item.Address</td>
 
                             <td>
-                                <button type="submit" class="btn btn-success">Update</button>
+                                <button type="button" class="btn btn-primary" onclick="updateCustomer('@item.CustomerId', '@item.CustomerName', '@item.Email','@item.Password', '@item.Phone', '@item.Address')">Update</button>
                             </td>
-                            
-                            
-                            </form>
                             <td>
                                 <form method="post" asp-page-handler="Remove" asp-route-id="@item.CustomerId" style="display:inline;">
                                     <button type="submit" class="btn btn-link">Remove</button>
@@ -64,8 +53,10 @@
                             </td>
 
 
-                            </tr>
-                        
+
+
+                        </tr>
+
                     }
                 }
             </tbody>
@@ -75,6 +66,38 @@
 
 <button id="createNewButton" class="btn btn-primary">Create New</button>
 
+<div class="modal fade" id="customerEditModel" tabindex="-1" aria-labelledby="customerModelLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-page-handler="Update" id="frm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="customerModelLabel">Edit Customer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="CustomerId" name="CustomerId" class="form-control" />
+                    <div class="form-group">
+                        <label for="CustomerName">Name</label>
+                        <input type="text" id="CustomerName" name="CustomerName" class="form-control" />
+                        <label for="Email">Email</label>
+                        <input type="text" id="Email" name="Email" class="form-control" />
+                        <label for="Password">Password</label>
+                        <input type="text" id="Password" name="Password" class="form-control" />
+                        <label for="Phone">Phone</label>
+                        <input type="text" id="Phone" name="Phone" class="form-control" />
+                        <label for="Address">Address</label>
+                        <input type="text" id="Address" name="Address" class="form-control" />
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Update</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <div id="bookingModal" class="modal">
     <div class="modal-content">
@@ -82,10 +105,10 @@
         <h2>New Customer</h2>
         <form method="post" asp-page-handler="Create">
             <div class="form-group">
-                
+
                 <label for="CustomerName">Customer Name:</label>
                 <input type="text" id="CustomerName" name="CustomerName" class="form-control" asp-for="customers.CustomerName" required>
-                
+
                 <label for="Email">Customer Email:</label>
                 <input type="text" id="Email" name="Email" class="form-control" asp-for="customers.Email" required>
 
@@ -98,7 +121,7 @@
                 <label for="Phone">Customer Phone:</label>
                 <input type="text" id="Phone" name="Phone" class="form-control" asp-for="customers.Phone" required>
 
-            </div>         
+            </div>
             <button type="submit" class="btn btn-success">Submit</button>
         </form>
     </div>
@@ -120,32 +143,45 @@
                 modal.style.display = "none";
             }
         }
+
+
+        function updateCustomer(id, name, email, pass, phone, address) {
+            $('#CustomerId').val(id);  // Set PetCategoryId in the hidden input field
+            $('#CustomerName').val(name);  // Set Name in the input field
+            $('#Email').val(email);
+            $('#Password').val(pass);
+            $('#Phone').val(phone);
+            $('#Address').val(address);
+            $('#customerEditModel').modal('show');  // Show the modal
+        }
     </script>
+
 }
 
 <style>
     .modal {
-        display: none; 
-        position: fixed; 
-        z-index: 1; 
+        display: none;
+        position: fixed;
+        z-index: 1;
         left: 0;
         top: 0;
         width: 100%;
         height: 100%;
         overflow: auto;
-        background-color: rgba(0,0,0,0.5); 
+        background-color: rgba(0,0,0,0.5);
         backdrop-filter: blur(5px);
     }
 
     .modal-content {
         background-color: #fefefe;
-        margin: 10% auto; 
+        margin: 10% auto;
         padding: 20px;
         border-radius: 10px;
         border: 1px solid #888;
         width: 50%;
         box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
+
     .close {
         color: #aaa;
         float: right;
@@ -159,6 +195,7 @@
             text-decoration: none;
             cursor: pointer;
         }
+
     .form-group {
         margin-bottom: 15px;
     }

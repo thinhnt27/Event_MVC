@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace Event.Data.Models;
 
+
 public partial class Customer
 {
     public int CustomerId { get; set; }
@@ -21,3 +22,5 @@ public partial class Customer
 
     public virtual ICollection<Registration>? Registrations { get; set; }
 }
+
+
