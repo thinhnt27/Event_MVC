@@ -40,12 +40,6 @@
     </div>
 </form>
     @{
-        // xây dựng Func phát sinh Url từ page ./Index
-        Func<int?, string> generateUrl = (int? _pagenumber) =>
-        {
-            return Url.Page("./RegistrationPage/Index", new { pageNumber = _pagenumber });
-        };
-
         var datapaging = new Event.RazorWebApp.Helper.PagingModel
         {
             currentPage = Model.currentPage,    // trang hiện tại
