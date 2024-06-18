@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Event.RazorWebApp", "Event.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Event.WpfApp", "Event.WpfApp\Event.WpfApp.csproj", "{9E91A97F-FF75-4F2E-9663-F555D8A826C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventConsoleApp", "EventConsoleApp\EventConsoleApp.csproj", "{64F984E0-68F1-41D2-8E9E-8001C50E2184}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{9E91A97F-FF75-4F2E-9663-F555D8A826C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E91A97F-FF75-4F2E-9663-F555D8A826C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E91A97F-FF75-4F2E-9663-F555D8A826C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64F984E0-68F1-41D2-8E9E-8001C50E2184}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64F984E0-68F1-41D2-8E9E-8001C50E2184}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64F984E0-68F1-41D2-8E9E-8001C50E2184}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64F984E0-68F1-41D2-8E9E-8001C50E2184}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
