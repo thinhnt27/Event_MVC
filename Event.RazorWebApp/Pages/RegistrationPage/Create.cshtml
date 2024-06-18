@@ -1,0 +1,82 @@
+﻿@page
+@model Event.RazorWebApp.Pages.RegistrationPage.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Registration</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Registration.VistorCode" class="control-label"></label>
+                <input asp-for="Registration.VistorCode" class="form-control" asp-items="ViewBag.VistorCode" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Registration.EventId" class="control-label"></label>
+                <input asp-for="Registration.EventId" class="form-control" asp-items="ViewBag.EventId" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Registration.ParticipantName" class="control-label"></label>
+                <input asp-for="Registration.ParticipantName" class="form-control" />
+                <span asp-validation-for="Registration.ParticipantName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Registration.ParticipantType" class="control-label"></label>
+                <input asp-for="Registration.ParticipantType" class="form-control" />
+                <span asp-validation-for="Registration.ParticipantType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Registration.AttendeeEmail" class="control-label"></label>
+                <input asp-for="Registration.AttendeeEmail" class="form-control" />
+                <span asp-validation-for="Registration.AttendeeEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Registration.RegistrationPhone" class="control-label"></label>
+                <input asp-for="Registration.RegistrationPhone" class="form-control" />
+                <span asp-validation-for="Registration.RegistrationPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Registration.Gender" class="control-label"></label>
+                <select asp-for="Registration.Gender" class="form-control">
+                    <option value="false">Female</option>
+                    <option value="true">Male</option>
+                </select>
+                <span asp-validation-for="Registration.Checkin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Registration.FeePaid" class="control-label"></label>
+                <input asp-for="Registration.FeePaid" class="form-control" />
+                <span asp-validation-for="Registration.FeePaid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Registration.Checkin" class="control-label"></label>
+                <select asp-for="Registration.Checkin" class="form-control">
+                    <option value="false">Not yet</option>
+                    <option value="true">Checked in</option>
+                </select>
+                <span asp-validation-for="Registration.Checkin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Registration.CustomerId" class="control-label"></label>
+                <input asp-for="Registration.CustomerId" class ="form-control" asp-items="ViewBag.CustomerId"/>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

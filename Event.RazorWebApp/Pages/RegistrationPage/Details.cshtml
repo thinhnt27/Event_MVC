@@ -1,0 +1,105 @@
+﻿@page
+@model Event.RazorWebApp.Pages.RegistrationPage.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Registration</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Registration.VistorCode)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Registration.VistorCode)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Registration.ParticipantName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Registration.ParticipantName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Registration.ParticipantType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Registration.ParticipantType)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Registration.AttendeeEmail)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Registration.AttendeeEmail)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Registration.RegistrationDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Registration.RegistrationDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Registration.RegistrationPhone)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Registration.RegistrationPhone)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Registration.Gender)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.Registration.Gender == true)
+            {
+                <span>Male</span>
+            }
+            else
+            {
+                <span>Female</span>
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Registration.FeePaid)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Registration.FeePaid)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Registration.Checkin)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.Registration.Checkin == true)
+            {
+                <span>Checked in</span>
+            }
+            else
+            {
+                <span>Not yet</span>
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Registration.CheckinTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Registration.CheckinTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Registration.CustomerId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Registration.CustomerId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Registration.EventId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Registration.EventId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Registration.RegistrationId">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

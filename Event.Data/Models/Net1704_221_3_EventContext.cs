@@ -3,11 +3,16 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Event.Data.Models;
 
 public partial class Net1704_221_3_EventContext : DbContext
 {
+    public Net1704_221_3_EventContext()
+    {
+    }
+
     public Net1704_221_3_EventContext(DbContextOptions<Net1704_221_3_EventContext> options)
         : base(options)
     {
@@ -25,23 +30,35 @@ public partial class Net1704_221_3_EventContext : DbContext
 
     public virtual DbSet<Ticket> Tickets { get; set; }
 
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public static string GetConnectionString(string connectionStringName)
     {
-        optionsBuilder.UseSqlServer("data source=localhost;initial catalog=Net1704_221_3_Event;user id=sa;password=12345;Integrated Security=True;TrustServerCertificate=True");
-        base.OnConfiguring(optionsBuilder);
+        var config = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+        string connectionString = config.GetConnectionString(connectionStringName);
+        return connectionString;
     }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseSqlServer(GetConnectionString("DefaultConnection"));
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Customer>(entity =>
         {
             entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64D89C42FA7D");
 
-            entity.HasIndex(e => e.Phone, "UQ__Customer__5C7E359EE18AC2ED").IsUnique();
+            entity.HasIndex(e => e.Phone, "UQ__Customer__5C7E359EE18AC2ED")
+                .IsUnique()
+                .HasFilter("([Phone] IS NOT NULL)");
 
-            entity.HasIndex(e => e.CustomerName, "UQ__Customer__7A22C6EAAADBEFE9").IsUnique();
+            entity.HasIndex(e => e.CustomerName, "UQ__Customer__7A22C6EAAADBEFE9")
+                .IsUnique()
+                .HasFilter("([CustomerName] IS NOT NULL)");
 
-            entity.HasIndex(e => e.Email, "UQ__Customer__A9D10534410016DD").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Customer__A9D10534410016DD")
+                .IsUnique()
+                .HasFilter("([Email] IS NOT NULL)");
 
             entity.Property(e => e.Address)
                 .HasMaxLength(255)
@@ -63,6 +80,8 @@ public partial class Net1704_221_3_EventContext : DbContext
         modelBuilder.Entity<Event>(entity =>
         {
             entity.HasKey(e => e.EventId).HasName("PK__Events__7944C810462064C5");
+
+            entity.HasIndex(e => e.EventTypeId, "IX_Events_EventTypeId");
 
             entity.Property(e => e.EventId).ValueGeneratedNever();
             entity.Property(e => e.EventDate).HasColumnType("datetime");
@@ -98,6 +117,10 @@ public partial class Net1704_221_3_EventContext : DbContext
         {
             entity.HasKey(e => e.PaymentId).HasName("PK__Payments__9B556A3840DEE2BC");
 
+            entity.HasIndex(e => e.RegistrationId, "IX_Payments_RegistrationId");
+
+            entity.HasIndex(e => e.TicketId, "IX_Payments_TicketId");
+
             entity.Property(e => e.PaymentId).ValueGeneratedNever();
             entity.Property(e => e.AmountPaid).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.PaymentType)
@@ -117,7 +140,10 @@ public partial class Net1704_221_3_EventContext : DbContext
         {
             entity.HasKey(e => e.RegistrationId).HasName("PK__Registra__6EF58810084A83B2");
 
-            entity.Property(e => e.RegistrationId).ValueGeneratedNever();
+            entity.HasIndex(e => e.CustomerId, "IX_Registrations_CustomerId");
+
+            entity.HasIndex(e => e.EventId, "IX_Registrations_EventId");
+
             entity.Property(e => e.AttendeeEmail)
                 .HasMaxLength(255)
                 .IsUnicode(false);
@@ -148,6 +174,8 @@ public partial class Net1704_221_3_EventContext : DbContext
         modelBuilder.Entity<Ticket>(entity =>
         {
             entity.HasKey(e => e.TicketId).HasName("PK__Tickets__712CC607489EFF87");
+
+            entity.HasIndex(e => e.EventId, "IX_Tickets_EventId");
 
             entity.Property(e => e.TicketId).ValueGeneratedNever();
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");

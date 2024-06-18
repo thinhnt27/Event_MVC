@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Event.Business
 {
-    public class EventBusiness()
+    public class Event
     {
         private readonly Net1704_221_3_EventContext _context;
-
     }
 }

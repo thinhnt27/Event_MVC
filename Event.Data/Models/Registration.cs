@@ -7,25 +7,26 @@ namespace Event.Data.Models;
 
 public partial class Registration
 {
-    public int RegistrationId { get; set; }
+    public int RegistrationId { get; set; } 
 
-    public int? EventId { get; set; }
+    public int? EventId { get; set; } 
 
-    public string VistorCode { get; set; }
+    public string VistorCode { get; set; } 
 
-    public string ParticipantName { get; set; }
+    public string ParticipantName { get; set; } 
 
-    public string ParticipantType { get; set; }
+    public string ParticipantType { get; set; } 
 
-    public string AttendeeEmail { get; set; }
+    public string AttendeeEmail { get; set; } 
 
     public DateOnly? RegistrationDate { get; set; }
 
     public string RegistrationPhone { get; set; }
 
+    public bool? Gender { get; set; }
     public decimal? FeePaid { get; set; }
 
-    public bool? Checkin { get; set; }
+    public bool? Checkin { get; set; } 
 
     public DateTime? CheckinTime { get; set; }
 

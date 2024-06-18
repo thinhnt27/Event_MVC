@@ -1,0 +1,295 @@
+﻿@page
+@model Event.RazorWebApp.Pages.RegistrationModel
+@{
+    ViewData["Title"] = "Registrations";
+}
+<h1 class="topic">Registrations Management</h1>
+<div class="row">
+    <div class="col-md-6">
+        <form method="get" asp-page-handler="RegistrationById" asp-page="./Registrations">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Search by RegistrationId" aria-label="Search by RegistrationId" id="id" name="id">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6 text-end">
+        <button type="button" class="btn btn-primary" onclick="add();">
+            Add
+        </button>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>RegistrationId</th>
+            <th>EventId</th>
+            <th>Participant Name</th>
+            <th>Participant Type</th>
+            <th>Email</th>
+            <th>Registration Date</th>
+            <th>Registration Phone</th>
+            <th>FeePaid</th>
+            <th>Check in</th>
+            <th>Check in Time</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Registrations)
+        {
+            <tr>
+                <td>@item.RegistrationId</td>
+                <td>@item.EventId</td>
+                <td>@item.ParticipantName</td>
+                <td>@item.ParticipantType</td>
+                <td>@item.AttendeeEmail</td>
+                <td>@item.RegistrationDate</td>
+                <td>@item.RegistrationPhone</td>
+                <td>@item.FeePaid</td>
+                <td>
+                    @if (@item.Checkin == true)
+                    {
+                        <span>Checked in</span>
+                    }
+                    else
+                    {
+                        <span>Not yet</span>
+                    }
+                </td>
+                <td>
+                    @if (item.CheckinTime == null)
+                    {
+                        <span> </span>
+                    }
+                    else
+                    {
+                        @item.CheckinTime
+                        ;
+                    }
+                </td>
+                <td>
+                    <div class="update-delete-btn-container">
+                        <button type="button" id="id" class="btn btn-primary" onclick="update('@item.RegistrationId', '@item.VistorCode', '@item.EventId','@item.ParticipantName','@item.ParticipantType','@item.AttendeeEmail','@item.RegistrationPhone', '@item.Checkin', '@item.CustomerId', '@item.FeePaid')">Update</button>
+                    
+                    </div>
+                </td>
+                <td>
+                    <form method="post" asp-page-handler="Delete" asp-route-id="@item.RegistrationId">
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="modal fade" id="registrationAddModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { name = "frm", id = "frm" }))
+            {   
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="_method" value="POST"/>
+                <input type="hidden" name="RegistrationId" asp-for="Registration.RegistrationId" />
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registrationModalLabel">Registration Transaction</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="registrationModalContent"></div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <label for="1">VistorCode</label>
+                                    <input asp-for="Registration.VistorCode" class="form-control" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="1">EventId</label>
+                                    <input asp-for="Registration.EventId" class="form-control" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="2">Name</label>
+                                    <input asp-for="Registration.ParticipantName" class="form-control" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="3">Type</label>
+                                    <input asp-for="Registration.ParticipantType" class="form-control" />
+                                </div>
+                    
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <label for="1">Mail</label>
+                                    <input asp-for="Registration.AttendeeEmail" class="form-control" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="1">Phone</label>
+                                    <input asp-for="Registration.RegistrationPhone" class="form-control" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="2">Check in</label>
+                                    <select asp-for="Registration.Checkin" class="form-control">
+                                        <option value="false">Not yet</option>
+                                        <option value="true">Checked in</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="4">CustomerId</label>
+                                    <input asp-for="Registration.CustomerId" class="form-control" />
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="5">Feepaid</label>
+                                    <input asp-for="Registration.FeePaid" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button asp-page-handler="Create" id="btSave" type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="registrationUpdateModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+                <input type="hidden" id="id" name="_method" value="POST" />
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registrationModalLabel">Registration Transaction</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                    <form method="post" asp-page-handler="Update">
+                <div class="modal-body">
+                    <div id="registrationModalContent"></div>
+                    <div class="row">
+                        <div class="col-md-12">
+                                <input type="hidden" id="RegistrationId" name="RegistrationId" class="form-control" />
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <label for="1">VisitorCode</label>
+                                    <input type="text" id="VisitorCode" name="VisitorCode" class="form-control" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="2">EventId</label>
+                                    <input type="text" id="EventId" name="EventId" class="form-control" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="3">Name</label>
+                                    <input type="text" id="ParticipantName" name="ParticipantName" class="form-control" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="4">Type</label>
+                                    <input type="text" id="ParticipantType" name="ParticipantType" class="form-control" />
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                <div class="col-md-3">
+                                    <label for="1">Mail</label>
+                                    <input type="text" id="AttendeeEmail" name="AttendeeEmail" class="form-control" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="2">Phone</label>
+                                    <input type="text" id="RegistrationPhone" name="RegistrationPhone" class="form-control" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="3">Check in</label>
+                                    <select id="Checkin" name="Checkin" class="form-control">
+                                        <option value="false">Not yet</option>
+                                        <option value="true">Checked in</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="4">CustomerId</label>
+                                        <input type="text" id="CustomerId" name="CustomerId" class="form-control" />
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="1">Feepaid</label>
+                            <input type="text" id="Feepaid" name="Feepaid" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btSave" type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+                    </form>
+      
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+        function add() {
+            $('#registrationAddModal').modal('show');
+       
+        }
+        function update(id,VisitorCode, eventId, name, type, mail, phone, checkin, customerId, feepaid) {
+            $('#RegistrationId').val(id);
+            $('#VisitorCode').val(VisitorCode);
+            $('#EventId').val(eventId);
+            $('#ParticipantName').val(name);
+            $('#ParticipantType').val(type);
+            $('#AttendeeEmail').val(mail);
+            $('#RegistrationPhone').val(phone);
+            $('#Checkin').val(checkin);
+            $('#CustomerId').val(customerId);
+            $('#Feepaid').val(feepaid);
+
+            $('#registrationUpdateModal').modal('show');
+        }
+
+    </script>
+}
+
+
+<style>
+    th, td {
+        text-align: center;
+        vertical-align: middle;
+    }
+    .topic{
+        text-align: center;
+    }
+    th {
+        white-space: nowrap;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .btn {
+        margin-right: 0.5rem;
+    }
+
+    .update-delete-btn-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%; /* Độ cao của container */
+        width: 100%; /* Độ rộng của container */
+    }
+
+        .update-delete-btn-container .btn {
+            flex: 1;
+        }
+</style>

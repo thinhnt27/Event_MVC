@@ -1,0 +1,82 @@
+﻿<Window x:Class="Event.WpfApp.UI.wRegistration"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Event.WpfApp.UI"
+        mc:Ignorable="d"
+        Title="Registration" Height="450" Width="1000">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <GroupBox Header="Registration Form" Margin="10" Height="118">
+                <Grid Height="95">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="180"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" Content="RegistrationId" HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="0,0,0,62" Width="89" Grid.ColumnSpan="2" />
+                    <TextBox Grid.Column="1" Grid.Row="0" x:Name="txtRegistrationId" Height="25" Text="{Binding Path=Registration.RegistrationId, Mode=TwoWay}"  Margin="0,4,0,66"  Width="180" HorizontalAlignment="Left"/>
+                    <Label Grid.Column="2" Grid.Row="0" Content="EventId" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="75" Margin="0,0,0,62"/>
+                    <TextBox Grid.Row="0" Grid.Column="3" x:Name="txtEventId" Height="25" Text="{Binding Path=Registration.EventId, Mode=TwoWay}"  Margin="0,4,0,66"  Width="180" HorizontalAlignment="Center"/>
+                    <Label Grid.Column="4" Grid.Row="0" Content="Name" HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="0,0,0,66" Width="75" />
+                    <TextBox Grid.Column="5" Grid.Row="0" x:Name="txtName" Height="25" Text="{Binding Path=Registration.ParticipantName, Mode=TwoWay}"  Margin="0,4,0,66"  Width="180" HorizontalAlignment="Left"/>
+
+                    <Label Grid.Column="0" Content="Type" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="75" Margin="0,48,0,17" />
+                    <TextBox Grid.Column="1" HorizontalAlignment="Center" x:Name="txtType"  Text="{Binding Path=Registration.ParticipantType, Mode=TwoWay}" VerticalAlignment="Top" Height="26" Width="180" Margin="0,50,0,0"/>
+                    <Label Grid.Column="2" Content="Mail" HorizontalAlignment="Left" Margin="0,50,0,0" VerticalAlignment="Top" Width="75"/>
+                    <TextBox Grid.Column="3" HorizontalAlignment="Center" x:Name="txtMail"  Text="{Binding Path=Registration.AttendeeEmail, Mode=TwoWay}" VerticalAlignment="Top" Height="26" Width="180" Margin="0,48,0,0"/>
+                    <Label Grid.Column="4" Content="Phone" HorizontalAlignment="Left" Margin="0,50,0,0" VerticalAlignment="Top" Width="75"/>
+                    <TextBox Grid.Column="5" HorizontalAlignment="Center" x:Name="txtPhone"  Text="{Binding Path=Registration.RegistrationPhone, Mode=TwoWay}" VerticalAlignment="Top" Height="26" Width="180" Margin="0,48,0,0"/>
+                </Grid>
+            </GroupBox>
+            <StackPanel Margin="10" Height="40" Orientation="Horizontal" HorizontalAlignment="Right" RenderTransformOrigin="0.389,0.536">
+                <Button x:Name="ButtonSave" Content="Save" Height="30" Width="80" Click="ButtonSave_Click"/>
+                <Button x:Name="ButtonCancel" Content="Cancel" Height="30" Width="80" Click="ButtonCancel_Click"/>
+            </StackPanel>
+            <StackPanel Height="210">
+                <DataGrid x:Name="grdRegistration" AutoGenerateColumns="False" ItemsSource="{Binding Registrations}" CanUserAddRows="False" Height="200" Margin="10" MouseDoubleClick="grdRegistration_MouseDouble_Click" SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="grdRegistration_SelectionChanged">
+                    <DataGrid.Columns>
+                        <!--<DataGridTextColumn Header="Code" Binding="{Binding Path=Id}" Visibility="Hidden"/>-->
+                        <DataGridTextColumn Header="Id" Binding="{Binding Path=RegistrationId}" Visibility="Visible"/>
+                        <DataGridTextColumn Header="EventId" Binding="{Binding Path=EventId}" Width="50"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Path=ParticipantName}" Width="100"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Type" Binding="{Binding Path=ParticipantType}" Width="60"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Mail" Binding="{Binding Path=AttendeeEmail}" Width="100"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Phone" Binding="{Binding Path=RegistrationPhone}" Width="100"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="RegistrationDate" Binding="{Binding Path=RegistrationDate}" Width="110"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Fee paid" Binding="{Binding Path=FeePaid}" Width="70"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Check in" Binding="{Binding Path=Checkin}" Width="70"  IsReadOnly="True"/>
+                        <DataGridTemplateColumn Width="50">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Delete" x:Name="ButtonDelete" CommandParameter="{Binding Path=RegistrationId}" Click="grdRegistration_ButtonDelete_Click"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!--<DataGridTemplateColumn Width="50">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Delete" x:Name="ButtonDelete" CommandParameter="{Binding Path=Id}"
+                                Command="{Binding Path=DataContext.DeleteCommand, RelativeSource={RelativeSource FindAncestor,
+                                        AncestorType=Window}}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>-->
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</Window>
