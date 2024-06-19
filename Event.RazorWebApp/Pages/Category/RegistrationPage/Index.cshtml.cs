@@ -40,7 +40,7 @@ namespace Event.RazorWebApp.Pages.RegistrationPage
 
         public async Task OnGetAsync()
         {
-            // Fetch registrations based on search parameters
+           
             var result = await _business.GetRegistration(Id, EvenId, Name, Type, Mail);
 
             if (result != null && result.Data != null)
@@ -52,7 +52,7 @@ namespace Event.RazorWebApp.Pages.RegistrationPage
                 Registrations = new List<Registration>();
             }
 
-            // Calculate pagination
+          
             int totalRegistrations = Registrations.Count;
             CountPages = (int)Math.Ceiling((double)totalRegistrations / ItemsPerPage);
 
@@ -65,7 +65,7 @@ namespace Event.RazorWebApp.Pages.RegistrationPage
                 CurrentPage = CountPages;
             }
 
-            // Apply pagination
+
             Registrations = Registrations
                 .Skip((CurrentPage - 1) * ItemsPerPage)
                 .Take(ItemsPerPage)

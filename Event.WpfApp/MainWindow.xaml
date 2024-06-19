@@ -12,6 +12,8 @@
                 <MenuItem Header="Payment Order" IsCheckable="False" FontSize="12" Click="Open_wPayment_Click">
                 </MenuItem>
                 <MenuItem Header="Registration Management" IsCheckable="False" FontSize="12" Click="Open_wRegistration_Click">
+                    </MenuItem>
+                <MenuItem Header="Customer Order" IsCheckable="False" FontSize="12" Click="Open_wCustomer_Click">
 
                 </MenuItem>
             </MenuItem>

@@ -33,5 +33,11 @@ namespace Event.WpfApp
             p.Owner = this;
             p.Show();
         }
+        private async void Open_wCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            var c = new wCustomer();
+            c.Owner = this;
+            c.Show();
+        }
     }
 }

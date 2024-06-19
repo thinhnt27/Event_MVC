@@ -1,0 +1,307 @@
+﻿@page
+@model Event.RazorWebApp.Pages.Category.CustomerPage.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>CUSTOMERS</h1>
+
+<p class="create-new-link">
+    <a asp-page="Create">Create New</a>
+</p>
+
+<form asp-page="./Index" method="get" class="form-actions">
+     <div class="no-color">
+         <p>
+             Find by:
+             <select name="searchType" class="form-control ok">
+                <option value="Name" selected="@(Model.SearchType == "Name")">Name</option>
+                <option value="Address" selected="@(Model.SearchType == "Address")">Address</option>
+                <option value="Phone" selected="@(Model.SearchType == " Phone")">Phone</option>
+            </select>
+             <input type="text" name="SearchString" value="@Model.CurrentFilter" class="form-control okok" placeholder="Enter a value..." />
+
+            <div class="centre">
+             <input type="submit" value="Search" class="btn btn-default" />
+            <a asp-page="./Index" class="btn btn-default">Back to full list</a>
+            </div>
+         </p>
+     </div>
+</form>
+
+
+
+<form asp-page="./Index" method="get">
+    <label for="pageSize">Page Size:</label>
+    <select id="pageSize" name="pageSize" onchange="this.form.submit()" class="page-size-dropdown">
+        <option value="3" selected="@(Model.PageSize == 3)">3</option>
+        <option value="5" selected="@(Model.PageSize == 5)">5</option>
+        <option value="10" selected="@(Model.PageSize == 10)">10</option>
+        <option value="20" selected="@(Model.PageSize == 20)">20</option>
+    </select>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort" asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Customer[0].CustomerName)
+                </a>
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].Password)
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.MailSort" asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Customer[0].Email)
+                </a>
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].Phone)
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.AddressSort" asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.Customer[0].Address)
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.CustomerNe)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.CustomerId" class="button-48" role="button"><span class="text">Edit</span></a>
+                    <a asp-page="./Details" asp-route-id="@item.CustomerId" class="button-48" role="button"><span class="text">Details</span></a>
+                    <a asp-page="./Delete" asp-route-id="@item.CustomerId" class="button-48" role="button"><span class="text">Delete</span></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.CustomerNe.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.CustomerNe.HasNextPage ? "disabled" : "";
+}
+<div class="text-center">
+    <a asp-page="./Index"
+       asp-route-sortOrder="@Model.CurrentSort"
+       asp-route-pageIndex="@(Model.CustomerNe.PageIndex - 1)"
+       asp-route-currentFilter="@Model.CurrentFilter"
+       asp-route-pageSize="@Model.PageSize"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-page="./Index"
+       asp-route-sortOrder="@Model.CurrentSort"
+       asp-route-pageIndex="@(Model.CustomerNe.PageIndex + 1)"
+       asp-route-currentFilter="@Model.CurrentFilter"
+       asp-route-pageSize="@Model.PageSize"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
+    <div />
+    <style>
+        .create-new-link {
+            display: flex;
+            justify-content: flex-end; 
+        }
+
+            .create-new-link a {
+                color: #007bff; 
+                text-decoration: none; 
+                font-weight: bold; 
+            }
+        .text-center {
+            text-align: center;
+            margin-top: 10px; 
+        }
+        .btn-default {
+            color: #333;
+            background-color: #fff;
+            border-color: #ccc;
+        }
+
+            .btn-default:hover {
+                color: #333;
+                background-color: #e6e6e6;
+                border-color: #adadad;
+            }
+
+        .prevDisabled,
+        .nextDisabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .page-size-dropdown {
+            width: 100px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-actions {
+            margin-bottom: 15px;
+        }
+
+        .form-actions .ok {
+            display: inline-block;
+                max-width: 9vw;
+                text-align: center;
+        }
+
+        .form-actions .okok{
+            margin-top: 10px;
+            margin-bottom: 20px;
+            height: 6vh;
+        }
+
+        .form-actions .centre{
+            text-align: center;
+        }
+
+            .form-actions p {
+                margin-bottom: 0;
+            }
+
+            .form-actions input[type="text"],
+            .form-actions input[type="submit"],
+            .form-actions a {
+                margin-right: 10px;
+            }
+
+            .form-actions input[type="text"] {
+                padding: 6px 12px;
+                font-size: 14px;
+                line-height: 1.42857143;
+                color: #555;
+                background-color: #fff;
+                background-image: none;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            .form-actions input[type="submit"],
+            .form-actions a {
+                display: inline-block;
+                padding: 6px 12px;
+                margin-bottom: 0;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 1.42857143;
+                text-align: center;
+                white-space: nowrap;
+                vertical-align: middle;
+                cursor: pointer;
+                background-image: none;
+                border: 1px solid transparent;
+                border-radius: 4px;
+                color: #333;
+                background-color: #fff;
+                border-color: #ccc;
+                text-decoration: none;
+            }
+
+                .form-actions input[type="submit"]:hover,
+                .form-actions a:hover {
+                    color: #333;
+                    background-color: #e6e6e6;
+                    border-color: #adadad;
+                }
+
+        h1 {
+            font-weight: 700;
+            text-align: center;
+            background-color: #00DBDE;
+            background-image: linear-gradient(90deg, #00DBDE 0%, #FC00FF 100%);
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+        }
+
+        .button-48 {
+            appearance: none;
+            background-color: #FFFFFF;
+            border-width: 0;
+            box-sizing: border-box;
+            color: #000000;
+            cursor: pointer;
+            display: inline-block;
+            font-family: Clarkson,Helvetica,sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0;
+            line-height: 1em;
+            margin: 0;
+            opacity: 1;
+            outline: 0;
+            padding: 1.5em 2.2em;
+            position: relative;
+            text-align: center;
+            text-decoration: none;
+            text-rendering: geometricprecision;
+            text-transform: uppercase;
+            transition: opacity 300ms cubic-bezier(.694, 0, 0.335, 1),background-color 100ms cubic-bezier(.694, 0, 0.335, 1),color 100ms cubic-bezier(.694, 0, 0.335, 1);
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            vertical-align: baseline;
+            white-space: nowrap;
+        }
+
+        .button-48:before {
+            animation: opacityFallbackOut .5s step-end forwards;
+            backface-visibility: hidden;
+            background-color: #EBEBEB;
+            clip-path: polygon(-1% 0, 0 0, -25% 100%, -1% 100%);
+            content: "";
+            height: 100%;
+            left: 0;
+            position: absolute;
+            top: 0;
+            transform: translateZ(0);
+            transition: clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1), -webkit-clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1);
+            width: 100%;
+        }
+
+        .button-48:hover:before {
+            animation: opacityFallbackIn 0s step-start forwards;
+            clip-path: polygon(0 0, 101% 0, 101% 101%, 0 101%);
+        }
+
+        .button-48:after {
+            background-color: #FFFFFF;
+        }
+
+        .button-48 span {
+            z-index: 1;
+            position: relative;
+        }
+    </style>

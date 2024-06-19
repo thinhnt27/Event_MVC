@@ -10,6 +10,7 @@ namespace Event.Data
         private readonly PaymentRepository _payment;
         private readonly RegistrationRepository _registration;
         private readonly TicketRepository _ticket;
+        private readonly CustomerRepository _customer;  
 
         public UnitOfWork()
         {
@@ -20,6 +21,13 @@ namespace Event.Data
             get
             {
                 return _payment ?? new PaymentRepository(_context);
+            }
+        }
+        public CustomerRepository CustomerRepository
+        {
+            get
+            {
+                return _customer ?? new CustomerRepository(_context);
             }
         }
         public RegistrationRepository RegistrationRepository
