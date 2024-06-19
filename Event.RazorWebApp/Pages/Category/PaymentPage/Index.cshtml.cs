@@ -30,7 +30,7 @@ namespace Event.RazorWebApp.Pages.Category.PaymentPage
         public int? SelectedTicketQuantity { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public DateOnly? SelectedPaymentDate { get; set; }
+        public DateTime? SelectedPaymentDate { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public decimal? SelectedAmountPaid { get; set; }
