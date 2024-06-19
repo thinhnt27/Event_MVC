@@ -21,7 +21,7 @@ namespace Event.Data.Repository
         protected readonly DbSet<EventType> _dbSetEventType;
         protected readonly DbSet<Events> _dbSetEvents;
 
-        public EventRepository()
+        public EventRepository(Net1704_221_3_EventContext _context)
         {
             _context ??= new Net1704_221_3_EventContext();
             _dbSetEventType ??= _context.Set<EventType>();

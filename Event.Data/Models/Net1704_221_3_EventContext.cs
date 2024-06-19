@@ -29,12 +29,6 @@ public partial class Net1704_221_3_EventContext : DbContext
     public virtual DbSet<Registration> Registrations { get; set; }
 
     public virtual DbSet<Ticket> Tickets { get; set; }
-    public static string GetConnectionString(string connectionStringName)
-    {
-        var config = new ConfigurationBuilder()
-            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-            .AddJsonFile("appsettings.json")
-            .Build();
 
     //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     //{

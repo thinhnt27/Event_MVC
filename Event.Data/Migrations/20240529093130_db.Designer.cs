@@ -11,16 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Event.Data.Migrations
 {
-    [DbContext(typeof(Net1704_221_3_EventContext))]
-<<<<<<<< HEAD:Event.Data/Migrations/20240529043648_InitialCreate.Designer.cs
     [Migration("20240529043648_InitialCreate")]
     partial class InitialCreate
-========
-    [Migration("20240529093130_db")]
-    partial class db
->>>>>>>> main:Event.Data/Migrations/20240529093130_db.Designer.cs
     {
-        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

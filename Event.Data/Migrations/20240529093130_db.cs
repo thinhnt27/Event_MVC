@@ -5,14 +5,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Event.Data.Migrations
 {
-    /// <inheritdoc />
-<<<<<<<< HEAD:Event.Data/Migrations/20240529043648_InitialCreate.cs
     public partial class InitialCreate : Migration
-========
-    public partial class db : Migration
->>>>>>>> main:Event.Data/Migrations/20240529093130_db.cs
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
