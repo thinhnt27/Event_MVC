@@ -15,6 +15,7 @@ namespace Event.Business.Category
     public interface IEventBusiness
     {
         Task<IBusinessResult> GetAll();
+        Task<IBusinessResult> GetEventTypes();
         Task<IBusinessResult> GetById(int id);
         Task<IBusinessResult> Update(Events _event);
         Task<IBusinessResult> DeleteById(int id);
@@ -73,7 +74,7 @@ namespace Event.Business.Category
 
                 //var currencies = _DAO.GetAll();
                 //var _events = await _DAO.GetAllAsync();
-                var events = await _unitOfWork.EventRepository.GetAllAsync();
+                var events = await _unitOfWork.EventRepository.GetEvents();
 
                 if (events == null)
                 {
@@ -112,6 +113,27 @@ namespace Event.Business.Category
             catch (Exception ex)
             {
                 return new BusinessResult(-4, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> GetEventTypes()
+        {
+            try
+            {
+                var eventTypes = await _unitOfWork.EventRepository.GetEventTypes();
+
+                if (eventTypes == null)
+                {
+                    return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
+                }
+                else
+                {
+                    return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, eventTypes);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(Const.ERROR_EXEPTION, ex.Message);
             }
         }
 
