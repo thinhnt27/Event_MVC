@@ -50,7 +50,7 @@ namespace Event.RazorWebApp.Pages
             {
                 return Page();
             }
-            Registration.RegistrationDate = DateOnly.FromDateTime(DateTime.Now);
+            Registration.RegistrationDate = DateTime.Now;
             if (Registration.Checkin == true)
             {
                 Registration.CheckinTime = DateTime.Now;
@@ -71,7 +71,7 @@ namespace Event.RazorWebApp.Pages
                 return Page();
             }
 
-            Registration.RegistrationDate = DateOnly.FromDateTime(DateTime.Now);
+            Registration.RegistrationDate = DateTime.Now;
             if (Registration.Checkin == true)
             {
                 Registration.CheckinTime = DateTime.Now;

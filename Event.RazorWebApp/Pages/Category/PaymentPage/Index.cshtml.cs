@@ -39,10 +39,10 @@ namespace Event.RazorWebApp.Pages.Category.PaymentPage
         public bool? SelectedStatus { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public DateOnly? SelectedMaxiumDate { get; set; }
+        public DateTime? SelectedMaxiumDate { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public DateOnly? SelectedMiniumDate { get; set; }
+        public DateTime? SelectedMiniumDate { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public decimal? AmountPaid { get; set; }

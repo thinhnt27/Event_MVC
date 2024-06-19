@@ -29,7 +29,7 @@ namespace Event.RazorWebApp.Pages.RegistrationPage
             {
                 return Page();
             }
-                Registration.RegistrationDate = DateOnly.FromDateTime(DateTime.Now);
+                Registration.RegistrationDate = DateTime.Now;
                 if (Registration.Checkin == true)
                 {
                     Registration.CheckinTime = DateTime.Now;

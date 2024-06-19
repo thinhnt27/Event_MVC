@@ -13,7 +13,7 @@ namespace Event.Business.Category
         Task<IBusinessResult> Update(Payment payment);
         Task<IBusinessResult> DeleteById(int id);
         Task<IBusinessResult> Save(Payment payment);
-        Task<IBusinessResult> GetList(int? pageIndex = null, int? pageSize = null, string? order = null, string? sorted = null, bool? status = null, int? ticketId = null, int? registrationId = null, string? type = null, decimal? amountPaid = null, int? quantity = null, DateOnly? maxiumDate = null, DateOnly? miniumDate = null);
+        Task<IBusinessResult> GetList(int? pageIndex = null, int? pageSize = null, string? order = null, string? sorted = null, bool? status = null, int? ticketId = null, int? registrationId = null, string? type = null, decimal? amountPaid = null, int? quantity = null, DateTime? maxiumDate = null, DateTime? miniumDate = null);
     }
     public class PaymentBusiness : IPaymentBusiness
     {
@@ -113,7 +113,7 @@ namespace Event.Business.Category
             }
         }
 
-        public async Task<IBusinessResult> GetList(int? pageIndex = null, int? pageSize = null, string? order = null, string? sorted = null, bool? status = null, int? ticketId = null, int? registrationId = null, string? type = null, decimal? amountPaid = null, int? quantity = null, DateOnly? maxiumDate = null, DateOnly? miniumDate = null)
+        public async Task<IBusinessResult> GetList(int? pageIndex = null, int? pageSize = null, string? order = null, string? sorted = null, bool? status = null, int? ticketId = null, int? registrationId = null, string? type = null, decimal? amountPaid = null, int? quantity = null, DateTime? maxiumDate = null, DateTime? miniumDate = null)
         {
             try
             {
