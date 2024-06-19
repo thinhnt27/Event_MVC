@@ -11,7 +11,7 @@ namespace Event.RazorWebApp
             builder.Services.AddScoped<IPaymentBusiness, PaymentBusiness>();
             // Add services to the container.
             builder.Services.AddRazorPages();
-
+            builder.Services.AddScoped<IRegistrationBusiness, RegistrationBusiness>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

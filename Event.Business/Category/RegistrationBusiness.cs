@@ -1,7 +1,8 @@
 ﻿using Event.Business.Base;
-using Event.Common;
-using Event.Data.Models;
 using Event.Data;
+using Event.Data.DAO;
+using Event.Data.Models;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,59 +13,74 @@ namespace Event.Business.Category
 {
     public interface IRegistrationBusiness
     {
-        Task<IBusinessResult> GetAll();
+        Task<IBusinessResult> GetAll(/*int? id, int? eventId, string? name, string? type, string? mail*/);
         Task<IBusinessResult> GetById(int id);
-        Task<IBusinessResult> Update(Registration payment);
+        Task<IBusinessResult> Save(Registration registration);
+        Task<IBusinessResult> Update(Registration registration);
         Task<IBusinessResult> DeleteById(int id);
-        Task<IBusinessResult> Save(Registration payment);
+        Task<IBusinessResult> GetRegistration(int? id, int? eventId, string? name, string? type, string? mail);
     }
     public class RegistrationBusiness : IRegistrationBusiness
     {
-        //private readonly RegistrationDAO _DAO;
         private readonly UnitOfWork _unitOfWork;
-        //public RegistrationBusiness(RegistrationDAO DAO)
-        //{
-        //    _DAO = DAO;
-        //}
 
         public RegistrationBusiness()
         {
-            _unitOfWork ??= new UnitOfWork(); // ?? là nếu _unitOfWork = null thì mới khởi tạo
-
+            _unitOfWork ??= new UnitOfWork();
         }
 
-
-        public async Task<IBusinessResult> DeleteById(int id)
+        public async Task<IBusinessResult> GetRegistration(int? id, int? eventId, string? name, string? type, string? mail)
         {
             try
             {
-                //var payment = await _DAO.GetByIdAsync(id);
-                var payment = await _unitOfWork.RegistrationRepository.GetByIdAsync(id);
-                if (payment != null)
+                var registrations = await _unitOfWork.RegistrationRepository.GetAllAsync();
+
+                if (registrations == null)
                 {
-                    //var result = await  _DAO.RemoveAsync(payment);
-                    var result = await _unitOfWork.RegistrationRepository.RemoveAsync(payment);
-                    if (result)
-                    {
-                        return new BusinessResult(Const.SUCCESS_DELETE, Const.SUCCESS_DELETE_MSG);
-                    }
-                    else
-                    {
-                        return new BusinessResult(Const.FAIL_DELETE, Const.FAIL_DELETE_MSG);
-                    }
+                    return new BusinessResult(4, "No Registration data");
+                }
+
+                if (id.HasValue)
+                {
+                    registrations = registrations.Where(x => x.RegistrationId == id.Value).ToList();
+                }
+
+                if (eventId.HasValue)
+                {
+                    registrations = registrations.Where(x => x.EventId == eventId.Value).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(name))
+                {
+                    registrations = registrations.Where(x => x.ParticipantName.Contains(name, StringComparison.OrdinalIgnoreCase)).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(type))
+                {
+                    registrations = registrations.Where(x => x.ParticipantType.Contains(type, StringComparison.OrdinalIgnoreCase)).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(mail))
+                {
+                    registrations = registrations.Where(x => x.AttendeeEmail.Contains(mail, StringComparison.OrdinalIgnoreCase)).ToList();
+                }
+
+                var registrationList = registrations.ToList(); 
+
+                if (!registrationList.Any())
+                {
+                    return new BusinessResult(4, "No Registration data");
                 }
                 else
                 {
-                    return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
+                    return new BusinessResult(4, "Get Registration success", registrationList);
                 }
-
             }
             catch (Exception ex)
             {
                 return new BusinessResult(-4, ex.Message);
             }
         }
-
         public async Task<IBusinessResult> GetAll()
         {
             try
@@ -72,22 +88,20 @@ namespace Event.Business.Category
                 #region Business rule
                 #endregion
 
-                //var currencies = _DAO.GetAll();
-                //var payments = await _DAO.GetAllAsync();
-                var payments = await _unitOfWork.RegistrationRepository.GetAllAsync();
-
-                if (payments == null)
+                var registration = await _unitOfWork.RegistrationRepository.GetAllAsync();
+                
+                if (registration == null)
                 {
-                    return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
+                    return new BusinessResult(4, "No Registraion data");
                 }
                 else
                 {
-                    return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, payments);
+                    return new BusinessResult(4, "Get Registration success", registration);
                 }
             }
             catch (Exception ex)
             {
-                return new BusinessResult(Const.ERROR_EXEPTION, ex.Message);
+                return new BusinessResult(-4, ex.Message);
             }
         }
 
@@ -95,19 +109,15 @@ namespace Event.Business.Category
         {
             try
             {
-                #region Business rule
-                #endregion
+                var registration = await _unitOfWork.RegistrationRepository.GetByIdAsync(id);
 
-                //var payment = await _DAO.GetByIdAsync(id);
-                var payment = await _unitOfWork.RegistrationRepository.GetByIdAsync(id);
-
-                if (payment == null)
+                if (registration == null)
                 {
-                    return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
+                    return new BusinessResult(4, "No Registration data");
                 }
                 else
                 {
-                    return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, payment);
+                    return new BusinessResult(4, "Get Registraion success", registration);
                 }
             }
             catch (Exception ex)
@@ -116,58 +126,77 @@ namespace Event.Business.Category
             }
         }
 
-        public async Task<IBusinessResult> Save(Registration payment)
+        public async Task<IBusinessResult> Save(Registration registration)
         {
             try
             {
-                //int result = await _DAO.CreateAsync(payment);
-                int result = await _unitOfWork.RegistrationRepository.CreateAsync(payment); //này chỉ ghi vào 1 bảng thì dùng
-
-
-                //// Log the state of the entity before saving
-                //Console.WriteLine("Registration state before save: " + _unitOfWork.RegistrationRepository.GetEntityState(payment));
-                ////này dùng cho save nhiều bảng
-                //_unitOfWork.RegistrationRepository.PrepareCreate(payment);
-
-                //// Log the state of the entity after preparation
-                //Console.WriteLine("Registration state after PrepareCreate: " + _unitOfWork.RegistrationRepository.GetEntityState(payment));
-
-
-                //int result = await _unitOfWork.RegistrationRepository.SaveAsync();
+               
+                int result = await _unitOfWork.RegistrationRepository.CreateAsync(registration);
                 if (result > 0)
                 {
-                    return new BusinessResult(Const.SUCCESS_CREATE, Const.SUCCESS_CREATE_MSG);
+                    return new BusinessResult(4, "Save Registration success");
                 }
                 else
                 {
-                    return new BusinessResult(Const.FAIL_CREATE, Const.FAIL_CREATE_MSG);
+                    return new BusinessResult(4, "Save Registration is not success");
                 }
             }
             catch (Exception ex)
             {
-                return new BusinessResult(-4, ex.Message);
+                return new BusinessResult(-4, ex.ToString());
             }
         }
 
-        public async Task<IBusinessResult> Update(Registration payment)
+        public async Task<IBusinessResult> Update(Registration registration)
         {
             try
             {
-                //int result = await _DAO.UpdateAsync(payment);
-                int result = await _unitOfWork.RegistrationRepository.UpdateAsync(payment);
+                int result = await _unitOfWork.RegistrationRepository.UpdateAsync(registration);
                 if (result > 0)
                 {
-                    return new BusinessResult(Const.FAIL_UDATE, Const.SUCCESS_UDATE_MSG);
+                    return new BusinessResult(4, "Update Registration success");
                 }
                 else
                 {
-                    return new BusinessResult(Const.FAIL_UDATE, Const.FAIL_UDATE_MSG);
+                    return new BusinessResult(4, "Update Registration is not success");
                 }
             }
             catch (Exception ex)
             {
-                return new BusinessResult(-4, ex.Message);
+                return new BusinessResult(-4, ex.ToString());
             }
         }
+
+        public async Task<IBusinessResult> DeleteById(int id)
+        {
+            try
+            {
+                var registration = _unitOfWork.RegistrationRepository.GetById(id);
+
+                if (registration != null)
+                {
+                    _unitOfWork.RegistrationRepository.PrepareRemove(registration);
+                    var result = await _unitOfWork.RegistrationRepository.SaveAsync();
+
+                    if (result == 1)
+                    {
+                        return new BusinessResult(4, "Delete Registration success");
+                    }
+                    else
+                    {
+                        return new BusinessResult(4, "Delete Registration is not success");
+                    }
+                }
+                else
+                {
+                    return new BusinessResult(4, "No data of Registration");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(-4, ex.ToString());
+            }
+        }
+
     }
 }

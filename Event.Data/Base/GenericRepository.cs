@@ -87,7 +87,7 @@ namespace Event.Data.Base
 
         public async Task<int> CreateAsync(T entity)
         {
-            _context.AddAsync(entity);
+            await _context.AddAsync(entity);
             return await _context.SaveChangesAsync();
         }
 

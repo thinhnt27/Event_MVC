@@ -16,12 +16,18 @@ namespace Event.WpfApp
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
-    {   
+    {
         public MainWindow()
         {
             InitializeComponent();
         }
         private void Open_wPayment_Click(object sender, RoutedEventArgs e)
+        {
+            var p = new wRegistration();
+            p.Owner = this;
+            p.Show();
+        }
+        private async void Open_wRegistration_Click(object sender, RoutedEventArgs e)
         {
             var p = new wPayment();
             p.Owner = this;
