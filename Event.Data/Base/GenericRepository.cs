@@ -1,13 +1,17 @@
 ﻿using Event.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+using System.Runtime.InteropServices;
 
 namespace Event.Data.Base
 {
 
+
+
     public class GenericRepository<T> where T : class
     {
-        protected readonly Net1704_221_3_EventContext _context;
-        protected readonly DbSet<T> _dbSet;
+        protected Net1704_221_3_EventContext _context;
+        protected DbSet<T> _dbSet;
 
         public GenericRepository()
         {
@@ -27,9 +31,20 @@ namespace Event.Data.Base
         {
             return _context.Entry(entity).State;
         }
+
+        #endregion Separating asign entity and save operators
+
+
+        public async Task<T> GetByIdAsync(Guid code)
+        {
+            return await _context.Set<T>().FindAsync(code);
+        }
+        #region Separating asign entity and save operators
+
+
         public void PrepareCreate(T entity)
         {
-            _dbSet.Add(entity);
+            _context.Add(entity);
         }
 
         public void PrepareUpdate(T entity)
@@ -40,7 +55,7 @@ namespace Event.Data.Base
 
         public void PrepareRemove(T entity)
         {
-            _dbSet.Remove(entity);
+            _context.Remove(entity);
         }
 
         public int Save()
@@ -58,21 +73,21 @@ namespace Event.Data.Base
 
         public List<T> GetAll()
         {
-            return _dbSet.ToList();
+            return _context.Set<T>().ToList();
         }
         public async Task<List<T>> GetAllAsync()
         {
-            return await _dbSet.ToListAsync();
+            return await _context.Set<T>().ToListAsync();
         }
         public void Create(T entity)
         {
-            _dbSet.Add(entity);
+            _context.Add(entity);
             _context.SaveChanges();
         }
 
         public async Task<int> CreateAsync(T entity)
         {
-            _dbSet.Add(entity);
+            await _context.AddAsync(entity);
             return await _context.SaveChangesAsync();
         }
 
@@ -87,52 +102,78 @@ namespace Event.Data.Base
         {
             var tracker = _context.Attach(entity);
             tracker.State = EntityState.Modified;
+
             return await _context.SaveChangesAsync();
         }
 
         public bool Remove(T entity)
         {
-            _dbSet.Remove(entity);
+            _context.Remove(entity);
             _context.SaveChanges();
             return true;
         }
 
         public async Task<bool> RemoveAsync(T entity)
         {
-            _dbSet.Remove(entity);
+            _context.Remove(entity);
             await _context.SaveChangesAsync();
             return true;
         }
 
         public T GetById(int id)
         {
-            return _dbSet.Find(id);
+            return _context.Set<T>().Find(id);
         }
 
         public async Task<T> GetByIdAsync(int id)
         {
-            return await _dbSet.FindAsync(id);
+            return await _context.Set<T>().FindAsync(id);
         }
 
         public T GetById(string code)
         {
-            return _dbSet.Find(code);
+            return _context.Set<T>().Find(code);
         }
 
         public async Task<T> GetByIdAsync(string code)
         {
-            return await _dbSet.FindAsync(code);
+            return await _context.Set<T>().FindAsync(code);
         }
-
         public T GetById(Guid code)
         {
-            return _dbSet.Find(code);
+            return _context.Set<T>().Find(code);
+        }
+        public IQueryable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, Func<IQueryable<T>, IQueryable<T>> include = null, int? pageIndex = null, int? pageSize = null)
+        {
+            IQueryable<T> query = _dbSet;
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            if (orderBy != null)
+            {
+                query = orderBy(query);
+            }
+
+            if (pageIndex.HasValue && pageSize.HasValue)
+            {
+                int validPageIndex = pageIndex.Value > 0 ? pageIndex.Value - 1 : 0;
+                int validPageSize = pageSize.Value > 0 ? pageSize.Value : 10;
+
+                query = query.Skip(validPageIndex * validPageSize).Take(validPageSize);
+            }
+
+            return  query;
         }
 
-        public async Task<T> GetByIdAsync(Guid code)
-        {
-            return await _dbSet.FindAsync(code);
-        }
     }
+
 
 }

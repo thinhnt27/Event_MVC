@@ -1,98 +1,102 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Event.Business.Category;
 using Event.Data.Models;
-Console.WriteLine("Day la ham Save ne!");
+using Microsoft.EntityFrameworkCore;
 
-var customerBusiness = new CustomerBussiness();
-await customerBusiness.DeleteById(16);
-
-var customer = new Customer
+public class Program
 {
-    CustomerName = "thangbinhbeo",
-    Password = "*******",
-    Email = "thangbinhbeo1122@gmail.com",
-    Phone = "0838097512",
-    Address = "19/1 Pham Ngu Lao",
-    Registrations = new List<Registration>()
-};
-var resultSave = await customerBusiness.Save(customer);
-Console.WriteLine(resultSave.Message);
-Console.WriteLine();
-
-Console.WriteLine("Day la ham GetAll ne!");
-
-var customerList = await customerBusiness.GetAll();
-
-if (customerList.Status == 4)
-{
-    Console.WriteLine(customerList.Message);
-    var customers = customerList.Data as List<Customer>;
-    if (customers != null)
+    public static async Task Main(string[] args)
     {
-        foreach (var item in customers)
+        
+        var registrationBusiness = new RegistrationBusiness();
+
+        Console.WriteLine("This is the Save method!");
+
+        var registration = new Registration
         {
-            Console.WriteLine($"ID: {item.CustomerId}, Name: {item.CustomerName}, Email: {item.Email}, Password: {item.Password}, Address: {item.Address}, Registration: {item.Registrations}");
-        }
-    }
-}
+            EventId = 1,
+            VistorCode = "VC123",
+            ParticipantName = "John Doe",
+            ParticipantType = "VIP",
+            AttendeeEmail = "john.doe@example.com",
+            RegistrationDate = DateOnly.FromDateTime(DateTime.Now),
+            RegistrationPhone = "123-456-7890",
+            Gender = true,
+            FeePaid = 100.00M,
+            Checkin = false,
+            CheckinTime = null,
+            CustomerId = 1
+        };
 
-Console.WriteLine();
-Console.WriteLine("Day la ham Update ne!");
+        var resultSave = await registrationBusiness.Save(registration);
+        Console.WriteLine(resultSave.Message);
 
-var updateCustomer = new Customer
-{
-    CustomerId = 16,
-    CustomerName = "Trinh Huu Tuan",
-    Password = null,
-    Email = null,
-    Phone = null,
-    Address = null,
-    Registrations = null
-};
+        Console.WriteLine("\nThis is the GetAll method!");
 
-var customerUpdate = await customerBusiness.GetById(19);
-var customersne = customerUpdate.Data as Customer;
-customersne.CustomerName = "Trinh Huu Tuan";
-
-var resultUpdate = await customerBusiness.Update(customersne);
-Console.WriteLine(resultUpdate.Message);
-
-var customerList1 = await customerBusiness.GetAll();
-
-if (customerList1.Status == 4)
-{
-    Console.WriteLine(customerList1.Message);
-    var customers = customerList1.Data as List<Customer>;
-    if (customers != null)
-    {
-        foreach (var item in customers)
+        var registrationList = await registrationBusiness.GetAll();
+        if (registrationList.Status == 1)
         {
-            Console.WriteLine($"ID: {item.CustomerId}, Name: {item.CustomerName}, Email: {item.Email}, Password: {item.Password}, Address: {item.Address}, Registration: {item.Registrations}");
+            var registrations = registrationList.Data as List<Registration>;
+            if (registrations != null)
+            {
+                foreach (var reg in registrations)
+                {
+                    Console.WriteLine($"ID: {reg.RegistrationId}, Name: {reg.ParticipantName}, Email: {reg.AttendeeEmail}, Event ID: {reg.EventId}");
+                }
+            }
         }
-    }
-}
-
-//Console.WriteLine("Day la ham Delete ne!");
-
-await customerBusiness.DeleteById(16);
-
-var customerListNull = await customerBusiness.GetAll();
-Console.WriteLine(customerListNull.Message);
-
-if (customerListNull.Status == 4)
-{
-    Console.WriteLine(customerList1.Message);
-    var customers = customerList1.Data as List<Customer>;
-    if (customers != null)
-    {
-        foreach (var item in customers)
+        else
         {
-
-            Console.WriteLine($"ID: {item.CustomerId}, Name: {item.CustomerName}, Email: {item.Email}, Password: {item.Password}, Address: {item.Address}, Registration: {item.Registrations}");
+            Console.WriteLine(registrationList.Message);
         }
-    }
-    else
-    {
-        Console.WriteLine(customerListNull.Message);
+
+        Console.WriteLine("\nThis is the Update method!");
+
+        var updateRegistration = new Registration
+        {
+            RegistrationId = 1,
+            ParticipantName = "Jane Doe",
+            ParticipantType = "Regular",
+            AttendeeEmail = "jane.doe@example.com"
+        };
+
+        var registrationUpdate = await registrationBusiness.GetById(1);
+        var regToUpdate = registrationUpdate.Data as Registration;
+        if (regToUpdate != null)
+        {
+            regToUpdate.ParticipantName = "Jane Doe Updated";
+            regToUpdate.AttendeeEmail = "jane.doe.updated@example.com";
+
+            var resultUpdate = await registrationBusiness.Update(regToUpdate);
+            Console.WriteLine(resultUpdate.Message);
+        }
+        else
+        {
+            Console.WriteLine(registrationUpdate.Message);
+        }
+
+        Console.WriteLine("\nThis is the Delete method!");
+
+        var resultDelete = await registrationBusiness.DeleteById(1);
+        Console.WriteLine(resultDelete.Message);
+
+        var registrationListAfterDelete = await registrationBusiness.GetAll();
+        if (registrationListAfterDelete.Status == 1)
+        {
+            var registrations = registrationListAfterDelete.Data as List<Registration>;
+            if (registrations != null)
+            {
+                foreach (var reg in registrations)
+                {
+                    Console.WriteLine($"ID: {reg.RegistrationId}, Name: {reg.ParticipantName}, Email: {reg.AttendeeEmail}, Event ID: {reg.EventId}");
+                }
+            }
+        }
+        else
+        {
+            Console.WriteLine(registrationListAfterDelete.Message);
+        }
     }
 }

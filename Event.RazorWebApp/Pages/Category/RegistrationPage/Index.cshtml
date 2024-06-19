@@ -1,0 +1,163 @@
+﻿@page
+@model Event.RazorWebApp.Pages.RegistrationPage.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="row">
+<div class="col-md-6">
+<h1>Registration</h1>
+</div>
+@* <div class="col-md-4 text-center">
+        <select id="searchType" class="form-select">
+            <option value="1">RegistrationId</option>
+            <option value="2">EventId</option>
+            <option value="3">ParticipantName</option>
+            <option value="4">ParticipantType</option>
+            <option value="5">AttendeeEmail</option>
+    </select> *@
+
+<div class="col-md-6 text-end">
+<p>
+    <a asp-page="Create">Create New</a>
+</p>   
+</div>
+</div>
+<form method="get" asp-page="./Index">
+
+    <div>
+        <label>Id</label>
+        <input type="text" name="id" value="@Model.Id"/>
+        <label>EventId</label>
+        <input type="text" name="eventId" value="@Model.EvenId"/>
+        <label>Name</label>
+        <input type="text" name="name" value="@Model.Name"/>
+        <label>Type</label>
+        <input type="text" name="type" value="@Model.Type"/>
+        <label>Mail</label>
+        <input type="text" name="mail" value="@Model.Mail"/>
+        <button type="submit">Search</button>
+    </div>
+</form>
+    @{
+        var datapaging = new Event.RazorWebApp.Helper.PagingModel
+        {
+            currentPage = Model.CurrentPage,    // trang hiện tại
+            countPages = Model.CountPages,   // tổng  số trang
+            generateUrl = (int? p) => Url.Page("/Category/RegistrationPage/Index", new { p = p })
+        };
+
+    }
+    <partial name="_Paging" model="@datapaging" />
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Registrations[0].RegistrationId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registrations[0].VistorCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registrations[0].EventId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registrations[0].ParticipantName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registrations[0].ParticipantType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registrations[0].AttendeeEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registrations[0].RegistrationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registrations[0].RegistrationPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registrations[0].Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registrations[0].FeePaid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registrations[0].Checkin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registrations[0].CheckinTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registrations[0].CustomerId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Registrations) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegistrationId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VistorCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParticipantName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParticipantType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AttendeeEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegistrationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegistrationPhone)
+            </td>
+            <td>
+                @if (item.Gender == true)
+                {
+                        <span>Male</span>
+                }
+                else
+                {
+                        <span>Female</span>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FeePaid)
+            </td>
+                <td>
+                    @if (item.Checkin == true)
+                    {
+                        <span>Checked in</span>
+                    }
+                    else
+                    {
+                        <span>Not yet</span>
+                    }
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CheckinTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerId)
+            </td>
+                <td>
+                <a asp-page="./Edit" asp-route-id="@item.RegistrationId">Edit</a> 
+                <a asp-page="./Details" asp-route-id="@item.RegistrationId">Details</a> 
+                <a asp-page="./Delete" asp-route-id="@item.RegistrationId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+    
+</table>

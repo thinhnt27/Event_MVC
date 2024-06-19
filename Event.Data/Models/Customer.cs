@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace Event.Data.Models;
 
+
 public partial class Customer
 {
     public int CustomerId { get; set; }
@@ -19,5 +20,7 @@ public partial class Customer
 
     public string Address { get; set; }
 
-    public virtual ICollection<Registration> Registrations { get; set; } = new List<Registration>();
+    public virtual ICollection<Registration>? Registrations { get; set; }
 }
+
+

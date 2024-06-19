@@ -1,0 +1,121 @@
+﻿@page
+@model Event.RazorWebApp.Pages.Category.PaymentPage.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Payment</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Payment.TicketQuantity)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Payment.TicketQuantity)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Payment.PaymentDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Payment.PaymentDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Payment.AmountPaid)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Payment.AmountPaid)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Payment.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Payment.Status)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Payment.PaymentType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Payment.PaymentType)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Payment.RegistrationId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Payment.RegistrationId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Payment.TicketId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Payment.TicketId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" class="update-button task-button custom-link" asp-route-id="@Model.Payment.PaymentId">Edit</a> |
+    <a asp-page="./Index" class="get-button task-button custom-link">Back to List</a>
+</div>
+<style>
+    .div-margin-field {
+        width: 100%;
+        margin-top: 2%;
+        margin-bottom: 2%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .input {
+        width: 100%;
+        height: 2%;
+    }
+
+    .custom-link {
+        font-size: 1.2em;
+        font-weight: bold;
+        text-decoration: none;
+        color: ##EEEEEE;
+    }
+    .div-margin-field {
+        margin-left: 2%;
+    }
+
+    .div-parents-all {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .task-button {
+        margin: 3px 3px 3px 3px;
+        color: #fff;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .get-button {
+        background-color: #0000FF;
+    }
+
+        .get-button:hover {
+            background-color: #3333CC;
+        }
+
+    .update-button {
+        background-color: #FFCC00
+    }
+
+        .update-button:hover {
+            background-color: #FF9900
+        }
+
+    .back-to-list-button {
+        margin-top: 2%;
+    }
+</style>

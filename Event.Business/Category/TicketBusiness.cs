@@ -1,7 +1,12 @@
 ﻿using Event.Business.Base;
 using Event.Common;
-using Event.Data;
 using Event.Data.Models;
+using Event.Data;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Event.Business.Category
 {
@@ -9,9 +14,9 @@ namespace Event.Business.Category
     {
         Task<IBusinessResult> GetAll();
         Task<IBusinessResult> GetById(int id);
-        Task<IBusinessResult> Update(Ticket ticket);
+        Task<IBusinessResult> Update(Ticket payment);
         Task<IBusinessResult> DeleteById(int id);
-        Task<IBusinessResult> Save(Ticket ticket);
+        Task<IBusinessResult> Save(Ticket payment);
     }
     public class TicketBusiness : ITicketBusiness
     {
@@ -33,12 +38,12 @@ namespace Event.Business.Category
         {
             try
             {
-                //var ticket = await _DAO.GetByIdAsync(id);
-                var ticket = await _unitOfWork.TicketRepository.GetByIdAsync(id);
-                if (ticket != null)
+                //var payment = await _DAO.GetByIdAsync(id);
+                var payment = await _unitOfWork.TicketRepository.GetByIdAsync(id);
+                if (payment != null)
                 {
-                    //var result = await  _DAO.RemoveAsync(ticket);
-                    var result = await _unitOfWork.TicketRepository.RemoveAsync(ticket);
+                    //var result = await  _DAO.RemoveAsync(payment);
+                    var result = await _unitOfWork.TicketRepository.RemoveAsync(payment);
                     if (result)
                     {
                         return new BusinessResult(Const.SUCCESS_DELETE, Const.SUCCESS_DELETE_MSG);
@@ -68,16 +73,16 @@ namespace Event.Business.Category
                 #endregion
 
                 //var currencies = _DAO.GetAll();
-                //var tickets = await _DAO.GetAllAsync();
-                var tickets = await _unitOfWork.TicketRepository.GetAllAsync();
+                //var payments = await _DAO.GetAllAsync();
+                var payments = await _unitOfWork.TicketRepository.GetAllAsync();
 
-                if (tickets == null)
+                if (payments == null)
                 {
                     return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
                 }
                 else
                 {
-                    return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, tickets);
+                    return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, payments);
                 }
             }
             catch (Exception ex)
@@ -93,16 +98,16 @@ namespace Event.Business.Category
                 #region Business rule
                 #endregion
 
-                //var ticket = await _DAO.GetByIdAsync(id);
-                var ticket = await _unitOfWork.TicketRepository.GetByIdAsync(id);
+                //var payment = await _DAO.GetByIdAsync(id);
+                var payment = await _unitOfWork.TicketRepository.GetByIdAsync(id);
 
-                if (ticket == null)
+                if (payment == null)
                 {
                     return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
                 }
                 else
                 {
-                    return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, ticket);
+                    return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, payment);
                 }
             }
             catch (Exception ex)
@@ -111,21 +116,21 @@ namespace Event.Business.Category
             }
         }
 
-        public async Task<IBusinessResult> Save(Ticket ticket)
+        public async Task<IBusinessResult> Save(Ticket payment)
         {
             try
             {
-                //int result = await _DAO.CreateAsync(ticket);
-                int result = await _unitOfWork.TicketRepository.CreateAsync(ticket); //này chỉ ghi vào 1 bảng thì dùng
+                //int result = await _DAO.CreateAsync(payment);
+                int result = await _unitOfWork.TicketRepository.CreateAsync(payment); //này chỉ ghi vào 1 bảng thì dùng
 
 
                 //// Log the state of the entity before saving
-                //Console.WriteLine("Ticket state before save: " + _unitOfWork.TicketRepository.GetEntityState(ticket));
+                //Console.WriteLine("Ticket state before save: " + _unitOfWork.TicketRepository.GetEntityState(payment));
                 ////này dùng cho save nhiều bảng
-                //_unitOfWork.TicketRepository.PrepareCreate(ticket);
+                //_unitOfWork.TicketRepository.PrepareCreate(payment);
 
                 //// Log the state of the entity after preparation
-                //Console.WriteLine("Ticket state after PrepareCreate: " + _unitOfWork.TicketRepository.GetEntityState(ticket));
+                //Console.WriteLine("Ticket state after PrepareCreate: " + _unitOfWork.TicketRepository.GetEntityState(payment));
 
 
                 //int result = await _unitOfWork.TicketRepository.SaveAsync();
@@ -144,12 +149,12 @@ namespace Event.Business.Category
             }
         }
 
-        public async Task<IBusinessResult> Update(Ticket ticket)
+        public async Task<IBusinessResult> Update(Ticket payment)
         {
             try
             {
-                //int result = await _DAO.UpdateAsync(ticket);
-                int result = await _unitOfWork.TicketRepository.UpdateAsync(ticket);
+                //int result = await _DAO.UpdateAsync(payment);
+                int result = await _unitOfWork.TicketRepository.UpdateAsync(payment);
                 if (result > 0)
                 {
                     return new BusinessResult(Const.FAIL_UDATE, Const.SUCCESS_UDATE_MSG);

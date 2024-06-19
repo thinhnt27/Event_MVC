@@ -1,0 +1,83 @@
+﻿<Window x:Class="Event.WpfApp.UI.wCustomer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Event.WpfApp.UI"
+        mc:Ignorable="d"
+        Title="Customer Order" Height="450" Width="1000">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <GroupBox Header="Customer Form" Margin="10">
+                <Grid Height="50">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="54"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="118"/>
+                        <ColumnDefinition Width="62"/>
+                        <ColumnDefinition Width="126"/>
+                        <ColumnDefinition Width="341"/>
+                        <ColumnDefinition Width="269"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="0*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Content="Id" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="20" />
+                    <TextBox Grid.Column="1" Grid.Row="0" x:Name="CustomerId" Text="{Binding Path=Customer.CustomerId, Mode=TwoWay}"  Margin="0,13,0,12"  Width="30" IsReadOnly="True" HorizontalAlignment="Center"/>
+                    <Label Grid.Column="2" Grid.Row="0" Content="Name" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="42" />
+                    <TextBox Grid.Row="0" Grid.Column="3" x:Name="CustomerName" Text="{Binding Path=Customer.CustomerName, Mode=TwoWay}"  Margin="5,13,0,12"  Width="100" HorizontalAlignment="Left"/>
+                    <Label Grid.Column="4" Grid.Row="0" Content="Password" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="60" />
+                    <TextBox Grid.Column="5" Grid.Row="0" x:Name="Password" Text="{Binding Path=Customer.Password, Mode=TwoWay}"  Margin="0,13,0,12"  Width="100" HorizontalAlignment="Center"/>
+                    <Label Grid.Column="6" Grid.Row="0" Content="Email" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="38" />
+                    <TextBox Grid.Column="6" Grid.Row="2" x:Name="Email" Text="{Binding Path=Customer.Email, Mode=TwoWay}"  Margin="40,13,0,12"  Width="100" HorizontalAlignment="Left"/>
+                    <Label Grid.Column="7" Content="Phone" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="44" Margin="0,0,0,-1" />
+                    <TextBox Grid.Column="6" x:Name="Phone" Text="{Binding Path=Customer.Phone, Mode=TwoWay}"  Margin="202,15,0,10"  Width="129" HorizontalAlignment="Left"/>
+                    <Label Grid.Column="6" Grid.Row="2" Content="Address" HorizontalAlignment="Center" VerticalContentAlignment="Center" Width="52" />
+                    <TextBox Grid.Column="7" x:Name="Address" Text="{Binding Path=Customer.Address, Mode=TwoWay}"  Margin="54,13,0,12"  Width="146" HorizontalAlignment="Left"/>
+                </Grid>
+            </GroupBox>
+            <StackPanel Height="40" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="ButtonSave" Content="Save" Height="30" Width="80" Click="ButtonSave_Click"/>
+                <Button x:Name="ButtonCancel" Content="Cancel" Height="30" Width="80" Click="ButtonCancel_Click"/>
+            </StackPanel>
+            <StackPanel Height="210">
+                <DataGrid x:Name="grdCustomer" AutoGenerateColumns="False" ItemsSource="{Binding Customers}" CanUserAddRows="False" Height="200" Margin="10" MouseDoubleClick="grdCustomer_MouseDouble_Click" SelectionMode="Single" SelectionUnit="FullRow" SelectionChanged="grdCustomer_SelectionChanged">
+                    <DataGrid.Columns>
+                        <!--<DataGridTextColumn Header="Code" Binding="{Binding Path=Id}" Visibility="Hidden"/>-->
+                        <DataGridTextColumn Header="Id" Binding="{Binding Path=CustomerId}" Width="50" Visibility="Visible"/>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Path=CustomerName}" Width="100"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Password" Binding="{Binding Path=Password}" Width="100"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Email" Binding="{Binding Path=Email}" Width="100"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Address" Binding="{Binding Path=Address}" Width="100"  IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Phone" Binding="{Binding Path=Phone}" Width="100"  IsReadOnly="True"/>
+
+                        <DataGridTemplateColumn Width="50">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Delete" x:Name="ButtonDelete" CommandParameter="{Binding Path=CustomerId}" Click="grdCustomer_ButtonDelete_Click"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!--<DataGridTemplateColumn Width="50">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Delete" x:Name="ButtonDelete" CommandParameter="{Binding Path=Id}"
+                                Command="{Binding Path=DataContext.DeleteCommand, RelativeSource={RelativeSource FindAncestor,
+                                        AncestorType=Window}}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>-->
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

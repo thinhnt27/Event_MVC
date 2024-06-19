@@ -5,11 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Event.WpfApp"
         mc:Ignorable="d"
-        Title="Event" Height="450" Width="800">
+        Title="Event" Height="450" Width="1000">
     <Grid>
         <Menu Height="30" Name="menu1" Margin="0,0,0,0" VerticalAlignment="Top" BorderThickness="2" FontSize="16" FontWeight="Bold">
             <MenuItem Header="Menu" IsCheckable="False" FontSize="16">
-                <MenuItem Header="Ticket" IsCheckable="False" FontSize="12" Click="Open_wEvent_Click">
+                <MenuItem Header="Payment Order" IsCheckable="False" FontSize="12" Click="Open_wPayment_Click">
+                </MenuItem>
+                <MenuItem Header="Registration Management" IsCheckable="False" FontSize="12" Click="Open_wRegistration_Click">
+                    </MenuItem>
+                <MenuItem Header="Customer Order" IsCheckable="False" FontSize="12" Click="Open_wCustomer_Click">
+
                 </MenuItem>
             </MenuItem>
 

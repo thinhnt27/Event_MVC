@@ -15,7 +15,7 @@ public partial class Payment
 
     public int? TicketQuantity { get; set; }
 
-    public DateOnly? PaymentDate { get; set; }
+    public DateTime? PaymentDate { get; set; }
 
     public decimal? AmountPaid { get; set; }
 

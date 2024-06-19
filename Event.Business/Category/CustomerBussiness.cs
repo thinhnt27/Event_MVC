@@ -1,6 +1,13 @@
 ﻿using Event.Business.Base;
+using Event.Data;
 using Event.Data.DAO;
 using Event.Data.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Event.Business.Category
 {
@@ -15,11 +22,13 @@ namespace Event.Business.Category
 
     public class CustomerBussiness : ICustomerBussiness
     {
-        private readonly CustomerDAO _DAO;
+        private readonly UnitOfWork _unitOfWork;
+        //private readonly CustomerDAO _DAO;
 
         public CustomerBussiness()
         {
-            _DAO = new CustomerDAO();
+            //_DAO = new CustomerDAO();
+            _unitOfWork ??= new UnitOfWork();
         }
 
         public async Task<IBusinessResult> GetAll()
@@ -30,7 +39,7 @@ namespace Event.Business.Category
                 #endregion
 
                 //var currencies = _DAO.GetAll();
-                var customers = await _DAO.GetAllAsync();
+                var customers = await _unitOfWork.CustomerRepository.GetAllAsync();
 
                 if (customers == null)
                 {
@@ -53,7 +62,7 @@ namespace Event.Business.Category
             {
 
                 //var currencies = _DAO.GetAll();
-                var customerId = await _DAO.GetByIdAsync(code);
+                var customerId = await _unitOfWork.CustomerRepository.GetByIdAsync(code);
 
                 if (customerId == null)
                 {
@@ -74,7 +83,8 @@ namespace Event.Business.Category
         {
             try
             {
-                int result = await _DAO.CreateAsync(customer);
+                _unitOfWork.CustomerRepository.PrepareCreate(customer);
+                int result = await _unitOfWork.CustomerRepository.SaveAsync();
                 if (result > 0)
                 {
                     return new BusinessResult(4, "Save customer success");
@@ -94,7 +104,7 @@ namespace Event.Business.Category
         {
             try
             {
-                int result = await _DAO.UpdateAsync(customer);
+                int result = await _unitOfWork.CustomerRepository.UpdateAsync(customer);
                 if (result > 0)
                 {
                     return new BusinessResult(4, "Update customer success");
@@ -114,10 +124,10 @@ namespace Event.Business.Category
         {
             try
             {
-                var customer = await _DAO.GetByIdAsync(code);
+                var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(code);
                 if (customer != null)
                 {
-                    var result = await _DAO.RemoveAsync(customer);
+                    var result = await _unitOfWork.CustomerRepository.RemoveAsync(customer);
                     if (result)
                     {
                         return new BusinessResult(4, "Delete customer success");

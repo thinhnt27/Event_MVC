@@ -10,6 +10,7 @@ namespace Event.Data.Models;
 public partial class Net1704_221_3_EventContext : DbContext
 {
     public Net1704_221_3_EventContext()
+       
     {
     }
     public Net1704_221_3_EventContext(DbContextOptions<Net1704_221_3_EventContext> options)
@@ -28,6 +29,12 @@ public partial class Net1704_221_3_EventContext : DbContext
     public virtual DbSet<Registration> Registrations { get; set; }
 
     public virtual DbSet<Ticket> Tickets { get; set; }
+    public static string GetConnectionString(string connectionStringName)
+    {
+        var config = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json")
+            .Build();
 
     //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     //{
@@ -116,6 +123,7 @@ public partial class Net1704_221_3_EventContext : DbContext
             entity.HasKey(e => e.PaymentId).HasName("PK__Payments__9B556A38227246BE");
 
             entity.Property(e => e.AmountPaid).HasColumnType("decimal(10, 2)");
+            entity.Property(e => e.PaymentDate).HasColumnType("date");
             entity.Property(e => e.PaymentType)
                 .HasMaxLength(255)
                 .IsUnicode(false);
@@ -144,6 +152,7 @@ public partial class Net1704_221_3_EventContext : DbContext
             entity.Property(e => e.ParticipantType)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+            entity.Property(e => e.RegistrationDate).HasColumnType("date");
             entity.Property(e => e.RegistrationPhone)
                 .HasMaxLength(255)
                 .IsUnicode(false);

@@ -19,7 +19,7 @@ public partial class Registration
 
     public string AttendeeEmail { get; set; }
 
-    public DateOnly? RegistrationDate { get; set; }
+    public DateTime? RegistrationDate { get; set; }
 
     public string RegistrationPhone { get; set; }
 
@@ -30,6 +30,8 @@ public partial class Registration
     public DateTime? CheckinTime { get; set; }
 
     public int? CustomerId { get; set; }
+
+    public bool? Gender { get; set; }
 
     public virtual Customer Customer { get; set; }
 

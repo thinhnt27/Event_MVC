@@ -21,12 +21,23 @@ namespace Event.WpfApp
         {
             InitializeComponent();
         }
-
-        private void Open_wEvent_Click(object sender, RoutedEventArgs e)
+        private void Open_wPayment_Click(object sender, RoutedEventArgs e)
         {
-            var p = new wEvent();
+            var p = new wRegistration();
             p.Owner = this;
             p.Show();
+        }
+        private async void Open_wRegistration_Click(object sender, RoutedEventArgs e)
+        {
+            var p = new wPayment();
+            p.Owner = this;
+            p.Show();
+        }
+        private async void Open_wCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            var c = new wCustomer();
+            c.Owner = this;
+            c.Show();
         }
     }
 }
