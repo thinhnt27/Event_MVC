@@ -14,7 +14,7 @@ namespace Event.Business.Category
     public interface ICustomerBussiness
     {
         Task<IBusinessResult> GetAll();
-        Task<IBusinessResult> GetById(int code );
+        Task<IBusinessResult> GetById(int code);
         Task<IBusinessResult> Save(Customer customer);
         Task<IBusinessResult> Update(Customer customer);
         Task<IBusinessResult> DeleteById(int code);

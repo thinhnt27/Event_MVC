@@ -4,24 +4,34 @@ using Event.Data.Models;
 using System.Net.Sockets;
 
 
-var paymentBusiness = new PaymentBusiness();
-Console.WriteLine("Business.GetAll()");
-var paymentResult = paymentBusiness.GetAll();
+var ticketBusiness = new TicketBusiness();
 
-if (paymentResult.Status > 0 && paymentResult.Result.Data != null)
+var ticketTest = new Ticket()
 {
-    var payments = (List<Payment>)paymentResult.Result.Data;
+    TicketId = 1,
+    //EventId = 1,
+    TicketType = "VIP",
+    Price = 100,
+    AvailableQuantity = 100
+};
+await ticketBusiness.Save(ticketTest);
+Console.WriteLine("Business.GetAll()");
+var ticketResult = ticketBusiness.GetAll();
 
-    if (payments != null && payments.Count > 0)
+if (ticketResult.Status > 0 && ticketResult.Result.Data != null)
+{
+    var tickets = (List<Ticket>)ticketResult.Result.Data;
+
+    if (tickets != null && tickets.Count > 0)
     {
-        foreach (var payment in payments)
+        foreach (var ticket in tickets)
         {
-            Console.WriteLine(payment.PaymentId);
+            Console.WriteLine(ticket.TicketId);
         }
     }
 
 }
 else
 {
-    Console.WriteLine("Get All Payment fail");
+    Console.WriteLine("Get All Ticket fail");
 }

@@ -17,7 +17,7 @@ public partial class Ticket
 
     public int? AvailableQuantity { get; set; }
 
-    public virtual Event Event { get; set; }
+    public virtual Events Event { get; set; }
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 }

@@ -4,6 +4,7 @@ using Event.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,13 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Event.Data.Migrations
 {
     [DbContext(typeof(Net1704_221_3_EventContext))]
-    partial class Net1704_221_3_EventContextModelSnapshot : ModelSnapshot
+    [Migration("20240522041829_ok")]
+    partial class ok
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -56,49 +59,27 @@ namespace Event.Data.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("CustomerId")
-                        .HasName("PK__Customer__A4AE64D850EC5690");
+                        .HasName("PK__Customer__A4AE64D89C42FA7D");
 
-                    b.HasIndex(new[] { "Phone" }, "UQ__Customer__5C7E359E5B77F523")
+                    b.HasIndex(new[] { "Phone" }, "UQ__Customer__5C7E359EE18AC2ED")
                         .IsUnique()
                         .HasFilter("[Phone] IS NOT NULL");
 
-                    b.HasIndex(new[] { "CustomerName" }, "UQ__Customer__7A22C6EA0D7F776F")
+                    b.HasIndex(new[] { "CustomerName" }, "UQ__Customer__7A22C6EAAADBEFE9")
                         .IsUnique()
                         .HasFilter("[CustomerName] IS NOT NULL");
 
-                    b.HasIndex(new[] { "Email" }, "UQ__Customer__A9D105345CFB149F")
+                    b.HasIndex(new[] { "Email" }, "UQ__Customer__A9D10534410016DD")
                         .IsUnique()
                         .HasFilter("[Email] IS NOT NULL");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("Event.Data.Models.EventType", b =>
-                {
-                    b.Property<int>("EventTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventTypeId"));
-
-                    b.Property<string>("EventTypeName")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("EventTypeId")
-                        .HasName("PK__EventTyp__A9216B3FFEC0D566");
-
-                    b.ToTable("EventTypes");
-                });
-
-            modelBuilder.Entity("Event.Data.Models.Events", b =>
+            modelBuilder.Entity("Event.Data.Models.Event", b =>
                 {
                     b.Property<int>("EventId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventId"));
 
                     b.Property<DateTime?>("EventDate")
                         .HasColumnType("datetime");
@@ -133,20 +114,36 @@ namespace Event.Data.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("EventId")
-                        .HasName("PK__Events__7944C810032ACB17");
+                        .HasName("PK__Events__7944C810462064C5");
 
                     b.HasIndex("EventTypeId");
 
-                    b.ToTable("Events", (string)null);
+                    b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("Event.Data.Models.EventType", b =>
+                {
+                    b.Property<int>("EventTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventTypeId"));
+
+                    b.Property<string>("EventTypeName")
+                        .HasMaxLength(255)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("EventTypeId")
+                        .HasName("PK__EventTyp__A9216B3FFF1AAC9E");
+
+                    b.ToTable("EventTypes");
                 });
 
             modelBuilder.Entity("Event.Data.Models.Payment", b =>
                 {
                     b.Property<int>("PaymentId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
 
                     b.Property<decimal?>("AmountPaid")
                         .HasColumnType("decimal(10, 2)");
@@ -172,22 +169,19 @@ namespace Event.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("PaymentId")
-                        .HasName("PK__Payments__9B556A38227246BE");
+                        .HasName("PK__Payments__9B556A3840DEE2BC");
 
                     b.HasIndex("RegistrationId");
 
                     b.HasIndex("TicketId");
 
-                    b.ToTable("Payments", (string)null);
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("Event.Data.Models.Registration", b =>
                 {
                     b.Property<int>("RegistrationId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RegistrationId"));
 
                     b.Property<string>("AttendeeEmail")
                         .HasMaxLength(255)
@@ -233,22 +227,19 @@ namespace Event.Data.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("RegistrationId")
-                        .HasName("PK__Registra__6EF5881049808010");
+                        .HasName("PK__Registra__6EF58810084A83B2");
 
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("Registrations", (string)null);
+                    b.ToTable("Registrations");
                 });
 
             modelBuilder.Entity("Event.Data.Models.Ticket", b =>
                 {
                     b.Property<int>("TicketId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TicketId"));
 
                     b.Property<int?>("AvailableQuantity")
                         .HasColumnType("int");
@@ -265,19 +256,19 @@ namespace Event.Data.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.HasKey("TicketId")
-                        .HasName("PK__Tickets__712CC607682BB742");
+                        .HasName("PK__Tickets__712CC607489EFF87");
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("Tickets", (string)null);
+                    b.ToTable("Tickets");
                 });
 
-            modelBuilder.Entity("Event.Data.Models.Events", b =>
+            modelBuilder.Entity("Event.Data.Models.Event", b =>
                 {
                     b.HasOne("Event.Data.Models.EventType", "EventType")
                         .WithMany("Events")
                         .HasForeignKey("EventTypeId")
-                        .HasConstraintName("FK__Events__EventTyp__5629CD9C");
+                        .HasConstraintName("FK__Events__EventTyp__440B1D61");
 
                     b.Navigation("EventType");
                 });
@@ -287,12 +278,12 @@ namespace Event.Data.Migrations
                     b.HasOne("Event.Data.Models.Registration", "Registration")
                         .WithMany("Payments")
                         .HasForeignKey("RegistrationId")
-                        .HasConstraintName("FK__Payments__Regist__571DF1D5");
+                        .HasConstraintName("FK__Payments__Regist__44FF419A");
 
                     b.HasOne("Event.Data.Models.Ticket", "Ticket")
                         .WithMany("Payments")
                         .HasForeignKey("TicketId")
-                        .HasConstraintName("FK__Payments__Ticket__5812160E");
+                        .HasConstraintName("FK__Payments__Ticket__45F365D3");
 
                     b.Navigation("Registration");
 
@@ -304,12 +295,12 @@ namespace Event.Data.Migrations
                     b.HasOne("Event.Data.Models.Customer", "Customer")
                         .WithMany("Registrations")
                         .HasForeignKey("CustomerId")
-                        .HasConstraintName("FK__Registrat__Custo__59063A47");
+                        .HasConstraintName("FK__Registrat__Custo__46E78A0C");
 
-                    b.HasOne("Event.Data.Models.Events", "Event")
+                    b.HasOne("Event.Data.Models.Event", "Event")
                         .WithMany("Registrations")
                         .HasForeignKey("EventId")
-                        .HasConstraintName("FK__Registrat__Event__59FA5E80");
+                        .HasConstraintName("FK__Registrat__Event__47DBAE45");
 
                     b.Navigation("Customer");
 
@@ -318,10 +309,10 @@ namespace Event.Data.Migrations
 
             modelBuilder.Entity("Event.Data.Models.Ticket", b =>
                 {
-                    b.HasOne("Event.Data.Models.Events", "Event")
+                    b.HasOne("Event.Data.Models.Event", "Event")
                         .WithMany("Tickets")
                         .HasForeignKey("EventId")
-                        .HasConstraintName("FK__Tickets__EventId__5AEE82B9");
+                        .HasConstraintName("FK__Tickets__EventId__48CFD27E");
 
                     b.Navigation("Event");
                 });
@@ -331,16 +322,16 @@ namespace Event.Data.Migrations
                     b.Navigation("Registrations");
                 });
 
-            modelBuilder.Entity("Event.Data.Models.EventType", b =>
-                {
-                    b.Navigation("Events");
-                });
-
-            modelBuilder.Entity("Event.Data.Models.Events", b =>
+            modelBuilder.Entity("Event.Data.Models.Event", b =>
                 {
                     b.Navigation("Registrations");
 
                     b.Navigation("Tickets");
+                });
+
+            modelBuilder.Entity("Event.Data.Models.EventType", b =>
+                {
+                    b.Navigation("Events");
                 });
 
             modelBuilder.Entity("Event.Data.Models.Registration", b =>

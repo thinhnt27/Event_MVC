@@ -3,9 +3,9 @@ using Event.Data.Models;
 
 namespace Event.Data.DAO
 {
-    public class PaymentDAO : BaseDAO<Payment>
+    public class TicketDAO : BaseDAO<Ticket>
     {
-        public PaymentDAO()
+        public TicketDAO()
         {
         }
     }

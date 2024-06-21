@@ -11,5 +11,5 @@ public partial class EventType
 
     public string EventTypeName { get; set; }
 
-    public virtual ICollection<Event> Events { get; set; } = new List<Event>();
+    public virtual ICollection<Events> Events { get; set; } = new List<Events>();
 }

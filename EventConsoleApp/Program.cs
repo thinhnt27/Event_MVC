@@ -21,7 +21,7 @@ public class Program
             ParticipantName = "John Doe",
             ParticipantType = "VIP",
             AttendeeEmail = "john.doe@example.com",
-            RegistrationDate = DateOnly.FromDateTime(DateTime.Now),
+            RegistrationDate = DateTime.Now,
             RegistrationPhone = "123-456-7890",
             Gender = true,
             FeePaid = 100.00M,
