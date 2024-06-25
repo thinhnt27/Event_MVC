@@ -1,0 +1,245 @@
+﻿@page
+@model Event.RazorWebApp.Pages.Category.EventPage.IndexModel
+@{
+    ViewData["Title"] = "Event Page";
+}
+
+<h1>Event Management</h1>
+
+<form method="get" asp-page="./Index">
+    <div>
+        <button type="button" class="filter-button custom-link" onclick="toggleFilters()">Show/Hide Filters</button>
+        <div id="filterDiv" style="max-height: 0px; overflow: hidden; transition: max-height 0.5s ease-out;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Filtered Field</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Event Type</td>
+                        <td>
+                            <select asp-for="SelectedEventType" asp-items="Model.EventTypesList" onchange="this.form.submit()">
+                                <option value="">-- All Event Type --</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sponsor</td>
+                        <td>
+                            <input type="text" asp-for="SelectedSponsor" onchange="this.form.submit()">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Subject Code</td>
+                        <td>
+                            <input type="text" asp-for="SelectedSubjectCode" onchange="this.form.submit()">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Location</td>
+                        <td>
+                            <input type="text" asp-for="SelectedLocation" onchange="this.form.submit()">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Minimum Date</td>
+                        <td>
+                            <input type="date" asp-for="SelectedMiniumDate" onchange="this.form.submit()">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Maximum Date</td>
+                        <td>
+                            <input type="date" asp-for="SelectedMaxiumDate" onchange="this.form.submit()">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="div-page-size-create-button">
+        <a asp-page="./Create" type="button" class="create-button task-button custom-link">Create</a>
+        <div>
+            <label>Page Size</label>
+            <select asp-for="ItemsPerPage" onchange="this.form.submit()">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">100</option>
+            </select>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Number Tickets</th>
+                <th>Sponsor</th>
+                <th>Subject Code</th>
+                <th>Location</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.EventList != null)
+            {
+                foreach (var item in Model.EventList)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.EventId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.EventName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.EventDate)</td>
+                        <td>@Html.DisplayFor(modelItem => item.EventType.EventTypeName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.EventDescription)</td>
+                        <td>@Html.DisplayFor(modelItem => item.NumberTickets)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Sponsor)</td>
+                        <td>@Html.DisplayFor(modelItem => item.SubjectCode)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Location)</td>
+                        <td>
+                            <a asp-page="./Edit" type="button" asp-route-id="@item.EventId" class="update-button task-button custom-link">Edit</a> |
+                            <a asp-page="./Details" type="button" asp-route-id="@item.EventId" class="get-button task-button custom-link">Details</a> |
+                            <a asp-page="./Delete" type="button" asp-route-id="@item.EventId" class="delete-button task-button custom-link">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="10">No data found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @{
+        var datapaging = new Event.RazorWebApp.Helper.PagingModel
+            {
+                currentPage = Model.CurrentPage,    // trang hiện tại
+                countPages = Model.CountPages,   // tổng  số trang
+                generateUrl = (int? p) => Url.Page("/Category/EventPage/Index", new { p = p })
+            };
+
+    }
+    <partial name="_Paging" model="@datapaging" />
+</form>
+
+<script>
+    function toggleFilters() {
+        var filterDiv = document.getElementById("filterDiv");
+        if (filterDiv.style.maxHeight === "0px" || filterDiv.style.maxHeight === "") {
+            filterDiv.style.maxHeight = "1000px";
+        } else {
+            filterDiv.style.maxHeight = "0px";
+        }
+    }
+</script>
+
+
+<style>
+    .filter-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+        .filter-button:hover {
+            background-color: #0000FF;
+        }
+
+    .task-button {
+        margin: 3px 3px 3px 3px;
+        color: #fff;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .create-button {
+        background-color: #00CC00;
+    }
+
+        .create-button:hover {
+            background-color: #005500
+        }
+
+    .update-button {
+        background-color: #FFCC00
+    }
+
+        .update-button:hover {
+            background-color: #FF9900
+        }
+
+    .delete-button {
+        background-color: #FF0000;
+    }
+
+        .delete-button:hover {
+            background-color: #990000
+        }
+
+    .get-button {
+        background-color: #0000FF;
+    }
+
+        .get-button:hover {
+            background-color: #3333CC;
+        }
+
+    .custom-link {
+        font-size: 1.2em;
+        font-weight: bold;
+        text-decoration: none;
+        color: ##EEEEEE;
+    }
+
+    .page-button {
+        margin: 1%;
+        width: 50px;
+        height: 50px;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 50%;
+        transition: background-color 0.3s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .clicked-page-button {
+        background-color: #000080;
+    }
+
+    .unclicked-page-button {
+        bacground-color: #0000FF;
+    }
+
+    .div-pagging {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .div-page-size-create-button {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+</style>

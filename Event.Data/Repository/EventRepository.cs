@@ -1,4 +1,5 @@
-﻿using Event.Data.Base;
+﻿using Abp.Linq.Expressions;
+using Event.Data.Base;
 using Event.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,30 +13,23 @@ namespace Event.Data.Repository
     interface IEventRepository
     {
         Task<IList<EventType>> GetEventTypes();
-        Task<IList<Events>> GetEvents();
     }
 
     public class EventRepository : GenericRepository<Events>, IEventRepository
     {
-        protected readonly Net1704_221_3_EventContext _context;
-        protected readonly DbSet<EventType> _dbSetEventType;
-        protected readonly DbSet<Events> _dbSetEvents;
-
-        public EventRepository(Net1704_221_3_EventContext _context)
+        public EventRepository(Net1704_221_3_EventContext context)
         {
-            _context ??= new Net1704_221_3_EventContext();
-            _dbSetEventType ??= _context.Set<EventType>();
-            _dbSetEvents ??= _context.Set<Events>();
+            this._context = context;
+        }
+
+        public async Task<EventType> GetByName(string? selectedEventType)
+        {
+            return await _context.Set<EventType>().FirstOrDefaultAsync(e => e.EventTypeName.Equals(selectedEventType));
         }
 
         public async Task<IList<EventType>> GetEventTypes()
         {
-            return _dbSetEventType.ToList();
-        }
-
-        public async Task<IList<Events>> GetEvents()
-        {
-            return _dbSetEvents.Include(e => e.EventType).ToList();
+            return _context.Set<EventType>().ToList();
         }
     }
 }

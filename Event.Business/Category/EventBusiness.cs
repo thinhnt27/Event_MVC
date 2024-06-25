@@ -3,6 +3,7 @@ using Event.Common;
 using Event.Data;
 using Event.Data.DAO;
 using Event.Data.Models;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,8 @@ namespace Event.Business.Category
         Task<IBusinessResult> Update(Events _event);
         Task<IBusinessResult> DeleteById(int id);
         Task<IBusinessResult> Save(Events _event);
+        Task<IBusinessResult> GetEvents(int? id, string? type, string? name, string? sponsor, string? subjectCode, string? location);
+        Task<IBusinessResult> GetEventTypeByName(string? selectedEventType);
     }
     public class EventBusiness : IEventBusiness
     {
@@ -74,7 +77,7 @@ namespace Event.Business.Category
 
                 //var currencies = _DAO.GetAll();
                 //var _events = await _DAO.GetAllAsync();
-                var events = await _unitOfWork.EventRepository.GetEvents();
+                var events = await _unitOfWork.EventRepository.GetAllAsync();
 
                 if (events == null)
                 {
@@ -137,6 +140,65 @@ namespace Event.Business.Category
             }
         }
 
+        public async Task<IBusinessResult> GetEvents(int? id, string? type, string? name, string? sponsor, string? subjectCode, string? location)
+        {
+            try
+            {
+                var events = await _unitOfWork.EventRepository.GetAllAsync();
+
+                if (events == null)
+                {
+                    return new BusinessResult(4, "No Registration data");
+                }
+
+                if (id.HasValue)
+                {
+                    events = events.Where(x => x.EventId == id.Value).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(type))
+                {
+                    events = events.Where(x => x.EventType != null && x.EventType.EventTypeName != null && x.EventType.EventTypeName.Contains(type)).ToList();
+                }
+
+
+                if (!string.IsNullOrEmpty(name))
+                {
+                    events = events.Where(x => x.EventName.Contains(name, StringComparison.OrdinalIgnoreCase)).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(sponsor))
+                {
+                    events = events.Where(x => x.Sponsor.Contains(sponsor, StringComparison.OrdinalIgnoreCase)).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(subjectCode))
+                {
+                    events = events.Where(x => x.SubjectCode.Contains(subjectCode, StringComparison.OrdinalIgnoreCase)).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(location))
+                {
+                    events = events.Where(x => x.Location.Contains(location, StringComparison.OrdinalIgnoreCase)).ToList();
+                }
+
+                var eventList = events.ToList();
+
+                if (!eventList.Any())
+                {
+                    return new BusinessResult(4, "No Registration data");
+                }
+                else
+                {
+                    return new BusinessResult(4, "Get Registration success", eventList);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(-4, ex.Message);
+            }
+        }
+
         public async Task<IBusinessResult> Save(Events _event)
         {
             try
@@ -178,11 +240,36 @@ namespace Event.Business.Category
                 int result = await _unitOfWork.EventRepository.UpdateAsync(_event);
                 if (result > 0)
                 {
-                    return new BusinessResult(Const.FAIL_UDATE, Const.SUCCESS_UDATE_MSG);
+                    return new BusinessResult(Const.SUCCESS_UDATE, Const.SUCCESS_UDATE_MSG);
                 }
                 else
                 {
                     return new BusinessResult(Const.FAIL_UDATE, Const.FAIL_UDATE_MSG);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(-4, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> GetEventTypeByName(string? selectedEventType)
+        {
+            try
+            {
+                #region Business rule
+                #endregion
+
+                //var _event = await _DAO.GetByIdAsync(id);
+                var _event = await _unitOfWork.EventRepository.GetByName(selectedEventType);
+
+                if (_event == null)
+                {
+                    return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
+                }
+                else
+                {
+                    return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, _event);
                 }
             }
             catch (Exception ex)

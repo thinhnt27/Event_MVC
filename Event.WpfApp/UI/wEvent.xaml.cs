@@ -1,8 +1,12 @@
-﻿using Event.Business.Category;
+﻿using Castle.Core.Resource;
+using Event.Business.Category;
 using Event.Data.Models;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace Event.WpfApp.UI
 {
@@ -35,60 +40,67 @@ namespace Event.WpfApp.UI
             {
                 if (string.IsNullOrEmpty(txtEventId.Text))
                 {
-                    txtEventId.Text = "0";
-                }
-                var item = await _business.GetById(int.Parse(txtEventId.Text));
-
-                if (item.Data == null)
-                {
-                    var Event = new Events()
+                    var _event = new Events()
                     {
-                        EventId = int.Parse(txtEventId.Text),
-                        //EventType = txtEventType.Text,
-                        //Price = decimal.Parse(txtPrice.Text),
-                        //AvailableQuantity = int.Parse(txtAvailableQuantity.Text)
+                        EventName = txtEventName.Text,
+                        EventDate = dpEventDate.SelectedDate,
+                        EventDescription = txtEventDescription.Text,
+                        EventTypeId = int.TryParse(txtEventTypeId.Text, out var eventTypeId) ? eventTypeId : (int?)null,
+                        NumberTickets = int.TryParse(txtNumberTickets.Text, out var numberTickets) ? numberTickets : (int?)null,
+                        Sponsor = txtSponsor.Text,
+                        SubjectCode = txtSubjectCode.Text,
+                        Location = txtLocation.Text
                     };
 
-                    var result = await _business.Save(Event);
+                    var result = await _business.Save(_event);
                     MessageBox.Show(result.Message, "Save");
                 }
                 else
                 {
-                    var Event = item.Data as Events;
-                    //currency.CurrencyCode = txtCurrencyCode.Text;
-                    //Event.EventId = int.Parse(txtEventId.Text);
-                    //Event.EventType = txtEventType.Text;
-                    //Event.Price = decimal.Parse(txtPrice.Text);
-                    //Event.AvailableQuantity = int.Parse(txtAvailableQuantity.Text);
+                    var item = await _business.GetById(int.Parse(txtEventId.Text));
+                    var _event = item.Data as Events;
 
-                    var result = await _business.Update(Event);
+                    _event.EventName = txtEventName.Text;
+                    _event.EventDate = dpEventDate.SelectedDate;
+                    _event.EventDescription = txtEventDescription.Text;
+                    _event.EventTypeId = int.TryParse(txtEventTypeId.Text, out var eventTypeId) ? eventTypeId : (int?)null;
+                    _event.NumberTickets = int.TryParse(txtNumberTickets.Text, out var numberTickets) ? numberTickets : (int?)null;
+                    _event.Sponsor = txtSponsor.Text;
+                    _event.SubjectCode = txtSubjectCode.Text;
+                    _event.Location = txtLocation.Text;
+
+                    var result = await _business.Update(_event);
                     MessageBox.Show(result.Message, "Update");
                 }
-
-                txtEventId.Text = string.Empty;
-                txtEventId.Text = string.Empty;
-                txtEventType.Text = string.Empty;
-                txtPrice.Text = string.Empty;
-                txtAvailableQuantity.Text = string.Empty;
+                ClearFields();
                 this.LoadGrdEvents();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString(), "Error");
             }
-
         }
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
         {
-            txtEventId.Text = "";
-            txtEventId.Text = "";
-            txtEventType.Text = "";
-            txtPrice.Text = "";
-            txtAvailableQuantity.Text = "";
+            ClearFields();
         }
 
-        private async void grdEvent_MouseDouble_Click(object sender, MouseButtonEventArgs e)
+        private void ClearFields()
+        {
+            txtEventId.Text = string.Empty;
+            txtEventName.Text = string.Empty;
+            dpEventDate.SelectedDate = null;
+            txtEventDescription.Text = string.Empty;
+            txtEventTypeId.Text = string.Empty;
+            txtNumberTickets.Text = string.Empty;
+            txtSponsor.Text = string.Empty;
+            txtSubjectCode.Text = string.Empty;
+            txtLocation.Text = string.Empty;
+        }
+
+
+        private void grdEvent_MouseDouble_Click(object sender, MouseButtonEventArgs e)
         {
             var Event = grdEvent.SelectedItem as Events;
 
@@ -102,7 +114,7 @@ namespace Event.WpfApp.UI
             //}
         }
 
-        private async void grdEvent_ButtonDelete_Click(object sender, RoutedEventArgs e)
+        private void grdEvent_ButtonDelete_Click(object sender, RoutedEventArgs e)
         {
             var Event = grdEvent.SelectedItem as Events;
 

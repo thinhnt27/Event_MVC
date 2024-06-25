@@ -127,6 +127,12 @@ namespace Event.Data.Base
 
         public async Task<T> GetByIdAsync(int id)
         {
+            if (typeof(T).IsAssignableFrom(typeof(Events)))
+            {
+                return await _context.Set<Events>()
+                    .Include(e => e.EventType)
+                    .FirstOrDefaultAsync(e => e.EventId == id) as T;
+            }
             return await _context.Set<T>().FindAsync(id);
         }
 
