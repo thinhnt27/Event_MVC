@@ -30,8 +30,13 @@ namespace Event.RazorWebApp.Pages.Category.CustomerPage
         public int PageSize { get; set; } = 3;
         public string SearchType { get; set; }
 
-        public async Task OnGetAsync(string sortOrder, string currentFilter, string searchString, int? pageIndex, int? pageSize, string searchType)
+        public async Task<ActionResult> OnGetAsync(string sortOrder, string currentFilter, string searchString, int? pageIndex, int? pageSize, string searchType)
         {
+            var user = HttpContext.Session.Get("user");
+            if (user == null)
+            {
+                 return Redirect("../../../Index");
+            }
             if (pageSize.HasValue)
             {
                 PageSize = pageSize.Value;
@@ -102,6 +107,8 @@ namespace Event.RazorWebApp.Pages.Category.CustomerPage
             
 
             CustomerNe = await PaginatedList<Customer>.CreateAsync(customers, pageIndex ?? 1, PageSize);
+
+            return Page();
         }
     }
 }

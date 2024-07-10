@@ -39,5 +39,12 @@ namespace Event.WpfApp
             c.Owner = this;
             c.Show();
         }
+
+        private void Open_wTicket_Click(object sender, RoutedEventArgs e)
+        {
+            var p = new wTicket();
+            p.Owner = this;
+            p.Show();
+        }
     }
 }

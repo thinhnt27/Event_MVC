@@ -24,6 +24,11 @@ namespace Event.RazorWebApp.Pages.RegistrationPage
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            var user = HttpContext.Session.Get("user");
+            if (user == null)
+            {
+                return Redirect("../../Index");
+            }
             if (id == null)
             {
                 return NotFound();

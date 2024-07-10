@@ -8,41 +8,46 @@ using Microsoft.EntityFrameworkCore;
 using Event.Data.Models;
 using Event.Business.Category;
 
-namespace Event.RazorWebApp.Pages.Category.CustomerPage
+namespace Event.RazorWebApp.Pages.TicketPage
 {
     public class DeleteModel : PageModel
     {
-        private readonly ICustomerBussiness _business;
+        private readonly ITicketBusiness _ticketBusiness;
+        private readonly EventBusiness _eventBusiness;
 
         public DeleteModel()
         {
-            _business ??= new CustomerBussiness();
+            _ticketBusiness ??= new TicketBusiness();
+            _eventBusiness ??= new EventBusiness();
         }
 
         [BindProperty]
-        public Customer Customer { get; set; } = default!;
+        public Ticket Ticket { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             var user = HttpContext.Session.Get("user");
             if (user == null)
             {
-                return Redirect("../../../Index");
+                return Redirect("../../Index");
             }
             if (id == null)
             {
                 return NotFound();
             }
 
-            var customer = await _business.GetById(id.Value);
+            var ticket = await _ticketBusiness.GetById(id.Value);
 
-            if (customer == null)
+
+            if (ticket == null || ticket.Data ==null)
             {
                 return NotFound();
             }
             else
             {
-                Customer = (Customer)customer.Data;
+                Ticket = ticket.Data as Ticket;
+                var evnt = await _eventBusiness.GetById((int)Ticket.EventId);
+                Ticket.Event = evnt.Data as Events;
             }
             return Page();
         }
@@ -54,11 +59,11 @@ namespace Event.RazorWebApp.Pages.Category.CustomerPage
                 return NotFound();
             }
 
-            var customer = await _business.GetById(id.Value);
-            if (customer != null)
+            var ticket = await _ticketBusiness.GetById(id.Value);
+            if (ticket != null && ticket.Data!=null)
             {
-                Customer = (Customer)customer.Data;
-                await _business.DeleteById(id.Value);
+                
+                await _ticketBusiness.DeleteById(id.Value);
             }
 
             return RedirectToPage("./Index");

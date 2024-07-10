@@ -38,9 +38,13 @@ namespace Event.RazorWebApp.Pages.RegistrationPage
 
         public IList<Registration> Registrations { get; set; } = new List<Registration>();
 
-        public async Task OnGetAsync()
+        public async Task<ActionResult> OnGetAsync()
         {
-           
+            var user = HttpContext.Session.Get("user");
+            if (user == null)
+            {
+                return Redirect("../../../Index");
+            }
             var result = await _business.GetRegistration(Id, EvenId, Name, Type, Mail);
 
             if (result != null && result.Data != null)
@@ -70,6 +74,7 @@ namespace Event.RazorWebApp.Pages.RegistrationPage
                 .Skip((CurrentPage - 1) * ItemsPerPage)
                 .Take(ItemsPerPage)
                 .ToList();
+            return Page();
         }
     }
 }

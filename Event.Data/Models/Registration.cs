@@ -2,11 +2,15 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Event.Data.Models;
 
 public partial class Registration
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int RegistrationId { get; set; }
 
     public int? EventId { get; set; }

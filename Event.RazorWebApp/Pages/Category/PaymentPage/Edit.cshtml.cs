@@ -28,6 +28,11 @@ namespace Event.RazorWebApp.Pages.Category.PaymentPage
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            var user = HttpContext.Session.Get("user");
+            if (user == null)
+            {
+                return Redirect("../../../Index");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -57,7 +62,7 @@ namespace Event.RazorWebApp.Pages.Category.PaymentPage
                 {
                     return Page();
                 }
-
+                Payment.UpdatedDate = DateTime.Now;
                 await _paymentBusiness.Update(Payment);
 
             }

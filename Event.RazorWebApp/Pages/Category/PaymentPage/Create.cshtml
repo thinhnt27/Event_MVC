@@ -53,6 +53,11 @@
                     <input type="text" asp-for="Payment.PaymentType" class="form-control " />
                     <span asp-validation-for="Payment.PaymentType" class="text-danger "></span>
             </div>
+                <div class="form-group ">
+                    <label asp-for="Payment.CreatedBy" class="control-label  "></label>
+                    <input type="text" asp-for="Payment.CreatedBy" class="form-control " />
+                    <span asp-validation-for="Payment.CreatedBy" class="text-danger "></span>
+                </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="create-button task-button" />
             </div>

@@ -14,7 +14,8 @@
                 <MenuItem Header="Registration Management" IsCheckable="False" FontSize="12" Click="Open_wRegistration_Click">
                     </MenuItem>
                 <MenuItem Header="Customer Order" IsCheckable="False" FontSize="12" Click="Open_wCustomer_Click">
-
+                 </MenuItem> 
+                <MenuItem Header="Ticket" IsCheckable="False" FontSize="12" Click="Open_wTicket_Click">
                 </MenuItem>
             </MenuItem>
 

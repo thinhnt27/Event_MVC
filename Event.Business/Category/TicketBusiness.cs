@@ -20,12 +20,8 @@ namespace Event.Business.Category
     }
     public class TicketBusiness : ITicketBusiness
     {
-        //private readonly TicketDAO _DAO;
         private readonly UnitOfWork _unitOfWork;
-        //public TicketBusiness(TicketDAO DAO)
-        //{
-        //    _DAO = DAO;
-        //}
+        
 
         public TicketBusiness()
         {

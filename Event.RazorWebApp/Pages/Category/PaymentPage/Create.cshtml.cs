@@ -25,6 +25,11 @@ namespace Event.RazorWebApp.Pages.Category.PaymentPage
 
         public async Task<IActionResult> OnGet()
         {
+            var user = HttpContext.Session.Get("user");
+            if (user == null)
+            {
+                return Redirect("../../../Index");
+            }
             var registrations = await _registrationBusiness.GetAll();
             var tickets = await _ticketBusiness.GetAll();
     
@@ -43,7 +48,8 @@ namespace Event.RazorWebApp.Pages.Category.PaymentPage
             {
                 return Page();
             }
-
+            Payment.UpdatedBy = Payment.CreatedBy;
+            Payment.CreatedDate = Payment.UpdatedDate = DateTime.Now;   
             await _paymentBusiness.Save(Payment);
             Payment.Status = null;
             Payment.TicketQuantity = null;

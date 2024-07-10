@@ -21,6 +21,14 @@ namespace Event.RazorWebApp.Pages.RegistrationPage
         }
         [BindProperty]
         public Registration Registration { get; set; } = default!;
+        public void OnGet()
+        {
+            var user = HttpContext.Session.Get("user");
+            if (user == null)
+            {
+                 Redirect("../../Index");
+            }
+        }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()

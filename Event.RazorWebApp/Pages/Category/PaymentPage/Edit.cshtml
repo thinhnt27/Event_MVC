@@ -13,6 +13,8 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="Payment.CreatedBy" type="hidden" />
+            <input asp-for="Payment.CreatedDate" type="hidden" />
             <input type="hidden" asp-for="Payment.PaymentId" />
             <div class="form-group">
                 <label asp-for="Payment.RegistrationId" class="control-label"></label>
@@ -52,6 +54,11 @@
                 <label asp-for="Payment.PaymentType" class="control-label"></label>
                 <input type="text" asp-for="Payment.PaymentType" class="form-control" />
                 <span asp-validation-for="Payment.PaymentType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Payment.UpdatedBy" class="control-label"></label>
+                <input type="text" asp-for="Payment.UpdatedBy" class="form-control" />
+                <span asp-validation-for="Payment.UpdatedBy" class="text-danger"></span>
             </div>
             <div class="form-group" >
                 <input type="submit" value="Save" class="update-button task-button"  />

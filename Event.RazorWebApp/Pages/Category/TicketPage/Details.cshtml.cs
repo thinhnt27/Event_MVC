@@ -8,39 +8,43 @@ using Microsoft.EntityFrameworkCore;
 using Event.Data.Models;
 using Event.Business.Category;
 
-namespace Event.RazorWebApp.Pages.RegistrationPage
+namespace Event.RazorWebApp.Pages.TicketPage
 {
     public class DetailsModel : PageModel
     {
-        private readonly RegistrationBusiness _business;
+        private readonly TicketBusiness _ticketBusiness;
+        private readonly EventBusiness _eventBusiness;
 
         public DetailsModel()
         {
-            _business ??= new RegistrationBusiness();
+            _ticketBusiness ??= new TicketBusiness();
+            _eventBusiness = new EventBusiness();
         }
 
-        public Registration Registration { get; set; } = default!;
-
+        public Ticket Ticket { get; set; } = default!;
+        public Events Event { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
             var user = HttpContext.Session.Get("user");
             if (user == null)
             {
                 return Redirect("../../Index");
             }
-            if (id == null)
+            var ticket = await _ticketBusiness.GetById(id.Value);
+            if (ticket == null)
             {
                 return NotFound();
             }
-
-            var registration = await _business.GetById(id.Value);
-            if (registration == null)
-            {
-                return NotFound();
-            }
+            
             else
             {
-                Registration = registration.Data as Registration;
+                Ticket = ticket.Data as Ticket;
+                var evnt = await _eventBusiness.GetById((int)Ticket.EventId);
+                Ticket.Event = evnt.Data as Events;
             }
             return Page();
         }

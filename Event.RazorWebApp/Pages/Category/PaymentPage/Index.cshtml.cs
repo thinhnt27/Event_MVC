@@ -60,10 +60,16 @@ namespace Event.RazorWebApp.Pages.Category.PaymentPage
             _registrationBusiness ??= new RegistrationBusiness();
         }
 
-        public async Task OnGetAsync()
+        public async Task<ActionResult> OnGetAsync()
         {
+            var user = HttpContext.Session.Get("user");
+            if (user == null)
+            {
+                 return Redirect("../../../Index");
+            }
             await LoadDropdownsAsync();
             await LoadPaymentsAsync();
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -83,7 +89,7 @@ namespace Event.RazorWebApp.Pages.Category.PaymentPage
                 if (Payments.Count % 2 == 0)
                     TotalPage = (int)Math.Ceiling(Payments.Count / (double)PageSize);
                 else
-                    TotalPage = (int)Math.Ceiling(Payments.Count / (double)PageSize)+1;
+                    TotalPage = (int)Math.Ceiling(Payments.Count / (double)PageSize);
 
             }
             else
