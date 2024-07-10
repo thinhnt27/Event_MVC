@@ -18,9 +18,22 @@ namespace Event.RazorWebApp.Pages.TicketPage
         public int PageSize { get; set; } = 5;
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }
-        public bool? Status {  get; set; }
+        //public bool? Status {  get; set; }
         public int? EventId { get; set; }
+        //public decimal? Price { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string TicketType { get; set; }
+        [BindProperty(SupportsGet = true)]
         public decimal? Price { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public int? AvailableQuantity { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public bool? Status { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string CreatedBy { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string UpdatedBy { get; set; }
         public IList<Events> events { get; set; }
         public EventBusiness _eventBusiness { get; set; }
         public IndexModel()
@@ -53,29 +66,34 @@ namespace Event.RazorWebApp.Pages.TicketPage
             {
                 Ticket = (List<Ticket>)ticketResults.Data;
 
-                if (StartTime.HasValue)
+                if (!string.IsNullOrEmpty(TicketType))
                 {
-                    Ticket = Ticket.Where(x => x.StartedTime.HasValue && x.StartedTime.Value >= StartTime.Value).ToList();
-                }
-
-                if (EndTime.HasValue)
-                {
-                    Ticket = Ticket.Where(x => x.EndedTime.HasValue && x.EndedTime.Value <= EndTime.Value).ToList();
-                }
-
-                if (Status.HasValue)
-                {
-                    Ticket = Ticket.Where(x => x.Status == Status.Value).ToList();
-                }
-
-                if (EventId.HasValue)
-                {
-                    Ticket = Ticket.Where(x => x.EventId == EventId.Value).ToList();
+                    Ticket = Ticket.Where(x => x.TicketType.Contains(TicketType, StringComparison.OrdinalIgnoreCase)).ToList();
                 }
 
                 if (Price.HasValue)
                 {
-                    Ticket = Ticket.Where(x => x.Price == Price.Value).ToList();
+                    Ticket = Ticket.Where(x => x.Price.HasValue && x.Price.Value == Price.Value).ToList();
+                }
+
+                if (AvailableQuantity.HasValue)
+                {
+                    Ticket = Ticket.Where(x => x.AvailableQuantity.HasValue && x.AvailableQuantity.Value == AvailableQuantity.Value).ToList();
+                }
+
+                //if (Status.HasValue)
+                //{
+                //    Ticket = Ticket.Where(x => x.Status.HasValue && x.Status.Value == Status.Value).ToList();
+                //}
+
+                if (!string.IsNullOrEmpty(CreatedBy))
+                {
+                    Ticket = Ticket.Where(x => x.CreatedBy.Contains(CreatedBy, StringComparison.OrdinalIgnoreCase)).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(UpdatedBy))
+                {
+                    Ticket = Ticket.Where(x => x.UpdatedBy.Contains(UpdatedBy, StringComparison.OrdinalIgnoreCase)).ToList();
                 }
 
                 Ticket = Ticket.Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();

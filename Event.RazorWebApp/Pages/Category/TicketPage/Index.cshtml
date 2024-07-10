@@ -9,34 +9,25 @@
 
 <form asp-page="./Index" method="get" class="filter-form">
     <div class="form-group">
-        <label for="StartTime">Start Time:</label>
-        <input type="datetime" id="StartTime" name="StartTime" value="@Model.StartTime" />
-    </div>
-    <div class="form-group">
-        <label for="EndTime">End Time:</label>
-        <input type="datetime" id="EndTime" name="EndTime" value="@Model.EndTime" />
-    </div>
-    <div class="form-group">
-        <label for="Status">Status:</label>
-        <select id="Status" name="Status">
-            <option value="">All</option>
-            <option value="True">True</option>
-            <option value="False">False</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="EventId">Event ID:</label>
-        <select id="EventId" name="EventId" class="form-control">
-            <option value="">All</option>
-            @if(Model.events.Count>0) foreach (var ev in Model.events)
-            {
-                <option value="@ev.EventId">@ev.EventName</option>
-            }
-        </select>
+        <label for="TicketType">Ticket Type:</label>
+        <input type="text" id="TicketType" name="TicketType" value="@Model.TicketType" class="form-control" />
     </div>
     <div class="form-group">
         <label for="Price">Price:</label>
-        <input type="number" id="Price" name="Price" value="@Model.Price" step="0.01" />
+        <input type="number" id="Price" name="Price" value="@Model.Price" step="0.01" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="AvailableQuantity">Available Quantity:</label>
+        <input type="number" id="AvailableQuantity" name="AvailableQuantity" value="@Model.AvailableQuantity" class="form-control" />
+    </div>
+     
+    <div class="form-group">
+        <label for="CreatedBy">Created By:</label>
+        <input type="text" id="CreatedBy" name="CreatedBy" value="@Model.CreatedBy" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="UpdatedBy">Updated By:</label>
+        <input type="text" id="UpdatedBy" name="UpdatedBy" value="@Model.UpdatedBy" class="form-control" />
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn-primary btn-filter">Filter</button>
@@ -159,6 +150,7 @@
             padding: 0.75rem;
             font-size: 1rem;
             font-weight: bold;
+            margin-left: -140px;
         }
 
     .table {
@@ -251,6 +243,7 @@
         display: flex;
         justify-content: space-between;
         margin-top: 1rem;
+        margin-bottom: 100px;
     }
 
         .pagination .btn {

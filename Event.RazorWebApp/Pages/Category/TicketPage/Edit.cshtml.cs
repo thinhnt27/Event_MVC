@@ -53,8 +53,60 @@ namespace Event.RazorWebApp.Pages.TicketPage
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            //if (!ModelState.IsValid)
+            //{
+            //    return Page();
+            //}
+            if (Ticket.Price <= 0)
+            {
+                ModelState.AddModelError("Ticket.Price", "Price must be greater than 0");
+            }
+
+            if (Ticket.AvailableQuantity <= 0)
+            {
+                ModelState.AddModelError("Ticket.AvailableQuantity", "Available Quantity must be greater than 0");
+            }
+
+            if (Ticket.StartedTime >= Ticket.EndedTime)
+            {
+                ModelState.AddModelError("Ticket.StartedTime", "Start Time must be earlier than End Time");
+            }
+
+            if (Ticket.TicketType == null)
+            {
+                ModelState.AddModelError("Ticket.TicketType", "Ticket type must be not null");
+            }
+
+            if (Ticket.Price == null)
+            {
+                ModelState.AddModelError("Ticket.Price", "Price must be not null");
+            }
+
+            if (Ticket.AvailableQuantity == null)
+            {
+                ModelState.AddModelError("Ticket.AvailableQuantity", "Available Quantity must be not null");
+            }
+
+            if (Ticket.StartedTime == null)
+            {
+                ModelState.AddModelError("Ticket.StartedTime", "Start Time must be not null");
+            }
+
+            if (Ticket.EndedTime == null)
+            {
+                ModelState.AddModelError("Ticket.EndedTime", "Ended Time must be not null");
+            }
+
+            if (Ticket.UpdatedBy == null)
+            {
+                ModelState.AddModelError("Ticket.UpdatedBy", "Updated must be not null");
+            }
+
             if (!ModelState.IsValid)
             {
+                var eventData = await _eventBusiness.GetAll();
+                var events = eventData.Data != null ? eventData.Data as List<Events> : new List<Events>();
+                ViewData["EventId"] = new SelectList(events, "EventId", "EventName");
                 return Page();
             }
             try
