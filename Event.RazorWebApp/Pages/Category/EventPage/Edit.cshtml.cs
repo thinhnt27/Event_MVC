@@ -48,11 +48,6 @@ namespace Event.RazorWebApp.Pages.Category.EventPage
                 return Page();
             }
 
-            if (!Event.EventDate.HasValue)
-            {
-                Event.EventDate = DateTime.Now;
-            }
-
             var eventType = await _eventBusiness.GetEventTypeByName(SelectedEventType);
             if (eventType?.Data is EventType eventTypeData)
             {

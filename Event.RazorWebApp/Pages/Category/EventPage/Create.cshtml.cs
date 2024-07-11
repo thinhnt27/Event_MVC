@@ -21,7 +21,7 @@ namespace Event.RazorWebApp.Pages.Category.EventPage
         {
             var eventTypes = await _eventBusiness.GetEventTypes();
 
-            ViewData["EventTypes"] = new SelectList(eventTypes.Data != null ? eventTypes.Data as List<EventType> : new List<EventType>(), nameof(EventType.EventTypeName), nameof(EventType.EventTypeName));
+            ViewData["EventTypes"] = new SelectList(eventTypes.Data != null ? eventTypes.Data as List<EventType> : new List<EventType>(), "EventTypeId", "EventTypeName");
             return Page();
         }
 
@@ -35,7 +35,7 @@ namespace Event.RazorWebApp.Pages.Category.EventPage
             await _eventBusiness.Save(Event);
             /*Clear input*/
             Event.EventDescription = null;
-            Event.EventDate = null;
+            Event.EventDate = DateTime.Now;
             Event.EventType = null;
             Event.Location = null;
             Event.SubjectCode = null;

@@ -58,14 +58,20 @@ namespace Event.RazorWebApp.Pages.Category.EventPage
         public int CountPages { get; set; }
         public IList<Events> EventList { get; set; } = new List<Events>();
 
-        public async Task OnGetAsync([FromQuery] int? p)
+        public async Task<ActionResult> OnGetAsync([FromQuery] int? p)
         {
+            var user = HttpContext.Session.Get("user");
+            if (user == null)
+            {
+                return Redirect("../../../Index");
+            }
             if (p.HasValue)
             {
                 CurrentPage = p.Value;
             }
             await LoadEventsAsync();
             await LoadDropdownsAsync();
+            return Page();
         }
 
         private async Task LoadEventsAsync()
@@ -113,7 +119,7 @@ namespace Event.RazorWebApp.Pages.Category.EventPage
             var eventTypes = await _eventBusiness.GetEventTypes();
             if (eventTypes?.Data != null)
             {
-                EventTypesList = new SelectList(eventTypes.Data as List<EventType> ?? new List<EventType>(), nameof(EventType.EventTypeName), nameof(EventType.EventTypeName));
+                EventTypesList = new SelectList(eventTypes.Data as List<EventType> ?? new List<EventType>(), nameof(EventType.EventTypeId), nameof(EventType.EventTypeName));
             }
         }
     }
