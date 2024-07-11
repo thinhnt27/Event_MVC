@@ -33,8 +33,8 @@ namespace Event.RazorWebApp.Pages.Category.PaymentPage
             var registrations = await _registrationBusiness.GetAll();
             var tickets = await _ticketBusiness.GetAll();
     
-            ViewData["RegistrationId"] = new SelectList(registrations.Data!= null ? registrations.Data as List<Registration> : new List<Registration>(), "RegistrationId", "RegistrationId");
-            ViewData["TicketId"] = new SelectList(tickets.Data != null ?  tickets.Data as List<Ticket> : new List<Ticket>(), "TicketId", "TicketId");
+            ViewData["RegistrationId"] = new SelectList(registrations.Data!= null ? registrations.Data as List<Registration> : new List<Registration>(), "RegistrationId", nameof(Registration.ParticipantName));
+            ViewData["TicketId"] = new SelectList(tickets.Data != null ?  tickets.Data as List<Ticket> : new List<Ticket>(), "TicketId", nameof(Ticket.TicketType));
             return Page();
         }
 

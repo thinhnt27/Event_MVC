@@ -51,7 +51,6 @@ namespace Event.RazorWebApp.Pages.Category.PaymentPage
         public int PageSize { get; set; } = 5;
         public int TotalPage { get; set; }
         public IList<Payment> Payments { get; set; } = new List<Payment>();
-  
 
         public IndexModel()
         {
@@ -65,7 +64,7 @@ namespace Event.RazorWebApp.Pages.Category.PaymentPage
             var user = HttpContext.Session.Get("user");
             if (user == null)
             {
-                 return Redirect("../../../Index");
+                return Redirect("../../../Index");
             }
             await LoadDropdownsAsync();
             await LoadPaymentsAsync();
@@ -80,17 +79,14 @@ namespace Event.RazorWebApp.Pages.Category.PaymentPage
         }
 
         private async Task LoadPaymentsAsync()
-        {   
-            var result = await _paymentBusiness.GetList(PageIndex, PageSize, "asc", "PaymentId", SelectedStatus, SelectedTicketId, SelectedRegistrationId, PaymentType, AmountPaid, SelectedTicketQuantity, SelectedMaxiumDate, SelectedMiniumDate);
+        {
+            var result = await _paymentBusiness.GetList("asc", "PaymentId", SelectedStatus, SelectedTicketId, SelectedRegistrationId, PaymentType, SelectedAmountPaid, SelectedTicketQuantity, SelectedMaxiumDate, SelectedMiniumDate);
 
             if (result.Status > 0 && result.Data != null)
             {
                 Payments = result.Data as List<Payment> ?? new List<Payment>();
-                if (Payments.Count % 2 == 0)
-                    TotalPage = (int)Math.Ceiling(Payments.Count / (double)PageSize);
-                else
-                    TotalPage = (int)Math.Ceiling(Payments.Count / (double)PageSize);
-
+                TotalPage = (int)Math.Ceiling(Payments.Count / (double)PageSize);
+                Payments = Payments.Skip((PageSize)*(PageIndex-1)).Take(PageSize).ToList();
             }
             else
             {
@@ -102,14 +98,12 @@ namespace Event.RazorWebApp.Pages.Category.PaymentPage
         private async Task LoadDropdownsAsync()
         {
             var tickets = await _ticketBusiness.GetAll();
-
-            TicketList = new SelectList(tickets.Data as List<Ticket> ?? new List<Ticket>(), nameof(Ticket.TicketId), nameof(Ticket.TicketId));
-
+            TicketList = new SelectList(tickets.Data as List<Ticket> ?? new List<Ticket>(), nameof(Ticket.TicketId), nameof(Ticket.TicketType));
 
             var registrations = await _registrationBusiness.GetAll();
             if (registrations?.Data != null)
             {
-                RegistrationList = new SelectList(registrations.Data as List<Registration> ?? new List<Registration>(), nameof(Registration.RegistrationId), nameof(Registration.RegistrationId));
+                RegistrationList = new SelectList(registrations.Data as List<Registration> ?? new List<Registration>(), nameof(Registration.RegistrationId), nameof(Registration.ParticipantName));
             }
         }
     }
