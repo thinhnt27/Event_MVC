@@ -2,22 +2,38 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Event.Data.Models;
 
+
 public partial class Customer
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int CustomerId { get; set; }
+    [Required]
 
     public string CustomerName { get; set; }
-
+    [Required]
     public string Password { get; set; }
-
+    [Required]
+    [EmailAddress]
     public string Email { get; set; }
-
+    [Required]
+    public DateTime DateOfBirth { get; set; }
+    [Required]
+    [Phone]
     public string Phone { get; set; }
-
+    [Required]
     public string Address { get; set; }
+    public DateTime CreatedDate {  get; set; }
+    public string CreatedBy { get; set; }
+    public DateTime UpdatedDate { get; set; }
+    public string UpdatedBy { get; set; }
 
-    public virtual ICollection<Registration> Registrations { get; set; } = new List<Registration>();
+    public virtual ICollection<Registration>? Registrations { get; set; }
 }
+
+

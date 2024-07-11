@@ -17,7 +17,7 @@ namespace Event.Data.Repository
             this._context=context;
         }
 
-        public async Task<List<Payment>> GetPayments(int? pageIndex = null, int? pageSize = null, string? order = null, string? sorted = null, bool? status = null, int? ticketId = null, int? registrationId = null, string? type = null, decimal? amountPaid = null, int? quantity = null, DateOnly? maxiumDate = null, DateOnly? miniumDate = null)
+        public async Task<List<Payment>> GetPayments(int? pageIndex = null, int? pageSize = null, string? order = null, string? sorted = null, bool? status = null, int? ticketId = null, int? registrationId = null, string? type = null, decimal? amountPaid = null, int? quantity = null, DateTime? maxiumDate = null, DateTime? miniumDate = null)
         {
             var predicate = PredicateBuilder.New<Payment>(true);
             if (status.HasValue) predicate = predicate.And(x => x.Status == status.Value);

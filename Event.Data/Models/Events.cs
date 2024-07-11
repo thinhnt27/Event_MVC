@@ -2,16 +2,22 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Event.Data.Models;
 
-public partial class Event
+public partial class Events
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int EventId { get; set; }
 
     public string EventName { get; set; }
 
-    public DateTime? EventDate { get; set; }
+    public DateTime EventDate { get; set; }
+    public TimeSpan StartTime { get; set; }
+    public double ActivedTime { get; set; }
 
     public int? EventTypeId { get; set; }
 
@@ -24,6 +30,10 @@ public partial class Event
     public string SubjectCode { get; set; }
 
     public string Location { get; set; }
+    public DateTime CreatedDate { get; set; }
+    public string? CreatedBy { get; set; }
+    public DateTime UpdatedDate { get; set; }
+    public string? UpdatedBy { get; set; }
 
     public virtual EventType EventType { get; set; }
 

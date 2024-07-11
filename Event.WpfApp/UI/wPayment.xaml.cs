@@ -24,74 +24,112 @@ namespace Event.WpfApp.UI
     /// Interaction logic for wPayment.xaml
     /// </summary>
     public partial class wPayment : Window
-    {   
+    {
         public List<Payment> payments { get; set; }
 
         public Payment payment { get; set; }
         public IPaymentBusiness _paymentBusiness { get; set; }
 
-        public  wPayment()
+        public wPayment()
         {
             InitializeComponent();
             payments = new List<Payment>();
             _paymentBusiness ??= new PaymentBusiness();
             this.Load();
-     
+
         }
 
-  /*      private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-           if(dvg_Payments.SelectedItem is Payment selectedPayment)
-            {
-                txt_PaymentId.Text = selectedPayment.PaymentId.ToString();
-                txt_PaymentDate.Text = selectedPayment.PaymentDate.ToString();
-                txt_PaymentType.Text = selectedPayment.PaymentType;
-                txt_RegistrationId.Text = selectedPayment.RegistrationId.ToString();
-                txt_TicketId.Text = selectedPayment.TicketId.ToString();
-                txt_TicketQuantity.Text = selectedPayment.TicketQuantity.ToString();
-                txt_Status.Text = selectedPayment.Status.ToString();
-            }
-        }*/
+        /*      private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+              {
+                 if(dvg_Payments.SelectedItem is Payment selectedPayment)
+                  {
+                      txt_PaymentId.Text = selectedPayment.PaymentId.ToString();
+                      txt_PaymentDate.Text = selectedPayment.PaymentDate.ToString();
+                      txt_PaymentType.Text = selectedPayment.PaymentType;
+                      txt_RegistrationId.Text = selectedPayment.RegistrationId.ToString();
+                      txt_TicketId.Text = selectedPayment.TicketId.ToString();
+                      txt_TicketQuantity.Text = selectedPayment.TicketQuantity.ToString();
+                      txt_Status.Text = selectedPayment.Status.ToString();
+                  }
+              }*/
 
 
 
         private async void btn_Save_Click(object sender, RoutedEventArgs e)
-        {   
-            var id = int.Parse(txt_PaymentId.Text);
-            var item = await _paymentBusiness.GetById(id);
+        {
             try
             {
-                if ((item.Data as Payment) is null)
+
+                if (!int.TryParse(txt_PaymentId.Text, out int id))
                 {
-                    await _paymentBusiness.Save(new Payment()
-                    {
-                        AmountPaid = decimal.Parse(txt_AmountPaid.Text),
-                        PaymentDate = DateOnly.Parse(txt_PaymentDate.Text),
-                        PaymentType = txt_PaymentType.Text,
-                        RegistrationId = int.Parse(txt_RegistrationId.Text),
-                        TicketId = int.Parse(txt_TicketId.Text),
-                        Status = true,
-                        TicketQuantity = int.Parse(txt_TicketQuantity.Text),
-                    });
-                    System.Windows.MessageBox.Show("Save successfully!");
+                    System.Windows.MessageBox.Show("Invalid Payment ID.");
+                    return;
                 }
-                else
+
+              
+                var item = await _paymentBusiness.GetById(id);
+                if ((item.Data as Payment) != null)
                 {
                     var updatePayment = item.Data as Payment;
+
+               
                     updatePayment.Status = bool.Parse(txt_Status.Text);
                     updatePayment.TicketQuantity = int.Parse(txt_TicketQuantity.Text);
                     updatePayment.TicketId = int.Parse(txt_TicketId.Text);
-                    updatePayment.PaymentDate = DateOnly.Parse(txt_PaymentDate.Text);
+                    updatePayment.PaymentDate = DateTime.Parse(txt_PaymentDate.Text);
                     updatePayment.PaymentType = txt_PaymentType.Text;
                     updatePayment.RegistrationId = int.Parse(txt_RegistrationId.Text);
-                    updatePayment.AmountPaid = int.Parse(txt_AmountPaid.Text);
+                    updatePayment.AmountPaid = decimal.Parse(txt_AmountPaid.Text);
+                    updatePayment.CreatedBy = txt_CreatedBy.Text;
+                    updatePayment.UpdatedBy = txt_UpdatedBy.Text;
+                    updatePayment.UpdatedDate = DateTime.Now;
+
+   
                     await _paymentBusiness.Update(updatePayment);
                     System.Windows.MessageBox.Show("Update successfully!");
                 }
-            } catch(Exception a)
-            {
-                System.Windows.MessageBox.Show(a.Message.ToString());
+                else
+                {
+                  
+                    var newPayment = new Payment()
+                    {  
+                        AmountPaid = decimal.Parse(txt_AmountPaid.Text),
+                        PaymentDate = DateTime.Parse(txt_PaymentDate.Text),
+                        PaymentType = txt_PaymentType.Text,
+                        RegistrationId = int.Parse(txt_RegistrationId.Text),
+                        TicketId = int.Parse(txt_TicketId.Text),
+                        Status = bool.Parse(txt_Status.Text),
+                        TicketQuantity = int.Parse(txt_TicketQuantity.Text),
+                        CreatedBy = txt_CreatedBy.Text,
+                        UpdatedBy = txt_UpdatedBy.Text,
+                        CreatedDate = DateTime.Now,
+                        UpdatedDate = DateTime.Now
+                    };
+
+                    await _paymentBusiness.Save(newPayment);
+                    System.Windows.MessageBox.Show("Save successfully!");
+                }
             }
+            catch (FormatException ex)
+            {
+                System.Windows.MessageBox.Show("Invalid input format. Please check your input values.");
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("An error occurred: " + ex.Message);
+            }
+            finally
+            {
+                // Clear all TextBoxes
+                ClearTextBoxes();
+                // Reload data or perform any other necessary actions
+                this.Load();
+            }
+
+        }
+        private void ClearTextBoxes()
+        {
+            // Helper method to clear all TextBoxes
             txt_AmountPaid.Clear();
             txt_PaymentType.Clear();
             txt_RegistrationId.Clear();
@@ -100,10 +138,11 @@ namespace Event.WpfApp.UI
             txt_PaymentDate.Clear();
             txt_TicketId.Clear();
             txt_TicketQuantity.Clear();
-            this.Load();
-            
+            txt_CreatedDate.Clear();
+            txt_CreatedBy.Clear();
+            txt_UpdatedDate.Clear();
+            txt_UpdatedBy.Clear();
         }
-
         private void btn_Cancel_Click(object sender, RoutedEventArgs e)
         {
 
@@ -111,13 +150,13 @@ namespace Event.WpfApp.UI
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
         }
 
         private async void DataGrid_Loaded(object sender, RoutedEventArgs e)
         {
-          
-            
+
+
         }
         private async void Load()
         {
@@ -125,11 +164,12 @@ namespace Event.WpfApp.UI
             if (objects.Data is null)
             {
                 dtaGridPayments.ItemsSource = new List<Payment>();
+
             }
             else
             {
                 dtaGridPayments.ItemsSource = (objects.Data as List<Payment>);
-           
+
             }
         }
 
@@ -139,12 +179,12 @@ namespace Event.WpfApp.UI
             e.Handled = !IsTextNumeric(e.Text);
         }
 
-        
-        
+
+
 
         private bool IsTextNumeric(string text)
         {
-            Regex regex = new Regex("[^0-9]+"); 
+            Regex regex = new Regex("[^0-9]+");
             return !regex.IsMatch(text);
         }
 
@@ -172,6 +212,10 @@ namespace Event.WpfApp.UI
                             txt_Status.Text = payment.Status.ToString();
                             txt_TicketId.Text = payment.TicketId.ToString();
                             txt_TicketQuantity.Text = payment.TicketQuantity.ToString();
+                            txt_CreatedBy.Text = payment.CreatedBy;
+                            txt_UpdatedBy.Text = payment.UpdatedBy;
+                            txt_CreatedDate.Text = payment.CreatedDate.Value.ToString();
+                            txt_UpdatedDate.Text = payment.UpdatedDate.Value.ToString();
                         }
                     }
                 }
@@ -196,35 +240,15 @@ namespace Event.WpfApp.UI
 
                     await _paymentBusiness.DeleteById(int.Parse(txt_PaymentId.Text));
                     System.Windows.MessageBox.Show("Payment deleted successfully.", "Deleted", MessageBoxButton.OK, MessageBoxImage.Information);
-                    txt_AmountPaid.Clear();
-                    txt_PaymentType.Clear();
-                    txt_RegistrationId.Clear();
-                    txt_Status.Clear();
-                    txt_PaymentId.Clear();
-                    txt_PaymentDate.Clear();
-                    txt_TicketId.Clear();
-                    txt_TicketQuantity.Clear();
-                    this.Load();
+                    ClearTextBoxes();
                 }
             }
         }
+
+        private void txt_TicketQuantity_Copy_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
-    public class PaymentDTO
-    {
-        public int PaymentId { get; set; }
 
-        public int? RegistrationId { get; set; }
-
-        public int? TicketId { get; set; }
-
-        public int? TicketQuantity { get; set; }
-
-        public DateOnly? PaymentDate { get; set; }
-
-        public decimal? AmountPaid { get; set; }
-
-        public bool? Status { get; set; }
-
-        public string PaymentType { get; set; }
-    }
 }

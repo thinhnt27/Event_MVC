@@ -5,34 +5,46 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Event.WpfApp.UI"
         mc:Ignorable="d"
-        Title="wPayment" Height="450" Width="1000
+        Title="wPayment" Height="550" Width="1000
         ">
-    <Grid>
-        <TextBox HorizontalAlignment="Left" Margin="66,53,0,0"   TextWrapping="Wrap" x:Name="txt_PaymentId" Text="{Binding Path= payment.PaymentId , Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="23"/>
-        <TextBox HorizontalAlignment="Left"  Margin="778,52,0,0" TextWrapping="Wrap" x:Name="txt_Status" Text="{Binding Path=payment.Status, Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="24"/>
+    <Grid Height="500" VerticalAlignment="Top">
+        <TextBox HorizontalAlignment="Left" Margin="51,53,0,0"   TextWrapping="Wrap" x:Name="txt_PaymentId" Text="{Binding Path= payment.PaymentId , Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="23"/>
+        <TextBox HorizontalAlignment="Left"  Margin="763,52,0,0" TextWrapping="Wrap" x:Name="txt_Status" Text="{Binding Path=payment.Status, Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="24"/>
         <TextBox HorizontalAlignment="Left"  PreviewTextInput="NumericTextBox_PreviewTextInput"
-                 Margin="308,52,0,0" TextWrapping="Wrap" x:Name="txt_RegistrationId" Text="{Binding Path= payment.RegistrationId, Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="23"/>
+                 Margin="293,52,0,0" TextWrapping="Wrap" x:Name="txt_RegistrationId" Text="{Binding Path= payment.RegistrationId, Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="23"/>
         <TextBox HorizontalAlignment="Left"  PreviewTextInput="NumericTextBox_PreviewTextInput"
-                 Margin="550,53,0,0" TextWrapping="Wrap" x:Name="txt_TicketId" Text="{Binding Path= payment.TicketId, Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="24"/>
-        <TextBox HorizontalAlignment="Left" Margin="308,106,0,0" TextWrapping="Wrap" x:Name="txt_PaymentDate" Text="{Binding Path= payment.PaymentDate, Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="23"/>
+                 Margin="535,53,0,0" TextWrapping="Wrap" x:Name="txt_TicketId" Text="{Binding Path= payment.TicketId, Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="24"/>
+        <TextBox HorizontalAlignment="Left" Margin="293,106,0,0" TextWrapping="Wrap" x:Name="txt_PaymentDate" Text="{Binding Path= payment.PaymentDate, Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="23"/>
         <TextBox HorizontalAlignment="Left"  PreviewTextInput="NumericTextBox_PreviewTextInput"
-                 Margin="550,106,0,0" TextWrapping="Wrap" x:Name="txt_AmountPaid" Text="{Binding Path= payment.AmountPaid,Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="23"/>
+                 Margin="535,106,0,0" TextWrapping="Wrap" x:Name="txt_AmountPaid" Text="{Binding Path= payment.AmountPaid,Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="23"/>
         <TextBox HorizontalAlignment="Left"  PreviewTextInput="NumericTextBox_PreviewTextInput"
-                 Margin="66,106,0,0" TextWrapping="Wrap" x:Name="txt_TicketQuantity" Text="{Binding  Path= payment.TicketQuantity, Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="24"/>
-        <TextBox HorizontalAlignment="Left" Margin="778,106,0,0" TextWrapping="Wrap" x:Name="txt_PaymentType" Text="{Binding Path= payment.PaymentType, Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="23"/>
+                 Margin="51,106,0,0" TextWrapping="Wrap" x:Name="txt_TicketQuantity" Text="{Binding  Path= payment.TicketQuantity, Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="24"/>
+        <TextBox HorizontalAlignment="Left" Margin="763,106,0,0" TextWrapping="Wrap" x:Name="txt_PaymentType" Text="{Binding Path= payment.PaymentType, Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="23"/>
 
-        <Button x:Name="btn_Save" Content="Save" HorizontalAlignment="Left" Margin="713,148,0,0" VerticalAlignment="Top" Width="92" Height="25" Click="btn_Save_Click"/>
-        <Button x:Name="btn_Cancel" Content="Cancel" HorizontalAlignment="Left" Margin="820,148,0,0" VerticalAlignment="Top" Width="92" Height="25" RenderTransformOrigin="0.272,0.474"/>
-        <Label x:Name="Payment_Id" Content="Payment Id" HorizontalAlignment="Left" Margin="66,26,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Registration_Id" Content="Registration Id" HorizontalAlignment="Left" Margin="308,26,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Ticket_Id" Content="Ticket Id" HorizontalAlignment="Left" Margin="550,26,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Payment_Date" Content="Payment Date" HorizontalAlignment="Left" Margin="308,81,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Ticket_Quantity" Content="Ticket Quantity" HorizontalAlignment="Left" Margin="66,81,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Amount_Paid" Content="Amount Paid" HorizontalAlignment="Left" Margin="550,82,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Payment_Type" Content="Payment Type" HorizontalAlignment="Left" Margin="778,80,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="Status" Content="Status" HorizontalAlignment="Left" Margin="778,26,0,0" VerticalAlignment="Top"/>
-        <DataGrid x:Name="dtaGridPayments" IsReadOnly="True" HorizontalAlignment="Center" Height="222" Margin="0,180,0,0" VerticalAlignment="Top" Width="980" SelectionChanged="DataGrid_SelectionChanged" Loaded="DataGrid_Loaded" MouseDoubleClick="dtaGridPayments_MouseDoubleClick" />
-        <Button x:Name="bttn_Delete" Content="Delete" HorizontalAlignment="Left" Margin="608,148,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.997,-0.339" Height="25" Width="92" Click="bttn_Delete_Click_1"/>
+        <Button x:Name="btn_Save" Content="Save" HorizontalAlignment="Left" Margin="726,225,0,0" VerticalAlignment="Top" Width="92" Height="25" Click="btn_Save_Click"/>
+        <Button x:Name="btn_Cancel" Content="Cancel" HorizontalAlignment="Left" Margin="833,225,0,0" VerticalAlignment="Top" Width="92" Height="25" RenderTransformOrigin="0.272,0.474"/>
+        <Label x:Name="Payment_Id" Content="Payment Id" HorizontalAlignment="Left" Margin="51,26,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Registration_Id" Content="Registration Id" HorizontalAlignment="Left" Margin="293,26,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Ticket_Id" Content="Ticket Id" HorizontalAlignment="Left" Margin="535,26,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Payment_Date" Content="Payment Date" HorizontalAlignment="Left" Margin="293,81,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Ticket_Quantity" Content="Ticket Quantity" HorizontalAlignment="Left" Margin="51,81,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Amount_Paid" Content="Amount Paid" HorizontalAlignment="Left" Margin="535,82,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Payment_Type" Content="Payment Type" HorizontalAlignment="Left" Margin="763,80,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="Status" Content="Status" HorizontalAlignment="Left" Margin="763,26,0,0" VerticalAlignment="Top"/>
+        <DataGrid x:Name="dtaGridPayments" IsReadOnly="True" HorizontalAlignment="Center" Height="222" Margin="0,268,0,0" VerticalAlignment="Top" Width="980" SelectionChanged="DataGrid_SelectionChanged" Loaded="DataGrid_Loaded" MouseDoubleClick="dtaGridPayments_MouseDoubleClick" />
+        <Button x:Name="bttn_Delete" Content="Delete" HorizontalAlignment="Left" Margin="621,225,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.997,-0.339" Height="25" Width="92" Click="bttn_Delete_Click_1"/>
+        <Label Content="Label" HorizontalAlignment="Left" Height="0" Margin="403,172,0,0" VerticalAlignment="Top" Width="5"/>
+        <Label Content="Created By" HorizontalAlignment="Left" Margin="51,135,0,0" VerticalAlignment="Top" Width="90"/>
+        <Label Content="Updated By" HorizontalAlignment="Left" Margin="535,135,0,0" VerticalAlignment="Top" Width="90"/>
+        <Label Content="Created Date" HorizontalAlignment="Left" Margin="293,135,0,0" VerticalAlignment="Top" Width="90"/>
+        <Label Content="Updated Date" HorizontalAlignment="Left" Margin="763,135,0,0" VerticalAlignment="Top" Width="90"/>
+        <TextBox HorizontalAlignment="Left"  Margin="51,166,0,0" TextWrapping="Wrap" x:Name="txt_CreatedBy" Text="{Binding payment.CreatedBy, Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="24"/>
+        <TextBox HorizontalAlignment="Left"
+            Margin="293,166,0,0" TextWrapping="Wrap" x:Name="txt_CreatedDate" Text="{Binding payment.CreatedDate, Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="24"/>
+        <TextBox HorizontalAlignment="Left"  PreviewTextInput="NumericTextBox_PreviewTextInput"
+            Margin="535,166,0,0" TextWrapping="Wrap" x:Name="txt_UpdatedBy" Text="{Binding payment.UpdatedBy, Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="24"/>
+        <TextBox HorizontalAlignment="Left"  PreviewTextInput="NumericTextBox_PreviewTextInput"
+            Margin="763,166,0,0" TextWrapping="Wrap" x:Name="txt_UpdatedDate" Text="{Binding payment.UpdatedDate, Mode=TwoWay}" VerticalAlignment="Top" Width="162" Height="24"/>
 
     </Grid>
 </Window>
