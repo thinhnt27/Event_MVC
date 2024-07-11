@@ -13,16 +13,20 @@ public partial class Customer
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int CustomerId { get; set; }
+    [Required]
 
     public string CustomerName { get; set; }
-
+    [Required]
     public string Password { get; set; }
-
+    [Required]
+    [EmailAddress]
     public string Email { get; set; }
+    [Required]
     public DateTime DateOfBirth { get; set; }
-
+    [Required]
+    [Phone]
     public string Phone { get; set; }
-
+    [Required]
     public string Address { get; set; }
     public DateTime CreatedDate {  get; set; }
     public string CreatedBy { get; set; }

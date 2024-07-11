@@ -26,7 +26,7 @@ namespace Event.RazorWebApp.Pages.TicketPage
             var user = HttpContext.Session.Get("user");
             if (user == null)
             {
-                return Redirect("../../Index");
+                return Redirect("../../Login");
             }
 
             var eventData = await _eventBusiness.GetAll();

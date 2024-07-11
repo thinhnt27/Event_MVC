@@ -33,7 +33,7 @@ namespace Event.RazorWebApp.Pages
             var user = HttpContext.Session.Get("user");
             if (user == null)
             {
-                return Redirect("../Index");
+                return Redirect("../Login");
             }
             if (PageIndex.HasValue)
             {
