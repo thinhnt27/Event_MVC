@@ -19,6 +19,7 @@ namespace Event.RazorWebApp
             });
             builder.Services.AddScoped<IRegistrationBusiness, RegistrationBusiness>();
             builder.Services.AddScoped<ICustomerBussiness, CustomerBussiness>();
+            builder.Services.AddScoped<IEventBusiness, EventBusiness>();
 
             var app = builder.Build();
 

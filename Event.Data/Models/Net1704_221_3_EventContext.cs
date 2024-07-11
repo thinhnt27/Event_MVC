@@ -48,7 +48,6 @@ public partial class Net1704_221_3_EventContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
         OnModelCreatingPartial(modelBuilder);
     }
 

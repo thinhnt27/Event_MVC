@@ -13,29 +13,46 @@ public partial class Events
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int EventId { get; set; }
 
+    [Required(ErrorMessage = "Event Name is required")]
     public string EventName { get; set; }
 
+    [Required(ErrorMessage = "Event Date is required")]
     public DateTime EventDate { get; set; }
+
+    [Required(ErrorMessage = "Start Time is required")]
     public TimeSpan StartTime { get; set; }
+
+    [Required(ErrorMessage = "Active Time is required")]
+    [Range(0.01, double.MaxValue, ErrorMessage = "Active Time must be greater than 0")]
     public double ActivedTime { get; set; }
 
     public int? EventTypeId { get; set; }
 
+    [Required(ErrorMessage = "Event Description is required")]
     public string EventDescription { get; set; }
 
+    [Required(ErrorMessage = "Number of Tickets is required")]
+    [Range(1, int.MaxValue, ErrorMessage = "Number of Tickets must be at least 1")]
     public int? NumberTickets { get; set; }
 
+    [Required(ErrorMessage = "Sponsor is required")]
     public string Sponsor { get; set; }
 
+    [Required(ErrorMessage = "Subject Code is required")]
     public string SubjectCode { get; set; }
 
+    [Required(ErrorMessage = "Location is required")]
     public string Location { get; set; }
+
     public DateTime CreatedDate { get; set; }
+
     public string? CreatedBy { get; set; }
+
     public DateTime UpdatedDate { get; set; }
+
     public string? UpdatedBy { get; set; }
 
-    public virtual EventType EventType { get; set; }
+    public virtual EventType? EventType { get; set; }
 
     public virtual ICollection<Registration> Registrations { get; set; } = new List<Registration>();
 
