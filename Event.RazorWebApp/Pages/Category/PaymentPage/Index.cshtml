@@ -5,7 +5,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Payments</h1>
+<h1>PAYMENTS</h1>
 
 <form method="post">
     <div>
@@ -107,6 +107,18 @@
                     @Html.DisplayNameFor(model => model.Payments[0].PaymentType)
                 </th>
                 <th>
+                    @Html.DisplayNameFor(model => model.Payments[0].CreatedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Payments[0].CreatedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Payments[0].UpdatedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Payments[0].UpdatedDate)
+                </th>
+                <th>
                     Registration Id
                 </th>
                 <th>
@@ -128,9 +140,6 @@
                             @Html.DisplayFor(modelItem => item.TicketQuantity)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.TicketQuantity)
-                        </td>
-                        <td>
                             @Html.DisplayFor(modelItem => item.PaymentDate)
                         </td>
                         <td>
@@ -143,14 +152,26 @@
                             @Html.DisplayFor(modelItem => item.PaymentType)
                         </td>
                         <td>
+                            @Html.DisplayFor(modelItem => item.CreatedBy)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UpdatedBy)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UpdatedDate)
+                        </td>
+                        <td>
                             @Html.DisplayFor(modelItem => item.Registration.RegistrationId)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Ticket.TicketId)
                         </td>
                         <td>
-                            <a asp-page="./Edit" type="button" asp-route-id="@item.PaymentId" class="update-button task-button custom-link">Edit</a> |
-                            <a asp-page="./Details" type="button" asp-route-id="@item.PaymentId" class="get-button task-button custom-link">Details</a> |
+                            <a asp-page="./Edit" type="button" asp-route-id="@item.PaymentId" class="update-button task-button custom-link">Edit</a> 
+                            <a asp-page="./Details" type="button" asp-route-id="@item.PaymentId" class="get-button task-button custom-link">Details</a> 
                             <a asp-page="./Delete" type="button"  asp-route-id="@item.PaymentId" class="delete-button task-button custom-link">Delete</a>
                         </td>
                     </tr>
@@ -164,18 +185,20 @@
             }
         </tbody>
     </table>
+    <input asp-for="PageIndex" value="1" type="hidden"/>
+</form>
      <div class="div-pagging">
         @for (var number = 1; number <= Model.TotalPage; number++)
-        {
+        {   <form method="post">
             <button asp-page-handler="PageIndex" asp-route-PageIndex="@number" type="submit"
                     class="page-button @(number == Model.PageIndex ? "clicked-page-button" : "unclicked-page-button")">
                 @number
             </button>
+            </form>
             
         }
     </div>
-    
-</form>
+
 
 @* JavaScript to toggle filter visibility *@
 <script>

@@ -31,16 +31,21 @@ namespace Event.RazorWebApp.Pages.RegistrationPage
         public string? Mail { get; set; }
 
         // Pagination properties
-        public const int ItemsPerPage = 5;
         [BindProperty(SupportsGet = true)]
-        public int CurrentPage { get; set; } = 1;
-        public int CountPages { get; set; }
+        public int PageIndex { get; set; } = 1;
+        [BindProperty(SupportsGet = true)]
+        public int PageSize { get; set; } = 5;
+        public int TotalPages { get; set; }
 
         public IList<Registration> Registrations { get; set; } = new List<Registration>();
 
-        public async Task OnGetAsync()
+        public async Task<ActionResult> OnGetAsync()
         {
-           
+            var user = HttpContext.Session.Get("user");
+            if (user == null)
+            {
+                return Redirect("../../../Index");
+            }
             var result = await _business.GetRegistration(Id, EvenId, Name, Type, Mail);
 
             if (result != null && result.Data != null)
@@ -51,25 +56,11 @@ namespace Event.RazorWebApp.Pages.RegistrationPage
             {
                 Registrations = new List<Registration>();
             }
-
-          
-            int totalRegistrations = Registrations.Count;
-            CountPages = (int)Math.Ceiling((double)totalRegistrations / ItemsPerPage);
-
-            if (CurrentPage < 1)
-            {
-                CurrentPage = 1;
-            }
-            else if (CurrentPage > CountPages)
-            {
-                CurrentPage = CountPages;
-            }
-
-
             Registrations = Registrations
-                .Skip((CurrentPage - 1) * ItemsPerPage)
-                .Take(ItemsPerPage)
+                .Skip((PageIndex - 1) * PageSize)
+                .Take(PageSize)
                 .ToList();
+            return Page();
         }
     }
 }

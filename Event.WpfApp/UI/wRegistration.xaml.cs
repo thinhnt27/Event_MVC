@@ -54,7 +54,7 @@ namespace Event.WpfApp.UI
                     ParticipantType = txtType.Text,
                     AttendeeEmail = txtMail.Text,
                     RegistrationPhone = txtPhone.Text,
-                    RegistrationDate = DateOnly.FromDateTime(DateTime.Now),
+                    RegistrationDate = DateTime.Now,
                     Checkin = false,
                 };
                 await _business.Save(result);
@@ -67,7 +67,7 @@ namespace Event.WpfApp.UI
                     updateRegistration.ParticipantType = txtType.Text;
                     updateRegistration.AttendeeEmail = txtMail.Text;
                     updateRegistration.RegistrationPhone = txtPhone.Text;
-                    updateRegistration.RegistrationDate = DateOnly.FromDateTime(DateTime.Now);
+                    updateRegistration.RegistrationDate = DateTime.Now;
                     updateRegistration.Checkin = false;
 
                 await _business.Update(updateRegistration);

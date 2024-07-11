@@ -12,47 +12,71 @@
     <h4>Payment</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Payment.TicketQuantity)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Payment.TicketQuantity)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Payment.PaymentDate)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Payment.PaymentDate)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Payment.AmountPaid)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Payment.AmountPaid)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Payment.Status)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Payment.Status)
         </dd>
-        <dt class="col-sm-2">
+        <dt class="col-sm-3">
             @Html.DisplayNameFor(model => model.Payment.PaymentType)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-9">
             @Html.DisplayFor(model => model.Payment.PaymentType)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Payment.Registration)
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Payment.CreatedBy)
         </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Payment.Registration.RegistrationId)
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Payment.CreatedBy)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Payment.Ticket)
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Payment.CreatedDate)
         </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Payment.Ticket.TicketId)
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Payment.CreatedDate)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Payment.UpdatedBy)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Payment.UpdatedBy)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Payment.UpdatedDate)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Payment.UpdatedDate)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Payment.RegistrationId)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Payment.RegistrationId)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Payment.TicketId)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Payment.TicketId)
         </dd>
     </dl>
     

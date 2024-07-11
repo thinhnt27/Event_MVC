@@ -9,8 +9,14 @@ namespace Event.RazorWebApp
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddScoped<IPaymentBusiness, PaymentBusiness>();
-            // Add services to the container.
             builder.Services.AddRazorPages();
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
             builder.Services.AddScoped<IRegistrationBusiness, RegistrationBusiness>();
             builder.Services.AddScoped<ICustomerBussiness, CustomerBussiness>();
             builder.Services.AddScoped<IEventBusiness, EventBusiness>();
@@ -27,7 +33,7 @@ namespace Event.RazorWebApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthorization();

@@ -11,14 +11,16 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Event.Data.Migrations
 {
-    [Migration("20240529043648_InitialCreate")]
-    partial class InitialCreate
+    [DbContext(typeof(Net1704_221_3_EventContext))]
+    [Migration("20240710140409_db")]
+    partial class db
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -32,44 +34,36 @@ namespace Event.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
 
                     b.Property<string>("Address")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("CustomerName")
-                        .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CustomerId")
-                        .HasName("PK__Customer__A4AE64D850EC5690");
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex(new[] { "Phone" }, "UQ__Customer__5C7E359E5B77F523")
-                        .IsUnique()
-                        .HasFilter("[Phone] IS NOT NULL");
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
-                    b.HasIndex(new[] { "CustomerName" }, "UQ__Customer__7A22C6EA0D7F776F")
-                        .IsUnique()
-                        .HasFilter("[CustomerName] IS NOT NULL");
-
-                    b.HasIndex(new[] { "Email" }, "UQ__Customer__A9D105345CFB149F")
-                        .IsUnique()
-                        .HasFilter("[Email] IS NOT NULL");
+                    b.HasKey("CustomerId");
 
                     b.ToTable("Customers");
                 });
@@ -83,12 +77,9 @@ namespace Event.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventTypeId"));
 
                     b.Property<string>("EventTypeName")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("EventTypeId")
-                        .HasName("PK__EventTyp__A9216B3FFEC0D566");
+                    b.HasKey("EventTypeId");
 
                     b.ToTable("EventTypes");
                 });
@@ -101,40 +92,49 @@ namespace Event.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventId"));
 
-                    b.Property<DateTime?>("EventDate")
-                        .HasColumnType("datetime");
+                    b.Property<double>("ActivedTime")
+                        .HasColumnType("float");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("EventDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("EventDescription")
-                        .HasColumnType("text");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EventName")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("EventTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Location")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("NumberTickets")
                         .HasColumnType("int");
 
                     b.Property<string>("Sponsor")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("time");
 
                     b.Property<string>("SubjectCode")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("EventId")
-                        .HasName("PK__Events__7944C810032ACB17");
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("EventId");
 
                     b.HasIndex("EventTypeId");
 
@@ -150,15 +150,19 @@ namespace Event.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
 
                     b.Property<decimal?>("AmountPaid")
-                        .HasColumnType("decimal(10, 2)");
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateOnly?>("PaymentDate")
-                        .HasColumnType("date");
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("PaymentDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PaymentType")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("RegistrationId")
                         .HasColumnType("int");
@@ -172,8 +176,13 @@ namespace Event.Data.Migrations
                     b.Property<int?>("TicketQuantity")
                         .HasColumnType("int");
 
-                    b.HasKey("PaymentId")
-                        .HasName("PK__Payments__9B556A38227246BE");
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("PaymentId");
 
                     b.HasIndex("RegistrationId");
 
@@ -191,15 +200,13 @@ namespace Event.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RegistrationId"));
 
                     b.Property<string>("AttendeeEmail")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("Checkin")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("CheckinTime")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("CustomerId")
                         .HasColumnType("int");
@@ -208,33 +215,27 @@ namespace Event.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal?>("FeePaid")
-                        .HasColumnType("decimal(10, 2)");
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool?>("Gender")
+                        .HasColumnType("bit");
 
                     b.Property<string>("ParticipantName")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ParticipantType")
-                        .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly?>("RegistrationDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("RegistrationDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("RegistrationPhone")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("VistorCode")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RegistrationId")
-                        .HasName("PK__Registra__6EF5881049808010");
+                    b.HasKey("RegistrationId");
 
                     b.HasIndex("CustomerId");
 
@@ -254,19 +255,37 @@ namespace Event.Data.Migrations
                     b.Property<int?>("AvailableQuantity")
                         .HasColumnType("int");
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("EndedTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("EventId")
                         .HasColumnType("int");
 
                     b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(10, 2)");
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("StartedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("Status")
+                        .HasColumnType("bit");
 
                     b.Property<string>("TicketType")
-                        .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("TicketId")
-                        .HasName("PK__Tickets__712CC607682BB742");
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("TicketId");
 
                     b.HasIndex("EventId");
 
@@ -277,8 +296,7 @@ namespace Event.Data.Migrations
                 {
                     b.HasOne("Event.Data.Models.EventType", "EventType")
                         .WithMany("Events")
-                        .HasForeignKey("EventTypeId")
-                        .HasConstraintName("FK__Events__EventTyp__5629CD9C");
+                        .HasForeignKey("EventTypeId");
 
                     b.Navigation("EventType");
                 });
@@ -287,13 +305,11 @@ namespace Event.Data.Migrations
                 {
                     b.HasOne("Event.Data.Models.Registration", "Registration")
                         .WithMany("Payments")
-                        .HasForeignKey("RegistrationId")
-                        .HasConstraintName("FK__Payments__Regist__571DF1D5");
+                        .HasForeignKey("RegistrationId");
 
                     b.HasOne("Event.Data.Models.Ticket", "Ticket")
                         .WithMany("Payments")
-                        .HasForeignKey("TicketId")
-                        .HasConstraintName("FK__Payments__Ticket__5812160E");
+                        .HasForeignKey("TicketId");
 
                     b.Navigation("Registration");
 
@@ -304,13 +320,11 @@ namespace Event.Data.Migrations
                 {
                     b.HasOne("Event.Data.Models.Customer", "Customer")
                         .WithMany("Registrations")
-                        .HasForeignKey("CustomerId")
-                        .HasConstraintName("FK__Registrat__Custo__59063A47");
+                        .HasForeignKey("CustomerId");
 
                     b.HasOne("Event.Data.Models.Events", "Event")
                         .WithMany("Registrations")
-                        .HasForeignKey("EventId")
-                        .HasConstraintName("FK__Registrat__Event__59FA5E80");
+                        .HasForeignKey("EventId");
 
                     b.Navigation("Customer");
 
@@ -321,8 +335,7 @@ namespace Event.Data.Migrations
                 {
                     b.HasOne("Event.Data.Models.Events", "Event")
                         .WithMany("Tickets")
-                        .HasForeignKey("EventId")
-                        .HasConstraintName("FK__Tickets__EventId__5AEE82B9");
+                        .HasForeignKey("EventId");
 
                     b.Navigation("Event");
                 });

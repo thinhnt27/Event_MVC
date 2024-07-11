@@ -2,11 +2,15 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Event.Data.Models;
 
 public partial class Payment
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int PaymentId { get; set; }
 
     public int? RegistrationId { get; set; }
@@ -22,6 +26,10 @@ public partial class Payment
     public bool? Status { get; set; }
 
     public string PaymentType { get; set; }
+    public string? CreatedBy { get; set; }
+    public string? UpdatedBy { get; set; }
+    public DateTime? CreatedDate { get; set; }
+    public DateTime? UpdatedDate { get; set; }
 
     public virtual Registration Registration { get; set; }
 

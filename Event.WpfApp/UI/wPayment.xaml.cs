@@ -66,7 +66,7 @@ namespace Event.WpfApp.UI
                     await _paymentBusiness.Save(new Payment()
                     {
                         AmountPaid = decimal.Parse(txt_AmountPaid.Text),
-                        PaymentDate = DateOnly.Parse(txt_PaymentDate.Text),
+                        PaymentDate = DateTime.Parse(txt_PaymentDate.Text),
                         PaymentType = txt_PaymentType.Text,
                         RegistrationId = int.Parse(txt_RegistrationId.Text),
                         TicketId = int.Parse(txt_TicketId.Text),
@@ -81,7 +81,7 @@ namespace Event.WpfApp.UI
                     updatePayment.Status = bool.Parse(txt_Status.Text);
                     updatePayment.TicketQuantity = int.Parse(txt_TicketQuantity.Text);
                     updatePayment.TicketId = int.Parse(txt_TicketId.Text);
-                    updatePayment.PaymentDate = DateOnly.Parse(txt_PaymentDate.Text);
+                    updatePayment.PaymentDate = DateTime.Parse(txt_PaymentDate.Text);
                     updatePayment.PaymentType = txt_PaymentType.Text;
                     updatePayment.RegistrationId = int.Parse(txt_RegistrationId.Text);
                     updatePayment.AmountPaid = int.Parse(txt_AmountPaid.Text);

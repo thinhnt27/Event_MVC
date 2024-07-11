@@ -25,6 +25,11 @@ namespace Event.RazorWebApp.Pages.Category.CustomerPage
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            var user = HttpContext.Session.Get("user");
+            if (user == null)
+            {
+                return Redirect("../../../Index");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -48,7 +53,7 @@ namespace Event.RazorWebApp.Pages.Category.CustomerPage
             {
                 return Page();
             }
-
+            Customer.UpdatedDate = DateTime.Now;
             await _business.Update(Customer);
 
             return RedirectToPage("./Index");

@@ -21,6 +21,11 @@ namespace Event.RazorWebApp.Pages.Category.CustomerPage
 
         public IActionResult OnGet()
         {
+            var user = HttpContext.Session.Get("user");
+            if (user == null)
+            {
+                return Redirect("../../../Index");
+            }
             return Page();
         }
 
@@ -34,6 +39,9 @@ namespace Event.RazorWebApp.Pages.Category.CustomerPage
             {
                 return Page();
             }
+            Customer.UpdatedBy = Customer.CreatedBy;
+            Customer.CreatedDate = DateTime.Now;
+            Customer.UpdatedDate = DateTime.Now;
             await _business.Save(Customer);
 
             return RedirectToPage("./Index");
