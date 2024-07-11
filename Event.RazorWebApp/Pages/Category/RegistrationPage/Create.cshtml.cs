@@ -49,7 +49,7 @@ namespace Event.RazorWebApp.Pages.RegistrationPage
                 }
                 await _business.Save(Registration);
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Login");
         }
     }
 }
