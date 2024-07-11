@@ -44,7 +44,7 @@ namespace Event.RazorWebApp.Pages.RegistrationPage
             var user = HttpContext.Session.Get("user");
             if (user == null)
             {
-                return Redirect("../../../Index");
+                return Redirect("../../../Login");
             }
             var result = await _business.GetRegistration(Id, EvenId, Name, Type, Mail);
 

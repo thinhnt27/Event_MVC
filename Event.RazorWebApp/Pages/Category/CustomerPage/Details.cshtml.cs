@@ -26,7 +26,7 @@ namespace Event.RazorWebApp.Pages.Category.CustomerPage
             var user = HttpContext.Session.Get("user");
             if (user == null)
             {
-                return Redirect("../../../Index");
+                return Redirect("../../../Login");
             }
             if (id == null)
             {

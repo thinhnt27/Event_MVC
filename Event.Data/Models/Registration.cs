@@ -12,29 +12,30 @@ public partial class Registration
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int RegistrationId { get; set; }
-
+    [Required]
     public int? EventId { get; set; }
-
+    [Required]
     public string VistorCode { get; set; }
-
+    [Required]
     public string ParticipantName { get; set; }
-
+    [Required]
     public string ParticipantType { get; set; }
-
+    [Required]
+    [EmailAddress]
     public string AttendeeEmail { get; set; }
-
     public DateTime? RegistrationDate { get; set; }
-
+    [Required]
+    [Phone]
     public string RegistrationPhone { get; set; }
-
+    [Required]
     public decimal? FeePaid { get; set; }
-
+    [Required]
     public bool? Checkin { get; set; }
 
     public DateTime? CheckinTime { get; set; }
-
+    [Required]
     public int? CustomerId { get; set; }
-
+    [Required]
     public bool? Gender { get; set; }
 
     public virtual Customer Customer { get; set; }

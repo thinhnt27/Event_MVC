@@ -21,13 +21,14 @@ namespace Event.RazorWebApp.Pages.RegistrationPage
         }
         [BindProperty]
         public Registration Registration { get; set; } = default!;
-        public void OnGet()
+        public async Task<IActionResult> OnGet()
         {
             var user = HttpContext.Session.Get("user");
             if (user == null)
             {
-                 Redirect("../../Index");
+                return Redirect("../../Login");
             }
+            return Page();
         }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
@@ -48,7 +49,7 @@ namespace Event.RazorWebApp.Pages.RegistrationPage
                 }
                 await _business.Save(Registration);
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Login");
         }
     }
 }

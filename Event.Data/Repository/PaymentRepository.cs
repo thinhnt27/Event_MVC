@@ -17,7 +17,7 @@ namespace Event.Data.Repository
             this._context=context;
         }
 
-        public async Task<List<Payment>> GetPayments(int? pageIndex = null, int? pageSize = null, string? order = null, string? sorted = null, bool? status = null, int? ticketId = null, int? registrationId = null, string? type = null, decimal? amountPaid = null, int? quantity = null, DateTime? maxiumDate = null, DateTime? miniumDate = null)
+        public async Task<List<Payment>> GetPayments( string? order = null, string? sorted = null, bool? status = null, int? ticketId = null, int? registrationId = null, string? type = null, decimal? amountPaid = null, int? quantity = null, DateTime? maxiumDate = null, DateTime? miniumDate = null)
         {
             var predicate = PredicateBuilder.New<Payment>(true);
             if (status.HasValue) predicate = predicate.And(x => x.Status == status.Value);
@@ -47,13 +47,7 @@ namespace Event.Data.Repository
 
             var paymentsQuery = this.Get(predicate, orderBy, x => x.Include("Registration").Include("Ticket"));
 
-            if (pageIndex.HasValue && pageSize.HasValue)
-            {
-                int validPageIndex = pageIndex.Value > 0 ? pageIndex.Value - 1 : 0;
-                int validPageSize = pageSize.Value > 0 ? pageSize.Value : 10;
-
-                paymentsQuery = paymentsQuery.Skip(validPageIndex * validPageSize).Take(validPageSize);
-            }
+           
 
             return await paymentsQuery.ToListAsync();
         }

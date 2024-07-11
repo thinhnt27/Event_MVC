@@ -32,7 +32,7 @@ namespace Event.RazorWebApp.Pages.TicketPage
             var user = HttpContext.Session.Get("user");
             if (user == null)
             {
-                return Redirect("../../Index");
+                return Redirect("../../Login");
             }
             var ticket = await _ticketBusiness.GetById(id.Value);
             if (ticket == null)
