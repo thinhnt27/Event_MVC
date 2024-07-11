@@ -13,7 +13,7 @@ namespace Event.Business.Category
 {
     public interface IRegistrationBusiness
     {
-        Task<IBusinessResult> GetAll(/*int? id, int? eventId, string? name, string? type, string? mail*/);
+        Task<IBusinessResult> GetAll();
         Task<IBusinessResult> GetById(int id);
         Task<IBusinessResult> Save(Registration registration);
         Task<IBusinessResult> Update(Registration registration);

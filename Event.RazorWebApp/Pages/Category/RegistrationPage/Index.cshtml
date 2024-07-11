@@ -8,38 +8,40 @@
 <div class="col-md-6">
 <h1>REGISTRATIONS</h1>
 </div>
-@* <div class="col-md-4 text-center">
-        <select id="searchType" class="form-select">
-            <option value="1">RegistrationId</option>
-            <option value="2">EventId</option>
-            <option value="3">ParticipantName</option>
-            <option value="4">ParticipantType</option>
-            <option value="5">AttendeeEmail</option>
-    </select> *@
-
 <div class="col-md-6 text-end">
 <p>
-    <a asp-page="Create">Create New</a>
+            <a asp-page="Create" class="btn btn-primary">Create New</a>
 </p>   
 </div>
 </div>
-<form method="get" asp-page="./Index">
-
-    <div>
-        <label>Id</label>
-        <input type="text" name="id" value="@Model.Id"/>
-        <label>EventId</label>
-        <input type="text" name="eventId" value="@Model.EvenId"/>
-        <label>Name</label>
-        <input type="text" name="name" value="@Model.Name"/>
-        <label>Type</label>
-        <input type="text" name="type" value="@Model.Type"/>
-        <label>Mail</label>
-        <input type="text" name="mail" value="@Model.Mail"/>
-        <button type="submit">Search</button>
+<form method="get" asp-page="./Index" class="mb-4">
+    <div class="row g-2">
+        <div class="col-md-2">
+            <label for="id" class="form-label">Id:</label>
+            <input type="text" name="id" id="id" value="@Model.Id" class="form-control" />
+        </div>
+        <div class="col-md-2">
+            <label for="eventId" class="form-label">EventId:</label>
+            <input type="text" name="eventId" id="eventId" value="@Model.EvenId" class="form-control" />
+        </div>
+        <div class="col-md-2">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" name="name" id="name" value="@Model.Name" class="form-control" />
+        </div>
+        <div class="col-md-2">
+            <label for="type" class="form-label">Type:</label>
+            <input type="text" name="type" id="type" value="@Model.Type" class="form-control" />
+        </div>
+        <div class="col-md-2">
+            <label for="mail" class="form-label">Mail:</label>
+            <input type="text" name="mail" id="mail" value="@Model.Mail" class="form-control" />
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-success">Search</button>
+        </div>
     </div>
 </form>
-    @{
+   @*  @{
         var datapaging = new Event.RazorWebApp.Helper.PagingModel
         {
             currentPage = Model.CurrentPage,    // trang hiện tại
@@ -48,7 +50,7 @@
         };
 
     }
-    <partial name="_Paging" model="@datapaging" />
+    <partial name="_Paging" model="@datapaging" /> *@
 </div>
 <table class="table">
     <thead>
@@ -152,12 +154,19 @@
                 @Html.DisplayFor(modelItem => item.CustomerId)
             </td>
                 <td>
-                <a asp-page="./Edit" asp-route-id="@item.RegistrationId">Edit</a> 
-                <a asp-page="./Details" asp-route-id="@item.RegistrationId">Details</a> 
-                <a asp-page="./Delete" asp-route-id="@item.RegistrationId">Delete</a>
-            </td>
+                    <a asp-page="./Edit" asp-route-id="@item.RegistrationId" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-page="./Details" asp-route-id="@item.RegistrationId" class="btn btn-info btn-sm">Details</a>
+                    <a asp-page="./Delete" asp-route-id="@item.RegistrationId" class="btn btn-danger btn-sm">Delete</a>
+                </td>
         </tr>
 }
     </tbody>
-    
+    <div class="pagination">
+        @{
+            var previousDisabled = Model.PageIndex <= 1 ? "disabled" : "";
+            var nextDisabled = Model.Registrations.Count < Model.PageSize ? "disabled" : "";
+        }
+        <a asp-page="Index" asp-route-pageIndex="@(Model.PageIndex - 1)" class="btn btn-primary @previousDisabled">Previous</a>
+        <a asp-page="Index" asp-route-pageIndex="@(Model.PageIndex + 1)" class="btn btn-primary @nextDisabled">Next</a>
+    </div>
 </table>
