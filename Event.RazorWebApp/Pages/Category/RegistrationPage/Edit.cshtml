@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Registration.EventId" class="control-label"></label>
-                <input asp-for="Registration.EventId" class="form-control" asp-items="ViewBag.EventId"/>
+                <input asp-for="Registration.EventId" class="form-control" asp-items="ViewBag.EventId" />
                 <span asp-validation-for="Registration.EventId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -49,7 +49,7 @@
                     <option value="false">Female</option>
                     <option value="true">Male</option>
                 </select>
-                <span asp-validation-for="Registration.Checkin" class="text-danger"></span>
+                <span asp-validation-for="Registration.Gender" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Registration.FeePaid" class="control-label"></label>
@@ -66,7 +66,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Registration.CustomerId" class="control-label"></label>
-                <input asp-for="Registration.CustomerId" class="form-control" asp-items="ViewBag.CustomerId"/>
+                <input asp-for="Registration.CustomerId" class="form-control" asp-items="ViewBag.CustomerId" />
                 <span asp-validation-for="Registration.CustomerId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -77,9 +77,11 @@
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

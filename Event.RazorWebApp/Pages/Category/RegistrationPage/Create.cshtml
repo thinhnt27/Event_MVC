@@ -64,7 +64,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Registration.CustomerId" class="control-label"></label>
-                <input asp-for="Registration.CustomerId" class ="form-control" asp-items="ViewBag.CustomerId"/>
+                <input asp-for="Registration.CustomerId" class="form-control" asp-items="ViewBag.CustomerId" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -74,9 +74,11 @@
 </div>
 
 <div>
-    <a asp-page="Index">Back to List</a>
+    <a asp-page="Index" class="btn btn-secondary">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
